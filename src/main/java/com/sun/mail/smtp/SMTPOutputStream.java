@@ -38,10 +38,10 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
 import java.io.*;
-import com.sun.mail.util.CRLFOutputStream;
+import com.sun1.mail.util.CRLFOutputStream;
 
 /**
  * In addition to converting lines into the canonical format,

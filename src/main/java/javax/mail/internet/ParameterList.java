@@ -38,12 +38,12 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
 import java.util.*;
 import java.io.*;
-import com.sun.mail.util.PropUtil;
-import com.sun.mail.util.ASCIIUtility;
+import com.sun1.mail.util.PropUtil;
+import com.sun1.mail.util.ASCIIUtility;
 
 /**
  * This class holds MIME parameters (attribute-value pairs).

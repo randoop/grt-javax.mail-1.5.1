@@ -38,10 +38,10 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
+import javax1.mail.MessagingException;
+import javax1.mail.internet.InternetAddress;
 
 /**
  * This exception is chained off a SendFailedException when the

@@ -38,9 +38,9 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
-import javax.mail.*;
+import javax1.mail.*;
 
 /**
  * This class implements the Transport abstract class using SMTP

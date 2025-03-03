@@ -38,9 +38,9 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
-import javax.mail.*;
+import javax1.mail.*;
 import java.io.*;
 import java.util.Enumeration;
 
@@ -67,7 +67,7 @@ import java.util.Enumeration;
  * responsible for folding and unfolding headers as appropriate. <p>
  *
  * @see		MimeUtility
- * @see		javax.mail.Part
+ * @see		javax1.mail.Part
  * @author 	John Mani
  */
 

@@ -70,7 +70,7 @@ name "pop3" or a URL of the form "pop3://user:password@host:port/INBOX".
 POP3 supports only a single folder named "INBOX".
 <P>
 POP3 supports <strong>no</strong> permanent flags (see
-{@link javax.mail.Folder#getPermanentFlags Folder.getPermanentFlags()}).
+{@link javax1.mail.Folder#getPermanentFlags Folder.getPermanentFlags()}).
 In particular, the <code>Flags.Flag.RECENT</code> flag will never be set
 for POP3
 messages.  It's up to the application to determine which messages in a
@@ -107,13 +107,13 @@ It may be possible to examine other message headers (e.g., the
 are error-prone at best.
 <P>
 The POP3 provider supports the POP3 UIDL command, see
-{@link com.sun.mail.pop3.POP3Folder#getUID POP3Folder.getUID()}.
+{@link com.sun1.mail.pop3.POP3Folder#getUID POP3Folder.getUID()}.
 You can use it as follows:
 <P>
 <BLOCKQUOTE><PRE>
-if (folder instanceof com.sun.mail.pop3.POP3Folder) {
-    com.sun.mail.pop3.POP3Folder pf =
-	(com.sun.mail.pop3.POP3Folder)folder;
+if (folder instanceof com.sun1.mail.pop3.POP3Folder) {
+    com.sun1.mail.pop3.POP3Folder pf =
+	(com.sun1.mail.pop3.POP3Folder)folder;
     String uid = pf.getUID(msg);
     if (uid != null)
 	... // use it
@@ -148,7 +148,7 @@ when the folder is closed.  Caching message content in a file is generally
 slower, but uses substantially less memory and may be helpful when dealing
 with very large messages.
 <P>
-The {@link com.sun.mail.pop3.POP3Message#invalidate POP3Message.invalidate}
+The {@link com.sun1.mail.pop3.POP3Message#invalidate POP3Message.invalidate}
 method can be used to invalidate cached data without closing the folder.
 Note that if the file cache is being used the data in the file will be
 forgotten and fetched from the server if it's needed again, and stored again
@@ -260,7 +260,7 @@ is false.
 <TD>mail.pop3.message.class</TD>
 <TD>String</TD>
 <TD>
-Class name of a subclass of <code>com.sun.mail.pop3.POP3Message</code>.
+Class name of a subclass of <code>com.sun1.mail.pop3.POP3Message</code>.
 The subclass can be used to handle (for example) non-standard
 Content-Type headers.  The subclass must have a public constructor
 of the form <code>MyPOP3Message(Folder f, int msgno)
@@ -368,7 +368,7 @@ Defaults to false.
 <TD>String</TD>
 <TD>
 If set, and a socket factory hasn't been specified, enables use of a
-{@link com.sun.mail.util.MailSSLSocketFactory MailSSLSocketFactory}.
+{@link com.sun1.mail.util.MailSSLSocketFactory MailSSLSocketFactory}.
 If set to "*", all hosts are trusted.
 If set to a whitespace separated list of hosts, those hosts are trusted.
 Otherwise, trust depends on the certificate the server presents.
@@ -541,7 +541,7 @@ default directory used by the JDK for temporary files.
 <TD>boolean</TD>
 <TD>
 Controls the behavior of the
-{@link com.sun.mail.pop3.POP3Message#writeTo writeTo} method
+{@link com.sun1.mail.pop3.POP3Message#writeTo writeTo} method
 on a POP3 message object.
 If set to true, and the message content hasn't yet been cached,
 and ignoreList is null, the message is cached before being written.
@@ -563,7 +563,7 @@ needed.
 If this property is set to true, a hard reference to the cached content
 will be kept, preventing the memory from being reused until the folder
 is closed or the cached content is explicitly invalidated (using the
-{@link com.sun.mail.pop3.POP3Message#invalidate invalidate} method).
+{@link com.sun1.mail.pop3.POP3Message#invalidate invalidate} method).
 (This was the behavior in previous versions of JavaMail.)
 Defaults to false.
 </TD>
@@ -573,7 +573,7 @@ Defaults to false.
 <P>
 In general, applications should not need to use the classes in this
 package directly.  Instead, they should use the APIs defined by
-<code>javax.mail</code> package (and subpackages).  Applications should
+<code>javax1.mail</code> package (and subpackages).  Applications should
 never construct instances of <code>POP3Store</code> or
 <code>POP3Folder</code> directly.  Instead, they should use the
 <code>Session</code> method <code>getStore</code> to acquire an
@@ -581,8 +581,8 @@ appropriate <code>Store</code> object, and from that acquire
 <code>Folder</code> objects.
 <P>
 In addition to printing debugging output as controlled by the
-{@link javax.mail.Session Session} configuration,
-the com.sun.mail.pop3 provider logs the same information using
+{@link javax1.mail.Session Session} configuration,
+the com.sun1.mail.pop3 provider logs the same information using
 {@link java.util.logging.Logger} as described in the following table:
 <P>
 <TABLE BORDER>
@@ -593,19 +593,19 @@ the com.sun.mail.pop3 provider logs the same information using
 </TR>
 
 <TR>
-<TD>com.sun.mail.pop3</TD>
+<TD>com.sun1.mail.pop3</TD>
 <TD>CONFIG</TD>
 <TD>Configuration of the POP3Store</TD>
 </TR>
 
 <TR>
-<TD>com.sun.mail.pop3</TD>
+<TD>com.sun1.mail.pop3</TD>
 <TD>FINE</TD>
 <TD>General debugging output</TD>
 </TR>
 
 <TR>
-<TD>com.sun.mail.pop3.protocol</TD>
+<TD>com.sun1.mail.pop3.protocol</TD>
 <TD>FINEST</TD>
 <TD>Complete protocol trace</TD>
 </TR>

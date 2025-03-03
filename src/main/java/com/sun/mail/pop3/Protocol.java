@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.pop3;
+package com.sun1.mail.pop3;
 
 import java.util.*;
 import java.net.*;
@@ -47,7 +47,7 @@ import java.security.*;
 import java.util.logging.Level;
 import javax.net.ssl.SSLSocket;
 
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 class Response {
     boolean ok = false;		// true if "+OK"

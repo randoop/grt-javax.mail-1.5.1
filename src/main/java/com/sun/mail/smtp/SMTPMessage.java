@@ -38,11 +38,11 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
 import java.io.*;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax1.mail.*;
+import javax1.mail.internet.*;
 
 /**
  * This class is a specialization of the MimeMessage class that allows
@@ -51,11 +51,11 @@ import javax.mail.internet.*;
  * instead of MimeMessage and set SMTP options using the methods on
  * this class. <p>
  *
- * See the <a href="package-summary.html">com.sun.mail.smtp</a> package
+ * See the <a href="package-summary.html">com.sun1.mail.smtp</a> package
  * documentation for further information on the SMTP protocol provider. <p>
  *
  * @author Bill Shannon
- * @see	javax.mail.internet.MimeMessage
+ * @see	javax1.mail.internet.MimeMessage
  */
 
 public class SMTPMessage extends MimeMessage {
@@ -320,8 +320,8 @@ public class SMTPMessage extends MimeMessage {
      * The extension string can be used to specify standard SMTP
      * service extensions as well as vendor-specific extensions.
      * Typically the application should use the
-     * {@link com.sun.mail.smtp.SMTPTransport SMTPTransport}
-     * method {@link com.sun.mail.smtp.SMTPTransport#supportsExtension
+     * {@link com.sun1.mail.smtp.SMTPTransport SMTPTransport}
+     * method {@link com.sun1.mail.smtp.SMTPTransport#supportsExtension
      * supportsExtension}
      * to verify that the server supports the desired service extension.
      * See <A HREF="http://www.ietf.org/rfc/rfc1869.txt">RFC 1869</A>

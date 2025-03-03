@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.net.InetAddress;
 
@@ -59,12 +59,12 @@ import java.net.InetAddress;
  * that fails.
  *
  * @see java.net.Authenticator
- * @see javax.mail.Session#getInstance(java.util.Properties,
- *					javax.mail.Authenticator)
- * @see javax.mail.Session#getDefaultInstance(java.util.Properties,
- *					javax.mail.Authenticator)
- * @see javax.mail.Session#requestPasswordAuthentication
- * @see javax.mail.PasswordAuthentication
+ * @see javax1.mail.Session#getInstance(java.util.Properties,
+ *					javax1.mail.Authenticator)
+ * @see javax1.mail.Session#getDefaultInstance(java.util.Properties,
+ *					javax1.mail.Authenticator)
+ * @see javax1.mail.Session#requestPasswordAuthentication
+ * @see javax1.mail.PasswordAuthentication
  *
  * @author  Bill Foote
  * @author  Bill Shannon
@@ -135,7 +135,7 @@ public abstract class Authenticator {
      *
      * @return the protcol
      *
-     * @see javax.mail.URLName#getProtocol
+     * @see javax1.mail.URLName#getProtocol
      */
     protected final String getRequestingProtocol() {
 	return requestingProtocol;

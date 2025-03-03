@@ -38,20 +38,20 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
-import javax.mail.*;
+import javax1.mail.*;
 import javax.activation.*;
 import java.io.*;
 import java.net.UnknownServiceException;
-import com.sun.mail.util.PropUtil;
-import com.sun.mail.util.FolderClosedIOException;
+import com.sun1.mail.util.PropUtil;
+import com.sun1.mail.util.FolderClosedIOException;
 
 /**
  * A utility class that implements a DataSource out of
  * a MimePart. This class is primarily meant for service providers.
  *
- * @see		javax.mail.internet.MimePart
+ * @see		javax1.mail.internet.MimePart
  * @see		javax.activation.DataSource
  * @author 	John Mani
  */
@@ -84,9 +84,9 @@ public class MimePartDataSource implements DataSource, MessageAware {
      * using the <code>getContentStream()</code> method and decodes
      * it using the <code>MimeUtility.decode()</code> method.
      *
-     * @see	javax.mail.internet.MimeMessage#getContentStream
-     * @see	javax.mail.internet.MimeBodyPart#getContentStream
-     * @see	javax.mail.internet.MimeUtility#decode
+     * @see	javax1.mail.internet.MimeMessage#getContentStream
+     * @see	javax1.mail.internet.MimeBodyPart#getContentStream
+     * @see	javax1.mail.internet.MimeUtility#decode
      * @return 	decoded input stream
      */
     public InputStream getInputStream() throws IOException {

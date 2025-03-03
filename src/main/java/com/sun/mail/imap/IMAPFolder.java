@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.util.Date;
 import java.util.Vector;
@@ -50,14 +50,14 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.io.*;
 
-import javax.mail.*;
-import javax.mail.event.*;
-import javax.mail.internet.*;
-import javax.mail.search.*;
+import javax1.mail.*;
+import javax1.mail.event.*;
+import javax1.mail.internet.*;
+import javax1.mail.search.*;
 
-import com.sun.mail.util.*;
-import com.sun.mail.iap.*;
-import com.sun.mail.imap.protocol.*;
+import com.sun1.mail.util.*;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.imap.protocol.*;
 
 /**
  * This class implements an IMAP folder. <p>
@@ -86,8 +86,8 @@ import com.sun.mail.imap.protocol.*;
  * Refer to <A HREF="http://www.ietf.org/rfc/rfc5256.txt">RFC 5256</A>
  * for more information. <p>
  *
- * The {@link #open(int,com.sun.mail.imap.ResyncData) open(int,ResyncData)}
- * method and {@link com.sun.mail.imap.ResyncData ResyncData} class supports
+ * The {@link #open(int,com.sun1.mail.imap.ResyncData) open(int,ResyncData)}
+ * method and {@link com.sun1.mail.imap.ResyncData ResyncData} class supports
  * the IMAP CONDSTORE and QRESYNC extensions.
  * Refer to <A HREF="http://www.ietf.org/rfc/rfc4551.txt">RFC 4551</A>
  * and <A HREF="http://www.ietf.org/rfc/rfc5162.txt">RFC 5162</A>
@@ -97,7 +97,7 @@ import com.sun.mail.imap.protocol.*;
  * {@link IMAPFolder.ProtocolCommand IMAPFolder.ProtocolCommand}
  * interface support use of arbitrary IMAP protocol commands. <p>
  *
- * See the <a href="package-summary.html">com.sun.mail.imap</a> package
+ * See the <a href="package-summary.html">com.sun1.mail.imap</a> package
  * documentation for further information on the IMAP protocol provider. <p>
  *
  * <strong>WARNING:</strong> The APIs unique to this class should be
@@ -3182,14 +3182,14 @@ public class IMAPFolder extends Folder implements UIDFolder, ResponseHandler {
      *
      * The following example shows how to execute the IMAP NOOP command.
      * Executing more complex IMAP commands requires intimate knowledge
-     * of the <code>com.sun.mail.iap</code> and
-     * <code>com.sun.mail.imap.protocol</code> packages, best acquired by
+     * of the <code>com.sun1.mail.iap</code> and
+     * <code>com.sun1.mail.imap.protocol</code> packages, best acquired by
      * reading the source code. <p>
      *
      * <blockquote><pre>
-     * import com.sun.mail.iap.*;
-     * import com.sun.mail.imap.*;
-     * import com.sun.mail.imap.protocol.*;
+     * import com.sun1.mail.iap.*;
+     * import com.sun1.mail.imap.*;
+     * import com.sun1.mail.imap.protocol.*;
      *
      * ...
      *
@@ -3208,9 +3208,9 @@ public class IMAPFolder extends Folder implements UIDFolder, ResponseHandler {
      * IMAP SORT extension: <p>
      *
      * <pre><blockquote>
-     * import com.sun.mail.iap.*;
-     * import com.sun.mail.imap.*;
-     * import com.sun.mail.imap.protocol.*;
+     * import com.sun1.mail.iap.*;
+     * import com.sun1.mail.imap.*;
+     * import com.sun1.mail.imap.protocol.*;
      *
      * ...
      *

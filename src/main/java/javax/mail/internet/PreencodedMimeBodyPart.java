@@ -38,13 +38,13 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
 import java.io.*;
 import java.util.Enumeration;
-import javax.mail.*;
+import javax1.mail.*;
 
-import com.sun.mail.util.LineOutputStream;
+import com.sun1.mail.util.LineOutputStream;
 
 /**
  * A MimeBodyPart that handles data that has already been encoded.

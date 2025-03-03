@@ -38,15 +38,15 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * The exception thrown when an invalid method is invoked on an expunged
  * Message. The only valid methods on an expunged Message are
  * <code>isExpunged()</code> and <code>getMessageNumber()</code>.
  *
- * @see	   javax.mail.Message#isExpunged()
- * @see	   javax.mail.Message#getMessageNumber()
+ * @see	   javax1.mail.Message#isExpunged()
+ * @see	   javax1.mail.Message#getMessageNumber()
  * @author John Mani
  */
 

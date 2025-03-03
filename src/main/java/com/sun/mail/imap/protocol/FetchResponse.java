@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.io.*;
 import java.util.*;
-import com.sun.mail.util.*;
-import com.sun.mail.iap.*;
+import com.sun1.mail.util.*;
+import com.sun1.mail.iap.*;
 
 /**
  * This class represents a FETCH response obtained from the input stream

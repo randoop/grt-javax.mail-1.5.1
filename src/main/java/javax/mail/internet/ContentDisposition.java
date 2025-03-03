@@ -38,9 +38,9 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
-import javax.mail.*;
+import javax1.mail.*;
 import java.util.*;
 import java.io.*;
 

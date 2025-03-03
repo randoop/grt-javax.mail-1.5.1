@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * This exception is thrown when Session attempts to instantiate a  

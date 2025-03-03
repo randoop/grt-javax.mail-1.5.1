@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
 import java.io.*;
 import java.net.*;
@@ -47,18 +47,18 @@ import java.util.logging.Level;
 import java.lang.reflect.*;
 import javax.net.ssl.SSLSocket;
 
-import javax.mail.*;
-import javax.mail.event.*;
-import javax.mail.internet.*;
+import javax1.mail.*;
+import javax1.mail.event.*;
+import javax1.mail.internet.*;
 
-import com.sun.mail.util.*;
-import com.sun.mail.auth.*;
+import com.sun1.mail.util.*;
+import com.sun1.mail.auth.*;
 
 /**
  * This class implements the Transport abstract class using SMTP for
  * message submission and transport. <p>
  *
- * See the <a href="package-summary.html">com.sun.mail.smtp</a> package
+ * See the <a href="package-summary.html">com.sun1.mail.smtp</a> package
  * documentation for further information on the SMTP protocol provider. <p>
  *
  * This class includes many protected methods that allow a subclass to
@@ -82,8 +82,8 @@ import com.sun.mail.auth.*;
  * @author Dean Gibson (DIGEST-MD5 authentication)
  * @author Lu\u00EDs Serralheiro (NTLM authentication)
  *
- * @see javax.mail.event.ConnectionEvent
- * @see javax.mail.event.TransportEvent
+ * @see javax1.mail.event.ConnectionEvent
+ * @see javax1.mail.event.TransportEvent
  */
 
 public class SMTPTransport extends Transport {
@@ -434,10 +434,10 @@ public class SMTPTransport extends Transport {
     /**
      * Should we report even successful sends by throwing an exception?
      * If so, a <code>SendFailedException</code> will always be thrown and
-     * an {@link com.sun.mail.smtp.SMTPAddressSucceededException
+     * an {@link com.sun1.mail.smtp.SMTPAddressSucceededException
      * SMTPAddressSucceededException} will be included in the exception
      * chain for each successful address, along with the usual
-     * {@link com.sun.mail.smtp.SMTPAddressFailedException
+     * {@link com.sun1.mail.smtp.SMTPAddressFailedException
      * SMTPAddressFailedException} for each unsuccessful address.
      *
      * @return	true if an exception will be thrown on successful sends.
@@ -992,7 +992,7 @@ public class SMTPTransport extends Transport {
 	if (saslAuthenticator == null) {
 	    try {
 		Class sac = Class.forName(
-		    "com.sun.mail.smtp.SMTPSaslAuthenticator");
+		    "com.sun1.mail.smtp.SMTPSaslAuthenticator");
 		Constructor c = sac.getConstructor(new Class[] {
 					SMTPTransport.class,
 					String.class,
@@ -1073,7 +1073,7 @@ public class SMTPTransport extends Transport {
      *
      * @param message	The MimeMessage to be sent
      * @param addresses	List of addresses to send this message to
-     * @see 		javax.mail.event.TransportEvent
+     * @see 		javax1.mail.event.TransportEvent
      * @exception       SMTPSendFailedException if the send failed because of
      *			an SMTP command error
      * @exception       SendFailedException if the send failed because of

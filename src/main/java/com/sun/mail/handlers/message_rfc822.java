@@ -38,14 +38,14 @@
  * holder.
  */
 
-package com.sun.mail.handlers;
+package com.sun1.mail.handlers;
 
 import java.io.*;
 import java.util.Properties;
 import java.awt.datatransfer.DataFlavor;
 import javax.activation.*;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax1.mail.*;
+import javax1.mail.internet.*;
 
 
 /**
@@ -56,7 +56,7 @@ import javax.mail.internet.*;
 public class message_rfc822 implements DataContentHandler {
 
     ActivationDataFlavor ourDataFlavor = new ActivationDataFlavor(
-	javax.mail.Message.class,
+	javax1.mail.Message.class,
 	"message/rfc822", 
 	"Message");
 

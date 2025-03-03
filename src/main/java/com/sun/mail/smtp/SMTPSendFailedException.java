@@ -38,11 +38,11 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
-import javax.mail.Address;
-import javax.mail.SendFailedException;
-import javax.mail.internet.InternetAddress;
+import javax1.mail.Address;
+import javax1.mail.SendFailedException;
+import javax1.mail.internet.InternetAddress;
 
 /**
  * This exception is thrown when the message cannot be sent. <p>

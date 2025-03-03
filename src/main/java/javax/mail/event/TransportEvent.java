@@ -38,10 +38,10 @@
  * holder.
  */
 
-package javax.mail.event;
+package javax1.mail.event;
 
 import java.util.*;
-import javax.mail.*;
+import javax1.mail.*;
 
 /**
  * This class models Transport events.
@@ -49,8 +49,8 @@ import javax.mail.*;
  * @author John Mani
  * @author Max Spivak
  * 
- * @see javax.mail.Transport
- * @see javax.mail.event.TransportListener
+ * @see javax1.mail.Transport
+ * @see javax1.mail.event.TransportListener
  */
 
 public class TransportEvent extends MailEvent {

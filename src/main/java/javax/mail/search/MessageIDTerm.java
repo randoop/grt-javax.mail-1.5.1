@@ -38,9 +38,9 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
-import javax.mail.Message;
+import javax1.mail.Message;
 
 /**
  * This term models the RFC822 "MessageId" - a message-id for 

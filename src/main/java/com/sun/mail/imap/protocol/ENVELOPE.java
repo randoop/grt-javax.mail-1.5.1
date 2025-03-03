@@ -38,18 +38,18 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.MailDateFormat;
-import javax.mail.internet.MimeUtility;
-import com.sun.mail.iap.*;
+import javax1.mail.internet.InternetAddress;
+import javax1.mail.internet.AddressException;
+import javax1.mail.internet.MailDateFormat;
+import javax1.mail.internet.MimeUtility;
+import com.sun1.mail.iap.*;
 
 /**
  * The ENEVELOPE item of an IMAP FETCH response.

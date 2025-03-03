@@ -53,17 +53,17 @@ for more information.
 <P>
 When sending a message, detailed information on each address that
 fails is available in an
-{@link com.sun.mail.smtp.SMTPAddressFailedException SMTPAddressFailedException}
+{@link com.sun1.mail.smtp.SMTPAddressFailedException SMTPAddressFailedException}
 chained off the top level
-{@link javax.mail.SendFailedException SendFailedException}
+{@link javax1.mail.SendFailedException SendFailedException}
 that is thrown.
 In addition, if the <code>mail.smtp.reportsuccess</code> property
 is set, an
-{@link com.sun.mail.smtp.SMTPAddressSucceededException
+{@link com.sun1.mail.smtp.SMTPAddressSucceededException
 SMTPAddressSucceededException}
 will be included in the list for each address that is successful.
 Note that this will cause a top level
-{@link javax.mail.SendFailedException SendFailedException}
+{@link javax1.mail.SendFailedException SendFailedException}
 to be thrown even though the send was successful.
 <P>
 The SMTP provider also supports ESMTP
@@ -141,7 +141,7 @@ a "multipart/report"
 message type with a "message/delivery-status"
 (<A HREF="http://www.ietf.org/rfc/rfc1894.txt" TARGET="_top">RFC 1894</A>)
 part.
-You can use the classes in the {@link com.sun.mail.dsn} package to
+You can use the classes in the {@link com.sun1.mail.dsn} package to
 handle these MIME types.
 Note that you'll need to include <code>dsn.jar</code> in your CLASSPATH
 as this support is not included in <code>mail.jar</code>.
@@ -366,8 +366,8 @@ Defaults to "3".  Currently not used.
 <TD>The submitter to use in the AUTH tag in the MAIL FROM command.
 Typically used by a mail relay to pass along information about the
 original submitter of the message.
-See also the {@link com.sun.mail.smtp.SMTPMessage#setSubmitter setSubmitter}
-method of {@link com.sun.mail.smtp.SMTPMessage SMTPMessage}.
+See also the {@link com.sun1.mail.smtp.SMTPMessage#setSubmitter setSubmitter}
+method of {@link com.sun1.mail.smtp.SMTPMessage SMTPMessage}.
 Mail clients typically do not use this.
 </TD>
 </TR>
@@ -458,15 +458,15 @@ for the response to the QUIT command.
 <TD>boolean</TD>
 <TD>
 If set to true, causes the transport to include an
-{@link com.sun.mail.smtp.SMTPAddressSucceededException
+{@link com.sun1.mail.smtp.SMTPAddressSucceededException
 SMTPAddressSucceededException}
 for each address that is successful.
 Note also that this will cause a
-{@link javax.mail.SendFailedException SendFailedException}
+{@link javax1.mail.SendFailedException SendFailedException}
 to be thrown from the
-{@link com.sun.mail.smtp.SMTPTransport#sendMessage sendMessage}
+{@link com.sun1.mail.smtp.SMTPTransport#sendMessage sendMessage}
 method of
-{@link com.sun.mail.smtp.SMTPTransport SMTPTransport}
+{@link com.sun1.mail.smtp.SMTPTransport SMTPTransport}
 even if all addresses were correct and the message was sent
 successfully.
 </TD>
@@ -541,7 +541,7 @@ Defaults to false.
 <TD>String</TD>
 <TD>
 If set, and a socket factory hasn't been specified, enables use of a
-{@link com.sun.mail.util.MailSSLSocketFactory MailSSLSocketFactory}.
+{@link com.sun1.mail.util.MailSSLSocketFactory MailSSLSocketFactory}.
 If set to "*", all hosts are trusted.
 If set to a whitespace separated list of hosts, those hosts are trusted.
 Otherwise, trust depends on the certificate the server presents.
@@ -652,8 +652,8 @@ Extension string to append to the MAIL command.
 The extension string can be used to specify standard SMTP
 service extensions as well as vendor-specific extensions.
 Typically the application should use the
-{@link com.sun.mail.smtp.SMTPTransport SMTPTransport}
-method {@link com.sun.mail.smtp.SMTPTransport#supportsExtension
+{@link com.sun1.mail.smtp.SMTPTransport SMTPTransport}
+method {@link com.sun1.mail.smtp.SMTPTransport#supportsExtension
 supportsExtension}
 to verify that the server supports the desired service extension.
 See <A HREF="http://www.ietf.org/rfc/rfc1869.txt" TARGET="_top">RFC 1869</A>
@@ -666,7 +666,7 @@ and other RFCs that define specific extensions.
 <TD>boolean</TD>
 <TD>
 If set to true, use the RSET command instead of the NOOP command
-in the {@link javax.mail.Transport#isConnected isConnected} method.
+in the {@link javax1.mail.Transport#isConnected isConnected} method.
 In some cases sendmail will respond slowly after many NOOP commands;
 use of RSET avoids this sendmail issue.
 Defaults to false.
@@ -679,7 +679,7 @@ Defaults to false.
 <TD>
 If set to true (the default), insist on a 250 response code from the NOOP
 command to indicate success.  The NOOP command is used by the
-{@link javax.mail.Transport#isConnected isConnected} method to determine
+{@link javax1.mail.Transport#isConnected isConnected} method to determine
 if the connection is still alive.
 Some older servers return the wrong response code on success, some
 servers don't implement the NOOP command at all and so always return
@@ -699,15 +699,15 @@ broken in this way.
 <P>
 In general, applications should not need to use the classes in this
 package directly.  Instead, they should use the APIs defined by
-<code>javax.mail</code> package (and subpackages).  Applications should
+<code>javax1.mail</code> package (and subpackages).  Applications should
 never construct instances of <code>SMTPTransport</code> directly.
 Instead, they should use the
 <code>Session</code> method <code>getTransport</code> to acquire an
 appropriate <code>Transport</code> object.
 <P>
 In addition to printing debugging output as controlled by the
-{@link javax.mail.Session Session} configuration,
-the com.sun.mail.smtp provider logs the same information using
+{@link javax1.mail.Session Session} configuration,
+the com.sun1.mail.smtp provider logs the same information using
 {@link java.util.logging.Logger} as described in the following table:
 <P>
 <TABLE BORDER>
@@ -718,19 +718,19 @@ the com.sun.mail.smtp provider logs the same information using
 </TR>
 
 <TR>
-<TD>com.sun.mail.smtp</TD>
+<TD>com.sun1.mail.smtp</TD>
 <TD>CONFIG</TD>
 <TD>Configuration of the SMTPTransport</TD>
 </TR>
 
 <TR>
-<TD>com.sun.mail.smtp</TD>
+<TD>com.sun1.mail.smtp</TD>
 <TD>FINE</TD>
 <TD>General debugging output</TD>
 </TR>
 
 <TR>
-<TD>com.sun.mail.smtp.protocol</TD>
+<TD>com.sun1.mail.smtp.protocol</TD>
 <TD>FINEST</TD>
 <TD>Complete protocol trace</TD>
 </TR>

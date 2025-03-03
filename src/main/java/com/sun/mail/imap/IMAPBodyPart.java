@@ -38,18 +38,18 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.io.*;
 
 import java.util.Enumeration;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax1.mail.*;
+import javax1.mail.internet.*;
 import javax.activation.*;
 
-import com.sun.mail.util.*;
-import com.sun.mail.iap.*;
-import com.sun.mail.imap.protocol.*;
+import com.sun1.mail.util.*;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.imap.protocol.*;
 
 /**
  * An IMAP body part.

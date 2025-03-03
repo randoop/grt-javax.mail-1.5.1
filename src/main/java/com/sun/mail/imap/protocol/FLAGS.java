@@ -38,10 +38,10 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
-import javax.mail.Flags;
-import com.sun.mail.iap.*; 
+import javax1.mail.Flags;
+import com.sun1.mail.iap.*; 
 
 /**
  * This class 

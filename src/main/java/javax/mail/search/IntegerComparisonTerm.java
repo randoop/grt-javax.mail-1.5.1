@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
 /**
  * This class implements comparisons for integers.

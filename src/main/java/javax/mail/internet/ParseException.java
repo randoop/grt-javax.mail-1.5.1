@@ -38,9 +38,9 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
-import javax.mail.MessagingException;
+import javax1.mail.MessagingException;
 
 /**
  * The exception thrown due to an error in parsing RFC822 

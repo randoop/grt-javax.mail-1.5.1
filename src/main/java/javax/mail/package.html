@@ -48,11 +48,11 @@
 
 The JavaMail<sup><font size="-2">TM</font></sup> API
 provides classes that model a mail system.
-The <code>javax.mail</code> package defines classes that are common to
+The <code>javax1.mail</code> package defines classes that are common to
 all mail systems.
-The <code>javax.mail.internet</code> package defines classes that are specific
+The <code>javax1.mail.internet</code> package defines classes that are specific
 to mail systems based on internet standards such as MIME, SMTP, POP3, and IMAP.
-The JavaMail API includes the <code>javax.mail</code> package and subpackages.
+The JavaMail API includes the <code>javax1.mail</code> package and subpackages.
 <P>
 For an overview of the JavaMail API, read the JavaMail specification
 <A HREF="../../../JavaMail-1.5.pdf" TARGET="_top">
@@ -251,8 +251,8 @@ Transport object that implements this protocol when the address is of the
 specified type (e.g., "rfc822" for standard internet addresses).
 By default the first Transport configured for that address type is used.
 This property can be used to override the behavior of the
-{@link javax.mail.Transport#send send} method of the
-{@link javax.mail.Transport Transport} class so that (for example) the "smtps"
+{@link javax1.mail.Transport#send send} method of the
+{@link javax1.mail.Transport Transport} class so that (for example) the "smtps"
 protocol is used instead of the "smtp" protocol by setting the property
 <code>mail.transport.protocol.rfc822</code> to <code>"smtps"</code>.
 </TD>
@@ -262,29 +262,29 @@ protocol is used instead of the "smtp" protocol by setting the property
 
 <P>
 The JavaMail API also supports several System properties;
-see the {@link javax.mail.internet} package documentation
+see the {@link javax1.mail.internet} package documentation
 for details.
 
 <P>
 The JavaMail reference
 implementation includes protocol providers in subpackages of
-<code>com.sun.mail</code>.  Note that the APIs to these protocol
+<code>com.sun1.mail</code>.  Note that the APIs to these protocol
 providers are not part of the standard JavaMail API.  Portable
 programs will not use these APIs.
 <P>
 Nonportable programs may use the APIs of the protocol providers
 by (for example) casting a returned <code>Folder</code> object to a
-<code>com.sun.mail.imap.IMAPFolder</code> object.  Similarly for
+<code>com.sun1.mail.imap.IMAPFolder</code> object.  Similarly for
 <code>Store</code> and <code>Message</code> objects returned from the
 standard JavaMail APIs.
 <P>
 The protocol providers also support properties that are specific to
 those providers.  The package documentation for the
-{@link com.sun.mail.imap IMAP}, {@link com.sun.mail.pop3 POP3},
-and {@link com.sun.mail.smtp SMTP} packages provide details.
+{@link com.sun1.mail.imap IMAP}, {@link com.sun1.mail.pop3 POP3},
+and {@link com.sun1.mail.smtp SMTP} packages provide details.
 <P>
 In addition to printing debugging output as controlled by the
-{@link javax.mail.Session Session} configuration, the current
+{@link javax1.mail.Session Session} configuration, the current
 implementation of classes in this package log the same information using
 {@link java.util.logging.Logger} as described in the following table:
 <P>
@@ -296,13 +296,13 @@ implementation of classes in this package log the same information using
 </TR>
 
 <TR>
-<TD>javax.mail</TD>
+<TD>javax1.mail</TD>
 <TD>CONFIG</TD>
 <TD>Configuration of the Session</TD>
 </TR>
 
 <TR>
-<TD>javax.mail</TD>
+<TD>javax1.mail</TD>
 <TD>FINE</TD>
 <TD>General debugging output</TD>
 </TR>

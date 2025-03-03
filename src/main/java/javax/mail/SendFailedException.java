@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * This exception is thrown when the message cannot be sent.<p>
@@ -47,9 +47,9 @@ package javax.mail;
  * sent as well as the valid addresses to which the message was sent and
  * valid addresses to which the message was not sent.
  *
- * @see	javax.mail.Transport#send
- * @see	javax.mail.Transport#sendMessage
- * @see	javax.mail.event.TransportEvent
+ * @see	javax1.mail.Transport#send
+ * @see	javax1.mail.Transport#sendMessage
+ * @see	javax1.mail.event.TransportEvent
  *
  * @author John Mani
  * @author Max Spivak

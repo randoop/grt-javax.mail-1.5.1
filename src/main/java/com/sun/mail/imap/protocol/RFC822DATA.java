@@ -38,11 +38,11 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.io.ByteArrayInputStream;
-import com.sun.mail.iap.*; 
-import com.sun.mail.util.ASCIIUtility;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.util.ASCIIUtility;
 
 /**
  * This class 

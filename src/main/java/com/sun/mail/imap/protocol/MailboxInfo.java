@@ -38,14 +38,14 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import javax.mail.Flags;
+import javax1.mail.Flags;
 
-import com.sun.mail.iap.*;
+import com.sun1.mail.iap.*;
 
 /**
  * Information collected when opening a mailbox.

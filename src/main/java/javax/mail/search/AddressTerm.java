@@ -38,9 +38,9 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
-import javax.mail.Address;
+import javax1.mail.Address;
 
 /**
  * This class implements Message Address comparisons.

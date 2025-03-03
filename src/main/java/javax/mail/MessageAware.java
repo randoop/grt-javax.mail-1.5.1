@@ -38,14 +38,14 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * An interface optionally implemented by <code>DataSources</code> to
  * supply information to a <code>DataContentHandler</code> about the
  * message context in which the data content object is operating.
  *
- * @see javax.mail.MessageContext
+ * @see javax1.mail.MessageContext
  * @see javax.activation.DataSource
  * @see javax.activation.DataContentHandler
  * @since	JavaMail 1.1

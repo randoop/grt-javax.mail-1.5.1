@@ -38,9 +38,9 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
-import com.sun.mail.imap.protocol.UIDSet;
+import com.sun1.mail.imap.protocol.UIDSet;
 
 /**
  * Information from the COPYUID response code

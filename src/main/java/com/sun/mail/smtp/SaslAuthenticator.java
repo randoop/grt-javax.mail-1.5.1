@@ -38,9 +38,9 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
-import javax.mail.MessagingException;
+import javax1.mail.MessagingException;
 
 /**
  * Interface to make it easier to call SMTPSaslAuthenticator.

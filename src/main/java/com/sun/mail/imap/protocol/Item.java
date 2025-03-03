@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 /**
  * A tagging interface for all IMAP data items.

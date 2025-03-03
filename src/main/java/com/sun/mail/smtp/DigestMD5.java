@@ -38,14 +38,14 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.security.*;
 
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 /**
  * DIGEST-MD5 authentication support.

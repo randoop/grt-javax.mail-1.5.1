@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.lang.reflect.*;
 
-import javax.mail.FetchProfile;
-import com.sun.mail.iap.ParsingException;
+import javax1.mail.FetchProfile;
+import com.sun1.mail.iap.ParsingException;
 
 /**
  * Metadata describing a FETCH item.

@@ -38,11 +38,11 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.event.MessageCountEvent;
+import javax1.mail.Folder;
+import javax1.mail.Message;
+import javax1.mail.event.MessageCountEvent;
 
 /**
  * This class provides notification of messages that have been removed

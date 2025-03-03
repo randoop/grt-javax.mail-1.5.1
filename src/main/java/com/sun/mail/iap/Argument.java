@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.iap;
+package com.sun1.mail.iap;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.io.*;
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 /**
  * @author  John Mani

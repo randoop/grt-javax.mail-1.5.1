@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.handlers;
+package com.sun1.mail.handlers;
 
 import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
@@ -47,8 +47,8 @@ import java.io.OutputStream;
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataContentHandler;
 import javax.activation.DataSource;
-import javax.mail.internet.ContentType;
-import javax.mail.internet.ParseException;
+import javax1.mail.internet.ContentType;
+import javax1.mail.internet.ParseException;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;

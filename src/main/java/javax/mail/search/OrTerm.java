@@ -38,9 +38,9 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
-import javax.mail.Message;
+import javax1.mail.Message;
 
 /**
  * This class implements the logical OR operator on individual SearchTerms.

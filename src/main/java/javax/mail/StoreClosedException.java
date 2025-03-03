@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * This exception is thrown when a method is invoked on a Messaging object

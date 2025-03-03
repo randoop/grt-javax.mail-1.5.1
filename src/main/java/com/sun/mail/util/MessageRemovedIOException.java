@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.util;
+package com.sun1.mail.util;
 
 import java.io.IOException;
 
@@ -47,8 +47,8 @@ import java.io.IOException;
  * that only throw IOException.  The getContent method will catch this
  * exception and translate it back to MessageRemovedException.
  *
- * @see	   javax.mail.Message#isExpunged()
- * @see	   javax.mail.Message#getMessageNumber()
+ * @see	   javax1.mail.Message#isExpunged()
+ * @see	   javax1.mail.Message#getMessageNumber()
  * @author Bill Shannon
  */
 

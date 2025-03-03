@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.iap;
+package com.sun1.mail.iap;
 
 import java.util.Vector;
 import java.util.Properties;
@@ -46,7 +46,7 @@ import java.io.*;
 import java.net.*;
 import java.util.logging.Level;
 import javax.net.ssl.SSLSocket;
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 /**
  * General protocol handling code for IMAP-like protocols. <p>

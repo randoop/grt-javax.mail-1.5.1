@@ -38,15 +38,15 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.util.Vector;
 
-import javax.mail.*;
+import javax1.mail.*;
 
-import com.sun.mail.util.*;
-import com.sun.mail.imap.protocol.MessageSet;
-import com.sun.mail.imap.protocol.UIDSet;
+import com.sun1.mail.util.*;
+import com.sun1.mail.imap.protocol.MessageSet;
+import com.sun1.mail.imap.protocol.UIDSet;
 
 /**
  * Holder for some static utility methods.

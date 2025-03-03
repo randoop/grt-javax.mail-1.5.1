@@ -38,10 +38,10 @@
  * holder.
  */
 
-package javax.mail.event;
+package javax1.mail.event;
 
 import java.util.*;
-import javax.mail.*;
+import javax1.mail.*;
 
 /**
  * This class notifies changes in the number of messages in a folder. <p>

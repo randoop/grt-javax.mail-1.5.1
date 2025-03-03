@@ -38,11 +38,11 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.io.*;
 import java.util.Vector;
-import javax.mail.event.MailEvent;
+import javax1.mail.event.MailEvent;
 
 /**
  * Package private class used by Store & Folder to dispatch events.

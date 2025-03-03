@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -53,7 +53,7 @@ import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.ParseException;
 
-import com.sun.mail.util.MailLogger;
+import com.sun1.mail.util.MailLogger;
 
 /**
  * Formats and parses date specification based on

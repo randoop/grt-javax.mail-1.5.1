@@ -38,11 +38,11 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.util.Date;
-import javax.mail.Message;
-import javax.mail.search.SearchTerm;
+import javax1.mail.Message;
+import javax1.mail.search.SearchTerm;
 
 /**
  * Find messages that are older than a given interval (in seconds).

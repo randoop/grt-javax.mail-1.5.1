@@ -38,11 +38,11 @@
  * holder.
  */
 
-package javax.mail.util;
+package javax1.mail.util;
 
 import java.io.*;
 import javax.activation.*;
-import javax.mail.internet.*;
+import javax1.mail.internet.*;
 
 /**
  * A DataSource backed by a byte array.  The byte array may be

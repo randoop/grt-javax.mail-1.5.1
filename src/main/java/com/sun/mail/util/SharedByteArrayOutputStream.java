@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.util;
+package com.sun1.mail.util;
 
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 
-import javax.mail.util.SharedByteArrayInputStream;
+import javax1.mail.util.SharedByteArrayInputStream;
 
 /**
  * A ByteArrayOutputStream that allows us to share the byte array

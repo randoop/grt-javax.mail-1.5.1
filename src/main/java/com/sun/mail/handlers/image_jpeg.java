@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.handlers;
+package com.sun1.mail.handlers;
 
 import java.awt.datatransfer.DataFlavor;
 import javax.activation.*;

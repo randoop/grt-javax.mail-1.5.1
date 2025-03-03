@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 
 /**
@@ -46,8 +46,8 @@ package javax.mail;
  * Authenticator.  It is simply a repository for a user name and a password.
  *
  * @see java.net.PasswordAuthentication
- * @see javax.mail.Authenticator
- * @see javax.mail.Authenticator#getPasswordAuthentication()
+ * @see javax1.mail.Authenticator
+ * @see javax1.mail.Authenticator#getPasswordAuthentication()
  *
  * @author  Bill Foote
  */
