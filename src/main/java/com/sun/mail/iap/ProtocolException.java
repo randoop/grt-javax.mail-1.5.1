@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.iap;
+package com.sun1.mail.iap;
 
 /**
  * @author John Mani

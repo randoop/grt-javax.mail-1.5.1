@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;

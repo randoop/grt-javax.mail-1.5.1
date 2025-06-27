@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * Package-private class that defines the version of JavaMail.

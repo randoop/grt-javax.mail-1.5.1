@@ -38,18 +38,18 @@
  * holder.
  */
 
-package com.sun.mail.handlers;
+package com.sun1.mail.handlers;
 
 import java.io.*;
 import java.awt.datatransfer.DataFlavor;
 import javax.activation.*;
-import javax.mail.MessagingException;
-import javax.mail.internet.*;
+import javax1.mail.MessagingException;
+import javax1.mail.internet.*;
 
 
 public class multipart_mixed implements DataContentHandler {
     private ActivationDataFlavor myDF = new ActivationDataFlavor(
-	    javax.mail.internet.MimeMultipart.class,
+	    javax1.mail.internet.MimeMultipart.class,
 	    "multipart/mixed", 
 	    "Multipart");
 

@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.util.*;
 

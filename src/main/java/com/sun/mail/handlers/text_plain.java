@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.handlers;
+package com.sun1.mail.handlers;
 
 import java.io.*;
 import java.awt.datatransfer.DataFlavor;
 import javax.activation.*;
-import javax.mail.internet.*;
+import javax1.mail.internet.*;
 
 /**
  * DataContentHandler for text/plain.

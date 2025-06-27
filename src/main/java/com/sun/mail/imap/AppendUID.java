@@ -38,9 +38,9 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
-import com.sun.mail.iap.*;
+import com.sun1.mail.iap.*;
 
 /**
  * Information from the APPENDUID response code

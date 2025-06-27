@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail.event;
+package javax1.mail.event;
 
 /**
  * The adapter which receives MessageCount events.

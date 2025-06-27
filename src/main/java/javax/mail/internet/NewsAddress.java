@@ -38,12 +38,12 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
 import java.util.Vector;
 import java.util.StringTokenizer;
 import java.util.Locale;
-import javax.mail.*;
+import javax1.mail.*;
 
 /**
  * This class models an RFC1036 newsgroup address.

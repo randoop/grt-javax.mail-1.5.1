@@ -38,13 +38,13 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
 import java.io.*;
 import java.util.*;
-import javax.mail.*;
-import com.sun.mail.util.LineInputStream;
-import com.sun.mail.util.PropUtil;
+import javax1.mail.*;
+import com.sun1.mail.util.LineInputStream;
+import com.sun1.mail.util.PropUtil;
 
 /**
  * InternetHeaders is a utility class that manages RFC822 style
@@ -52,7 +52,7 @@ import com.sun.mail.util.PropUtil;
  * until the blank line that indicates end of header. The input stream
  * is positioned at the start of the body. The lines are stored 
  * within the object and can be extracted as either Strings or
- * {@link javax.mail.Header} objects. <p>
+ * {@link javax1.mail.Header} objects. <p>
  *
  * This class is mostly intended for service providers. MimeMessage
  * and MimeBody use this class for holding their headers. <p>
@@ -76,7 +76,7 @@ import com.sun.mail.util.PropUtil;
  * will cause a line containing only whitespace to be considered
  * a blank line terminating the header.
  *
- * @see	javax.mail.internet.MimeUtility
+ * @see	javax1.mail.internet.MimeUtility
  * @author John Mani
  * @author Bill Shannon
  */
@@ -533,7 +533,7 @@ public class InternetHeaders {
 
     /**
      * Return all the headers as an Enumeration of
-     * {@link javax.mail.Header} objects.
+     * {@link javax1.mail.Header} objects.
      *
      * @return	Header objects	
      */
@@ -542,7 +542,7 @@ public class InternetHeaders {
     }
 
     /**
-     * Return all matching {@link javax.mail.Header} objects.
+     * Return all matching {@link javax1.mail.Header} objects.
      *
      * @return	matching Header objects	
      */
@@ -551,7 +551,7 @@ public class InternetHeaders {
     }
 
     /**
-     * Return all non-matching {@link javax.mail.Header} objects.
+     * Return all non-matching {@link javax1.mail.Header} objects.
      *
      * @return	non-matching Header objects	
      */

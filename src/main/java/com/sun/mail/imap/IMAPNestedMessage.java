@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.io.*;
-import javax.mail.*;
-import com.sun.mail.imap.protocol.*;
-import com.sun.mail.iap.ProtocolException;
+import javax1.mail.*;
+import com.sun1.mail.imap.protocol.*;
+import com.sun1.mail.iap.ProtocolException;
 
 /**
  * This class implements a nested IMAP message

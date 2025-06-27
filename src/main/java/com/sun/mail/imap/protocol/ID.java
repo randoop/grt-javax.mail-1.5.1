@@ -38,10 +38,10 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.util.*;
-import com.sun.mail.iap.*;
+import com.sun1.mail.iap.*;
 
 /**
  * This class represents the response to the ID command. <p>

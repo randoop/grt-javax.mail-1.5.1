@@ -42,7 +42,7 @@
  * Copied from OpenJDK with permission.
  */
 
-package com.sun.mail.auth;
+package com.sun1.mail.auth;
 
 import java.security.*;
 

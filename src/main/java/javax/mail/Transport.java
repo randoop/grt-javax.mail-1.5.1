@@ -38,14 +38,14 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.io.IOException;
 import java.net.*;
 import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Enumeration;
-import javax.mail.event.*;
+import javax1.mail.event.*;
 
 /**
  * An abstract class that models a message transport.
@@ -59,9 +59,9 @@ import javax.mail.event.*;
  * @author Max Spivak
  * @author Bill Shannon
  * 
- * @see javax.mail.Service
- * @see javax.mail.event.ConnectionEvent
- * @see javax.mail.event.TransportEvent
+ * @see javax1.mail.Service
+ * @see javax1.mail.event.ConnectionEvent
+ * @see javax1.mail.event.TransportEvent
  */
 
 public abstract class Transport extends Service {
@@ -117,7 +117,7 @@ public abstract class Transport extends Service {
      * @see		Message#saveChanges
      * @see		Message#getAllRecipients
      * @see		#send(Message, Address[])
-     * @see		javax.mail.SendFailedException
+     * @see		javax1.mail.SendFailedException
      */
     public static void send(Message msg) throws MessagingException {
 	msg.saveChanges(); // do this first
@@ -137,7 +137,7 @@ public abstract class Transport extends Service {
      * @exception	MessagingException
      * @see		Message#saveChanges
      * @see             #send(Message)
-     * @see		javax.mail.SendFailedException
+     * @see		javax1.mail.SendFailedException
      */
     public static void send(Message msg, Address[] addresses) 
 		throws MessagingException {
@@ -164,7 +164,7 @@ public abstract class Transport extends Service {
      * @exception	MessagingException
      * @see		Message#saveChanges
      * @see             #send(Message)
-     * @see		javax.mail.SendFailedException
+     * @see		javax1.mail.SendFailedException
      * @since		JavaMail 1.5
      */
     public static void send(Message msg,
@@ -192,7 +192,7 @@ public abstract class Transport extends Service {
      * @exception	MessagingException
      * @see		Message#saveChanges
      * @see             #send(Message)
-     * @see		javax.mail.SendFailedException
+     * @see		javax1.mail.SendFailedException
      * @since		JavaMail 1.5
      */
     public static void send(Message msg, Address[] addresses,
@@ -355,7 +355,7 @@ public abstract class Transport extends Service {
      *
      * @param msg	The Message to be sent
      * @param addresses	array of addresses to send this message to
-     * @see 		javax.mail.event.TransportEvent
+     * @see 		javax1.mail.event.TransportEvent
      * @exception SendFailedException if the send failed because of
      *			invalid addresses.
      * @exception MessagingException if the connection is dead or not in the 
@@ -374,7 +374,7 @@ public abstract class Transport extends Service {
      * to an internal list of TransportListeners.
      *
      * @param l         the Listener for Transport events
-     * @see             javax.mail.event.TransportEvent
+     * @see             javax1.mail.event.TransportEvent
      */
     public synchronized void addTransportListener(TransportListener l) {
 	if (transportListeners == null)

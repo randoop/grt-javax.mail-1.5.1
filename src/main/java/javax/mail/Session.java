@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.lang.reflect.*;
 import java.io.*;
@@ -53,8 +53,8 @@ import java.util.logging.Level;
 
 import javax.activation.*;
 
-import com.sun.mail.util.LineInputStream;
-import com.sun.mail.util.MailLogger;
+import com.sun1.mail.util.LineInputStream;
+import com.sun1.mail.util.MailLogger;
 
 /**
  * The Session class represents a mail session and is not subclassed.
@@ -146,8 +146,8 @@ import com.sun.mail.util.MailLogger;
  * Here's an example of <code>META-INF/javamail.default.providers</code>
  * file contents:
  * <pre>
- * protocol=imap; type=store; class=com.sun.mail.imap.IMAPStore; vendor=Oracle;
- * protocol=smtp; type=transport; class=com.sun.mail.smtp.SMTPTransport; vendor=Oracle;
+ * protocol=imap; type=store; class=com.sun1.mail.imap.IMAPStore; vendor=Oracle;
+ * protocol=smtp; type=transport; class=com.sun1.mail.smtp.SMTPTransport; vendor=Oracle;
  * </pre><p>
  *
  * <b><code>javamail.address.map</code></b> and
@@ -155,14 +155,14 @@ import com.sun.mail.util.MailLogger;
  *
  * These resource files map transport address types to the transport
  * protocol.  The <code>getType</code> method of
- * </code>javax.mail.Address</code> returns the address type.  The
+ * </code>javax1.mail.Address</code> returns the address type.  The
  * <code>javamail.address.map</code> file maps the transport type to the
  * protocol.  The file format is a series of name-value pairs.  Each key
  * name should correspond to an address type that is currently installed
  * on the system; there should also be an entry for each
- * <code>javax.mail.Address</code> implementation that is present if it is
+ * <code>javax1.mail.Address</code> implementation that is present if it is
  * to be used.  For example, the
- * <code>javax.mail.internet.InternetAddress</code> method
+ * <code>javax1.mail.internet.InternetAddress</code> method
  * <code>getType</code> returns "rfc822". Each referenced protocol should
  * be installed on the system.  For the case of <code>news</code>, below,
  * the client should install a Transport provider supporting the nntp
@@ -235,7 +235,7 @@ public final class Session {
      *			the application when a user name and password is
      *			needed.
      * @return		a new Session object
-     * @see	javax.mail.Authenticator
+     * @see	javax1.mail.Authenticator
      */
     public static Session getInstance(Properties props,
 					Authenticator authenticator) {
@@ -539,7 +539,7 @@ public final class Session {
      * @param	url	URLName that represents the desired Store
      * @return		a closed Store object
      * @see		#getFolder(URLName)
-     * @see		javax.mail.URLName
+     * @see		javax1.mail.URLName
      * @exception	NoSuchProviderException If a provider for the given
      *			URLName is not found.
      */
@@ -608,7 +608,7 @@ public final class Session {
      * @param	url	URLName that represents the desired folder
      * @return		Folder
      * @see		#getStore(URLName)
-     * @see		javax.mail.URLName
+     * @see		javax1.mail.URLName
      * @exception	NoSuchProviderException If a provider for the given
      *			URLName is not found.
      * @exception	MessagingException if the Folder could not be 
@@ -666,7 +666,7 @@ public final class Session {
      *
      * @param	url	URLName that represents the desired Transport
      * @return		a closed Transport object
-     * @see		javax.mail.URLName
+     * @see		javax1.mail.URLName
      * @exception	NoSuchProviderException If a provider for the given
      *			URLName is not found.
      */
@@ -696,7 +696,7 @@ public final class Session {
      *
      * @param	address
      * @return	A Transport object
-     * @see javax.mail.Address
+     * @see javax1.mail.Address
      * @exception	NoSuchProviderException If provider for the 
      *			Address type is not found
      */
@@ -803,7 +803,7 @@ public final class Session {
 
 	// construct an instance of the class
 	try {
-	    Class[] c = {javax.mail.Session.class, javax.mail.URLName.class};
+	    Class[] c = {javax1.mail.Session.class, javax1.mail.URLName.class};
 	    Constructor cons = serviceClass.getConstructor(c);
 
 	    Object[] o = {this, url};
@@ -923,22 +923,22 @@ public final class Session {
 	    logger.config("failed to load any providers, using defaults");
 	    // failed to load any providers, initialize with our defaults
 	    addProvider(new Provider(Provider.Type.STORE,
-			"imap", "com.sun.mail.imap.IMAPStore",
+			"imap", "com.sun1.mail.imap.IMAPStore",
 			"Oracle", Version.version));
 	    addProvider(new Provider(Provider.Type.STORE,
-			"imaps", "com.sun.mail.imap.IMAPSSLStore",
+			"imaps", "com.sun1.mail.imap.IMAPSSLStore",
 			"Oracle", Version.version));
 	    addProvider(new Provider(Provider.Type.STORE,
-			"pop3", "com.sun.mail.pop3.POP3Store",
+			"pop3", "com.sun1.mail.pop3.POP3Store",
 			"Oracle", Version.version));
 	    addProvider(new Provider(Provider.Type.STORE,
-			"pop3s", "com.sun.mail.pop3.POP3SSLStore",
+			"pop3s", "com.sun1.mail.pop3.POP3SSLStore",
 			"Oracle", Version.version));
 	    addProvider(new Provider(Provider.Type.TRANSPORT,
-			"smtp", "com.sun.mail.smtp.SMTPTransport",
+			"smtp", "com.sun1.mail.smtp.SMTPTransport",
 			"Oracle", Version.version));
 	    addProvider(new Provider(Provider.Type.TRANSPORT,
-			"smtps", "com.sun.mail.smtp.SMTPSSLTransport",
+			"smtps", "com.sun1.mail.smtp.SMTPSSLTransport",
 			"Oracle", Version.version));
 	}
 

@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.pop3;
+package com.sun1.mail.pop3;
 
 /**
  * Result of POP3 STAT command.

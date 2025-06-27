@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail.event;
+package javax1.mail.event;
 
 import java.util.*;
 
@@ -48,8 +48,8 @@ import java.util.*;
  * @author John Mani
  * @author Max Spivak
  *
- * @see javax.mail.Transport
- * @see javax.mail.event.TransportEvent
+ * @see javax1.mail.Transport
+ * @see javax1.mail.event.TransportEvent
  */
 
 public interface TransportListener extends java.util.EventListener {

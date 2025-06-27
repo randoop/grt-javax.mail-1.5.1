@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * A {@link javax.activation.DataSource DataSource} that also implements

@@ -38,16 +38,16 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
-import javax.mail.*;
+import javax1.mail.*;
 import javax.activation.*;
 import java.util.*;
 import java.io.*;
-import com.sun.mail.util.LineOutputStream;
-import com.sun.mail.util.LineInputStream;
-import com.sun.mail.util.ASCIIUtility;
-import com.sun.mail.util.PropUtil;
+import com.sun1.mail.util.LineOutputStream;
+import com.sun1.mail.util.LineInputStream;
+import com.sun1.mail.util.ASCIIUtility;
+import com.sun1.mail.util.PropUtil;
 
 /**
  * The MimeMultipart class is an implementation of the abstract Multipart

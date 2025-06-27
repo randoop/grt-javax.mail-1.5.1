@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.io.Serializable;
 
@@ -61,7 +61,7 @@ public abstract class Address implements Serializable {
      * Return a type string that identifies this address type.
      *
      * @return	address type
-     * @see	javax.mail.internet.InternetAddress
+     * @see	javax1.mail.internet.InternetAddress
      */
     public abstract String getType();
 

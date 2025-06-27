@@ -38,9 +38,9 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
-import javax.mail.*;
+import javax1.mail.*;
 
 /**
  * This class provides access to an IMAP message store over SSL. <p>

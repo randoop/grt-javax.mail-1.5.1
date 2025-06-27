@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * The Provider is a class that describes a protocol 
@@ -124,7 +124,7 @@ public class Provider {
 
     /** Overrides Object.toString() */
     public String toString() {
-	String s = "javax.mail.Provider[" + type + "," +
+	String s = "javax1.mail.Provider[" + type + "," +
 		    protocol + "," + className;
 
 	if (vendor != null)

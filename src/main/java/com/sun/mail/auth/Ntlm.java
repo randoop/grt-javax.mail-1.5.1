@@ -42,7 +42,7 @@
  * Copied from OpenJDK with permission.
  */
 
-package com.sun.mail.auth;
+package com.sun1.mail.auth;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -57,9 +57,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import com.sun.mail.util.BASE64DecoderStream;
-import com.sun.mail.util.BASE64EncoderStream;
-import com.sun.mail.util.MailLogger;
+import com.sun1.mail.util.BASE64DecoderStream;
+import com.sun1.mail.util.BASE64EncoderStream;
+import com.sun1.mail.util.MailLogger;
 
 
 /**

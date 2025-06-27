@@ -38,11 +38,11 @@
  * holder.
  */
 
-package com.sun.mail.iap;
+package com.sun1.mail.iap;
 
 import java.io.*;
 import java.util.*;
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 /**
  * This class represents a response obtained from the input stream

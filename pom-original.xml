@@ -86,9 +86,6 @@
 	<findbugs.exclude>
 	    exclude.xml
 	</findbugs.exclude>
-	<grt-testing.basedir>${grt-testing.basedir}</grt-testing.basedir>
-	<grt-testing.major.jar>build/major/lib/major.jar</grt-testing.major.jar>
-	<grt-testing.plugin>${grt-testing.plugin}</grt-testing.plugin>
     </properties>
 
     <build>
@@ -112,16 +109,6 @@
 		    </includes>
 		</configuration>
 	    </plugin>
-		<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-compiler-plugin</artifactId>
-		<configuration>
-			<testExcludes>
-				<exclude>**/*</exclude>
-			</testExcludes>
-			<compilerArgument>${grt-testing.plugin}</compilerArgument>
-		</configuration>
-		</plugin>
 	</plugins>
     </build>
 
@@ -132,13 +119,6 @@
 	    <version>4.7</version>
 	    <scope>test</scope>
 	    <optional>true</optional>
-	</dependency>
-	<dependency>
-		<groupId>major</groupId>
-		<artifactId>major</artifactId>
-		<version>2.2.0</version>
-		<scope>system</scope>
-		<systemPath>${grt-testing.basedir}/${grt-testing.major.jar}</systemPath>
 	</dependency>
     </dependencies>
 </project>

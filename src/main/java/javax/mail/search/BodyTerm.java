@@ -38,10 +38,10 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
 import java.io.IOException;
-import javax.mail.*;
+import javax1.mail.*;
 
 /**
  * This class implements searches on a message body.

@@ -38,13 +38,13 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
-import javax.mail.*;
+import javax1.mail.*;
 import javax.activation.*;
 import java.io.*;
 import java.util.*;
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 /**
  * This class represents a MIME body part. It implements the 
@@ -73,9 +73,9 @@ import com.sun.mail.util.*;
  * @author John Mani
  * @author Bill Shannon
  * @author Kanwar Oberoi
- * @see javax.mail.Part
- * @see javax.mail.internet.MimePart
- * @see javax.mail.internet.MimeUtility
+ * @see javax1.mail.Part
+ * @see javax1.mail.internet.MimePart
+ * @see javax1.mail.internet.MimeUtility
  */
 
 public class MimeBodyPart extends BodyPart implements MimePart {
@@ -955,7 +955,7 @@ public class MimeBodyPart extends BodyPart implements MimePart {
      *
      * @param   name    name of header
      * @return  array of headers
-     * @see     javax.mail.internet.MimeUtility
+     * @see     javax1.mail.internet.MimeUtility
      */  
     public String[] getHeader(String name) throws MessagingException {
 	return headers.getHeader(name);
@@ -987,7 +987,7 @@ public class MimeBodyPart extends BodyPart implements MimePart {
      *
      * @param   name    header name
      * @param   value   header value
-     * @see     javax.mail.internet.MimeUtility
+     * @see     javax1.mail.internet.MimeUtility
      */
     public void setHeader(String name, String value)
                                 throws MessagingException {
@@ -1002,7 +1002,7 @@ public class MimeBodyPart extends BodyPart implements MimePart {
      *
      * @param   name    header name
      * @param   value   header value
-     * @see     javax.mail.internet.MimeUtility
+     * @see     javax1.mail.internet.MimeUtility
      */
     public void addHeader(String name, String value)
                                 throws MessagingException {

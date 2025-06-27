@@ -38,13 +38,13 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.io.*;
-import javax.mail.*;
-import com.sun.mail.imap.protocol.*;
-import com.sun.mail.iap.*;
-import com.sun.mail.util.*;
+import javax1.mail.*;
+import com.sun1.mail.imap.protocol.*;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.util.*;
 
 /**
  * This class implements an IMAP data stream.

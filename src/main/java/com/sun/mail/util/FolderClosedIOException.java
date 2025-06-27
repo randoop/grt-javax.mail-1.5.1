@@ -38,10 +38,10 @@
  * holder.
  */
 
-package com.sun.mail.util;
+package com.sun1.mail.util;
 
 import java.io.IOException;
-import javax.mail.Folder;
+import javax1.mail.Folder;
 
 /**
  * A variant of FolderClosedException that can be thrown from methods

@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.io.*;
 import java.util.*;
@@ -46,21 +46,21 @@ import java.text.*;
 import java.lang.reflect.*;
 import java.util.logging.Level;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.search.*;
+import javax1.mail.*;
+import javax1.mail.internet.*;
+import javax1.mail.search.*;
 
-import com.sun.mail.util.*;
-import com.sun.mail.iap.*;
-import com.sun.mail.auth.Ntlm;
+import com.sun1.mail.util.*;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.auth.Ntlm;
 
-import com.sun.mail.imap.ACL;
-import com.sun.mail.imap.Rights;
-import com.sun.mail.imap.AppendUID;
-import com.sun.mail.imap.CopyUID;
-import com.sun.mail.imap.SortTerm;
-import com.sun.mail.imap.ResyncData;
-import com.sun.mail.imap.Utility;
+import com.sun1.mail.imap.ACL;
+import com.sun1.mail.imap.Rights;
+import com.sun1.mail.imap.AppendUID;
+import com.sun1.mail.imap.CopyUID;
+import com.sun1.mail.imap.SortTerm;
+import com.sun1.mail.imap.ResyncData;
+import com.sun1.mail.imap.Utility;
 
 /**
  * This class extends the iap.Protocol object and implements IMAP
@@ -718,7 +718,7 @@ public class IMAPProtocol extends Protocol {
 	if (saslAuthenticator == null) {
 	    try {
 		Class sac = Class.forName(
-		    "com.sun.mail.imap.protocol.IMAPSaslAuthenticator");
+		    "com.sun1.mail.imap.protocol.IMAPSaslAuthenticator");
 		Constructor c = sac.getConstructor(new Class[] {
 					IMAPProtocol.class,
 					String.class,

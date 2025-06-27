@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 /**
  * The context in which a piece of Message content is contained.  A
@@ -49,7 +49,7 @@ package javax.mail;
  * <code>DataContentHandler</code> to pass on information about the
  * context in which a data content object is operating.
  *
- * @see javax.mail.MessageAware
+ * @see javax1.mail.MessageAware
  * @see javax.activation.DataSource
  * @see javax.activation.DataContentHandler
  * @since	JavaMail 1.1
@@ -94,8 +94,8 @@ public class MessageContext {
      * objects until it comes to a Message object, or null.
      *
      * @return	the containing Message, or null if none
-     * @see javax.mail.BodyPart#getParent
-     * @see javax.mail.Multipart#getParent
+     * @see javax1.mail.BodyPart#getParent
+     * @see javax1.mail.Multipart#getParent
      */
     private static Message getMessage(Part p) throws MessagingException {
 	while (p != null) {

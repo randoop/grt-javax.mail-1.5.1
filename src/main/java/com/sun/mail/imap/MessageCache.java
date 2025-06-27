@@ -38,15 +38,15 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.io.PrintStream;
 import java.util.*;
 import java.util.logging.Level;
 
-import javax.mail.*;
-import com.sun.mail.util.PropUtil;
-import com.sun.mail.util.MailLogger;
+import javax1.mail.*;
+import com.sun1.mail.util.PropUtil;
+import com.sun1.mail.util.MailLogger;
 
 /**
  * A cache of IMAPMessage objects along with the

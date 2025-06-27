@@ -38,10 +38,10 @@
  * holder.
  */
 
-package javax.mail.util;
+package javax1.mail.util;
 
 import java.io.*;
-import javax.mail.internet.SharedInputStream;
+import javax1.mail.internet.SharedInputStream;
 
 /**
  * A <code>SharedFileInputStream</code> is a

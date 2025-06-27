@@ -38,10 +38,10 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
 import java.net.*;
-import javax.mail.Session;
+import javax1.mail.Session;
 
 /**
  * This is a utility class that generates unique values. The generated
@@ -91,7 +91,7 @@ class UniqueValue {
      * <code>getLocalAddress()</code> returns null.)
      *
      * @param ssn Session object used to get the local address
-     * @see javax.mail.internet.InternetAddress
+     * @see javax1.mail.internet.InternetAddress
      */
     public static String getUniqueMessageIDValue(Session ssn) {
 	String suffix = null;

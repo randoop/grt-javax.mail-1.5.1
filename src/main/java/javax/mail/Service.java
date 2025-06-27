@@ -38,12 +38,12 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import javax.mail.event.*;
+import javax1.mail.event.*;
 
 /**
  * An abstract class that contains the functionality
@@ -169,7 +169,7 @@ public abstract class Service {
      * @exception MessagingException	for other failures
      * @exception IllegalStateException	if the service is already connected
      *
-     * @see javax.mail.event.ConnectionEvent
+     * @see javax1.mail.event.ConnectionEvent
      */
     public void connect() throws MessagingException {
 	connect(null, null, null);
@@ -218,8 +218,8 @@ public abstract class Service {
      * @exception AuthenticationFailedException	for authentication failures
      * @exception MessagingException		for other failures
      * @exception IllegalStateException	if the service is already connected
-     * @see javax.mail.event.ConnectionEvent
-     * @see javax.mail.Session#setPasswordAuthentication
+     * @see javax1.mail.event.ConnectionEvent
+     * @see javax1.mail.Session#setPasswordAuthentication
      */
     public void connect(String host, String user, String password)
 			throws MessagingException {
@@ -237,8 +237,8 @@ public abstract class Service {
      * @exception AuthenticationFailedException for authentication failures
      * @exception MessagingException            for other failures
      * @exception IllegalStateException if the service is already connected
-     * @see javax.mail.event.ConnectionEvent
-     * @see javax.mail.Session#setPasswordAuthentication
+     * @see javax1.mail.event.ConnectionEvent
+     * @see javax1.mail.Session#setPasswordAuthentication
      * @see #connect(java.lang.String, java.lang.String, java.lang.String)
      * @since           JavaMail 1.4
      */
@@ -258,7 +258,7 @@ public abstract class Service {
      * @exception MessagingException		for other failures
      * @exception IllegalStateException	if the service is already connected
      * @see #connect(java.lang.String, java.lang.String, java.lang.String)
-     * @see javax.mail.event.ConnectionEvent
+     * @see javax1.mail.event.ConnectionEvent
      */
     public synchronized void connect(String host, int port,
 		String user, String password) throws MessagingException {
@@ -481,7 +481,7 @@ public abstract class Service {
      * notification, probably by including a call to <code>super.close()</code>
      * in a <code>finally</code> clause.
      *
-     * @see javax.mail.event.ConnectionEvent
+     * @see javax1.mail.event.ConnectionEvent
      * @throws	MessagingException	for errors while closing
      */
     public synchronized void close() throws MessagingException {
@@ -540,7 +540,7 @@ public abstract class Service {
      * to an internal list of ConnectionListeners.
      *
      * @param l         the Listener for Connection events
-     * @see             javax.mail.event.ConnectionEvent
+     * @see             javax1.mail.event.ConnectionEvent
      */
     public void addConnectionListener(ConnectionListener l) {
 	connectionListeners.addElement(l);

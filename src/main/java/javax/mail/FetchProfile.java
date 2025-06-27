@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.util.Vector;
 
@@ -76,7 +76,7 @@ import java.util.Vector;
  *
  * </pre></blockquote><p>
  *
- * @see javax.mail.Folder#fetch
+ * @see javax1.mail.Folder#fetch
  * @author John Mani
  * @author Bill Shannon
  */

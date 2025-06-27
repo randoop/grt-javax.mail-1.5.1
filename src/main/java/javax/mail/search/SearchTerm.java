@@ -38,11 +38,11 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
 import java.io.Serializable;
 
-import javax.mail.Message;
+import javax1.mail.Message;
 
 /**
  * Search criteria are expressed as a tree of search-terms, forming

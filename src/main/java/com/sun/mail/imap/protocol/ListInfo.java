@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import com.sun.mail.iap.*;
+import com.sun1.mail.iap.*;
 
 /**
  * A LIST response.

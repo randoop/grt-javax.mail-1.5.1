@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
 import java.util.Date;
 

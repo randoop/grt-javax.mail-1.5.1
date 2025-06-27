@@ -38,7 +38,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package com.sun.mail.util.logging;
+package com.sun1.mail.util.logging;
 
 import java.io.ObjectStreamException;
 import java.lang.reflect.InvocationTargetException;
@@ -49,7 +49,7 @@ import java.security.PrivilegedAction;
 import java.util.*;
 import java.util.logging.*;
 import java.util.logging.Formatter;
-import javax.mail.Authenticator;
+import javax1.mail.Authenticator;
 
 /**
  * An adapter class to allow the Mail API to access the LogManager properties.

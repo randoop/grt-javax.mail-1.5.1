@@ -38,14 +38,14 @@
  * holder.
  */
 
-package com.sun.mail.util;
+package com.sun1.mail.util;
 
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import javax.mail.Session;
+import javax1.mail.Session;
 
 /**
  * A simplified logger used by JavaMail to handle logging to a

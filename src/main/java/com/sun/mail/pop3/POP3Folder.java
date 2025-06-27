@@ -38,11 +38,11 @@
  * holder.
  */
 
-package com.sun.mail.pop3;
+package com.sun1.mail.pop3;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.event.*;
+import javax1.mail.*;
+import javax1.mail.internet.*;
+import javax1.mail.event.*;
 import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -53,17 +53,17 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.lang.reflect.Constructor;
 
-import com.sun.mail.util.LineInputStream;
-import com.sun.mail.util.MailLogger;
+import com.sun1.mail.util.LineInputStream;
+import com.sun1.mail.util.MailLogger;
 
 /**
  * A POP3 Folder (can only be "INBOX").
  *
- * See the <a href="package-summary.html">com.sun.mail.pop3</a> package
+ * See the <a href="package-summary.html">com.sun1.mail.pop3</a> package
  * documentation for further information on the POP3 protocol provider. <p>
  *
  * @author      Bill Shannon
- * @author	John Mani (ported to the javax.mail APIs)
+ * @author	John Mani (ported to the javax1.mail APIs)
  */
 public class POP3Folder extends Folder {
 

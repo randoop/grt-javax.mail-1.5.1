@@ -38,13 +38,13 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import com.sun.mail.util.*;
-import com.sun.mail.iap.*;
-import com.sun.mail.imap.protocol.*;
+import javax1.mail.*;
+import javax1.mail.internet.*;
+import com.sun1.mail.util.*;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.imap.protocol.*;
 
 /**
  * The default IMAP folder (root of the naming hierarchy).

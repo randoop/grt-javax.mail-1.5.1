@@ -38,10 +38,10 @@
  * holder.
  */
 
-package javax.mail.search;
+package javax1.mail.search;
 
-import javax.mail.Message;
-import javax.mail.Address;
+import javax1.mail.Message;
+import javax1.mail.Address;
 
 /**
  * This class implements comparisons for the Recipient Address headers.

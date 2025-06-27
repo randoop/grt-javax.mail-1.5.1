@@ -38,10 +38,10 @@
  * holder.
  */
 
-package com.sun.mail.util;
+package com.sun1.mail.util;
 
 import java.util.*;
-import javax.mail.Session;
+import javax1.mail.Session;
 
 /**
  * Utilities to make it easier to get property values.

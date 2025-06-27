@@ -38,15 +38,15 @@
  * holder.
  */
 
-package com.sun.mail.pop3;
+package com.sun1.mail.pop3;
 
 import java.util.*;
 import java.net.*;
 import java.io.*;
 import java.security.*;
 
-import com.sun.mail.util.PropUtil;
-import javax.mail.util.SharedFileInputStream;
+import com.sun1.mail.util.PropUtil;
+import javax1.mail.util.SharedFileInputStream;
 
 /**
  * A temporary file used to cache POP3 messages.

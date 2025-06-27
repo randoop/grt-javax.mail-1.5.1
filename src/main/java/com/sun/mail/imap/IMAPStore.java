@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.lang.reflect.*;
 import java.util.Vector;
@@ -52,15 +52,15 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import javax.mail.*;
-import javax.mail.event.*;
+import javax1.mail.*;
+import javax1.mail.event.*;
 
-import com.sun.mail.iap.*;
-import com.sun.mail.imap.protocol.*;
-import com.sun.mail.util.PropUtil;
-import com.sun.mail.util.MailLogger;
-import com.sun.mail.util.SocketConnectException;
-import com.sun.mail.util.MailConnectException;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.imap.protocol.*;
+import com.sun1.mail.util.PropUtil;
+import com.sun1.mail.util.MailLogger;
+import com.sun1.mail.util.SocketConnectException;
+import com.sun1.mail.util.MailConnectException;
 
 /**
  * This class provides access to an IMAP message store. <p>
@@ -78,7 +78,7 @@ import com.sun.mail.util.MailConnectException;
  * in RFC 2971 section 3.3 and may be used as keys in the Map containing
  * client values or server values. <p>
  *
- * See the <a href="package-summary.html">com.sun.mail.imap</a> package
+ * See the <a href="package-summary.html">com.sun1.mail.imap</a> package
  * documentation for further information on the IMAP protocol provider. <p>
  *
  * <strong>WARNING:</strong> The APIs unique to this class should be

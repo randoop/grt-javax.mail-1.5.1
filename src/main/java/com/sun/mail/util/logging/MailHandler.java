@@ -39,9 +39,9 @@
  * holder.
  */
 
-package com.sun.mail.util.logging;
+package com.sun1.mail.util.logging;
 
-import com.sun.mail.smtp.SMTPTransport;
+import com.sun1.mail.smtp.SMTPTransport;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.net.InetAddress;
@@ -57,9 +57,9 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileTypeMap;
 import javax.activation.MimetypesFileTypeMap;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.util.ByteArrayDataSource;
+import javax1.mail.*;
+import javax1.mail.internet.*;
+import javax1.mail.util.ByteArrayDataSource;
 
 /**
  * <tt>Handler</tt> that formats log records as an email message.
@@ -88,10 +88,10 @@ import javax.mail.util.ByteArrayDataSource;
  *
  * <tt><pre>
  *      #Default MailHandler settings.
- *      com.sun.mail.util.logging.MailHandler.mail.smtp.host = my-mail-server
- *      com.sun.mail.util.logging.MailHandler.mail.to = me@example.com
- *      com.sun.mail.util.logging.MailHandler.level = WARNING
- *      com.sun.mail.util.logging.MailHandler.verify = local
+ *      com.sun1.mail.util.logging.MailHandler.mail.smtp.host = my-mail-server
+ *      com.sun1.mail.util.logging.MailHandler.mail.to = me@example.com
+ *      com.sun1.mail.util.logging.MailHandler.level = WARNING
+ *      com.sun1.mail.util.logging.MailHandler.verify = local
  * </pre></tt>
  *
  * For a custom handler, e.g. com.foo.MyHandler, the properties would be:
@@ -131,7 +131,7 @@ import javax.mail.util.ByteArrayDataSource;
  * of the attachment formatter)
  *
  * <li>&lt;handler-name&gt;.authenticator name of an
- * {@linkplain javax.mail.Authenticator} class used to provide login credentials
+ * {@linkplain javax1.mail.Authenticator} class used to provide login credentials
  * to the email server or string literal that is the password used with the
  * {@linkplain Authenticator#getDefaultUserName() default} user name.
  * (default is <tt>null</tt>)
@@ -152,7 +152,7 @@ import javax.mail.util.ByteArrayDataSource;
  * <li>&lt;handler-name&gt;.encoding the name of the Java
  * {@linkplain java.nio.charset.Charset#name() character set} to use for the
  * email message. (defaults to <tt>null</tt>, the
- * {@linkplain javax.mail.internet.MimeUtility#getDefaultJavaCharset() default}
+ * {@linkplain javax1.mail.internet.MimeUtility#getDefaultJavaCharset() default}
  * platform encoding).
  *
  * <li>&lt;handler-name&gt;.errorManager name of an
@@ -187,7 +187,7 @@ import javax.mail.util.ByteArrayDataSource;
  * addresses which will be from addresses. Typically, this is set to the email
  * address identifying the user running the application.  The empty string can
  * be used to override the default behavior and specify no from address.
- * (defaults to the {@linkplain javax.mail.Message#setFrom() local address})
+ * (defaults to the {@linkplain javax1.mail.Message#setFrom() local address})
  *
  * <li>&lt;handler-name&gt;.mail.host the host name or IP
  * address of the email server. (defaults to <tt>null</tt>, use
@@ -205,7 +205,7 @@ import javax.mail.util.ByteArrayDataSource;
  * recipients that provide support for the application, system, and/or
  * supporting infrastructure.  The empty string can be used to specify no
  * send-to address which overrides the default behavior.  (defaults to
- * {@linkplain javax.mail.internet.InternetAddress#getLocalAddress
+ * {@linkplain javax1.mail.internet.InternetAddress#getLocalAddress
  * local address}.)
  *
  * <li>&lt;handler-name&gt;.mail.sender a single address
@@ -327,13 +327,13 @@ import javax.mail.util.ByteArrayDataSource;
  * <p>
  * <b>Error Handling:</b>
  * If the transport of an email message fails, the email is converted to
- * a {@linkplain javax.mail.internet.MimeMessage#writeTo raw}
+ * a {@linkplain javax1.mail.internet.MimeMessage#writeTo raw}
  * {@linkplain java.io.ByteArrayOutputStream#toString(java.lang.String) string}
  * and is then passed as the <tt>msg</tt> parameter to
  * {@linkplain Handler#reportError reportError} along with the exception
  * describing the cause of the failure.  This allows custom error managers to
- * store, {@linkplain javax.mail.internet.MimeMessage#MimeMessage(
- * javax.mail.Session, java.io.InputStream) reconstruct}, and resend the
+ * store, {@linkplain javax1.mail.internet.MimeMessage#MimeMessage(
+ * javax1.mail.Session, java.io.InputStream) reconstruct}, and resend the
  * original MimeMessage.  The message parameter string is <b>not</b> a raw email
  * if it starts with value returned from <tt>Level.SEVERE.getName()</tt>.
  * Custom error managers can use the following test to determine if the
@@ -1383,7 +1383,7 @@ public class MailHandler extends Handler {
         try {
             final ContentType ct = new ContentType(type);
             ct.setParameter("charset", MimeUtility.mimeCharset(encoding));
-            encoding = ct.toString(); //See javax.mail.internet.ContentType.
+            encoding = ct.toString(); //See javax1.mail.internet.ContentType.
             if (!isEmpty(encoding)) {
                 type = encoding;
             }

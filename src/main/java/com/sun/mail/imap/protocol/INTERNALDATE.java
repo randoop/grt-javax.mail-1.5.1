@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -47,9 +47,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.FieldPosition;
 
-import javax.mail.internet.MailDateFormat;
+import javax1.mail.internet.MailDateFormat;
 
-import com.sun.mail.iap.*; 
+import com.sun1.mail.iap.*; 
 
 
 /**

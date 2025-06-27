@@ -38,14 +38,14 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
-import javax.mail.MessagingException;
-import javax.mail.EncodingAware;
+import javax1.mail.MessagingException;
+import javax1.mail.EncodingAware;
 import javax.activation.*;
 import java.util.*;
 import java.io.*;
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 /**
  * This is a utility class that provides various MIME related
@@ -977,8 +977,8 @@ public class MimeUtility {
      * @param	word	word to be quoted
      * @param	specials the set of special characters
      * @return		the possibly quoted word
-     * @see	javax.mail.internet.HeaderTokenizer#MIME
-     * @see	javax.mail.internet.HeaderTokenizer#RFC822
+     * @see	javax1.mail.internet.HeaderTokenizer#MIME
+     * @see	javax1.mail.internet.HeaderTokenizer#RFC822
      */
     public static String quote(String word, String specials) {
 	int len = word == null ? 0 : word.length();
@@ -1289,7 +1289,7 @@ public class MimeUtility {
 	    // Use this class's classloader to load the mapping file
 	    // XXX - we should use SecuritySupport, but it's in another package
 	    InputStream is = 
-		    javax.mail.internet.MimeUtility.class.getResourceAsStream(
+		    javax1.mail.internet.MimeUtility.class.getResourceAsStream(
 		    "/META-INF/javamail.charset.map");
 
 	    if (is != null) {

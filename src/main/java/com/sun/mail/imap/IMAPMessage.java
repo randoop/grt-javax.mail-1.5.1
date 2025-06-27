@@ -38,19 +38,19 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
 import java.util.Date;
 import java.io.*;
 import java.util.*;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax1.mail.*;
+import javax1.mail.internet.*;
 import javax.activation.*;
 
-import com.sun.mail.util.*;
-import com.sun.mail.iap.*;
-import com.sun.mail.imap.protocol.*;
+import com.sun1.mail.util.*;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.imap.protocol.*;
 
 /**
  * This class implements an IMAPMessage object. <p>
@@ -202,7 +202,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Returns -1 if not known; use UIDFolder.getUID() in this case.
      *
      * @return	the UID
-     * @see	javax.mail.UIDFolder#getUID
+     * @see	javax1.mail.UIDFolder#getUID
      */
     protected long getUID() {
 	return uid;
@@ -628,7 +628,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * in MimeMessage. This method is ultimately used by the DataHandler
      * to obtain the input stream for this message.
      *
-     * @see javax.mail.internet.MimeMessage#getContentStream
+     * @see javax1.mail.internet.MimeMessage#getContentStream
      */
     protected InputStream getContentStream() throws MessagingException {
 	InputStream is = null;

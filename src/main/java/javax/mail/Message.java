@@ -38,13 +38,13 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.util.Vector;
 import java.util.Date;
 import java.util.Properties;
 import java.io.*;
-import javax.mail.search.SearchTerm;
+import javax1.mail.search.SearchTerm;
 
 /**
  * This class models an email message. This is an abstract class.  
@@ -77,7 +77,7 @@ import javax.mail.search.SearchTerm;
  * @author John Mani
  * @author Bill Shannon
  * @author Max Spivak
- * @see	   javax.mail.Part
+ * @see	   javax1.mail.Part
  */
 
 public abstract class Message implements Part {
@@ -219,9 +219,9 @@ public abstract class Message implements Part {
      *
      * </pre></blockquote><p>
      *
-     * @see javax.mail.Message#getRecipients
-     * @see javax.mail.Message#setRecipients
-     * @see javax.mail.Message#addRecipients
+     * @see javax1.mail.Message#getRecipients
+     * @see javax1.mail.Message#setRecipients
+     * @see javax1.mail.Message#addRecipients
      */
     public static class RecipientType implements Serializable {
 	/**
@@ -514,7 +514,7 @@ public abstract class Message implements Part {
      * to do that. <p>
      *
      * @return		Flags object containing the flags for this message
-     * @see 		javax.mail.Flags
+     * @see 		javax1.mail.Flags
      * @see 		#setFlags
      * @exception       MessagingException
      */
@@ -528,13 +528,13 @@ public abstract class Message implements Part {
      *
      * @param flag	the flag
      * @return		value of the specified flag for this message
-     * @see 		javax.mail.Flags.Flag
-     * @see		javax.mail.Flags.Flag#ANSWERED
-     * @see		javax.mail.Flags.Flag#DELETED
-     * @see		javax.mail.Flags.Flag#DRAFT
-     * @see		javax.mail.Flags.Flag#FLAGGED
-     * @see		javax.mail.Flags.Flag#RECENT
-     * @see		javax.mail.Flags.Flag#SEEN
+     * @see 		javax1.mail.Flags.Flag
+     * @see		javax1.mail.Flags.Flag#ANSWERED
+     * @see		javax1.mail.Flags.Flag#DELETED
+     * @see		javax1.mail.Flags.Flag#DRAFT
+     * @see		javax1.mail.Flags.Flag#FLAGGED
+     * @see		javax1.mail.Flags.Flag#RECENT
+     * @see		javax1.mail.Flags.Flag#SEEN
      * @exception       MessagingException
      */
     public boolean isSet(Flags.Flag flag) throws MessagingException {
@@ -558,7 +558,7 @@ public abstract class Message implements Part {
      *			of existing values.
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
-     * @see		javax.mail.event.MessageChangedEvent
+     * @see		javax1.mail.event.MessageChangedEvent
      */
     public abstract void setFlags(Flags flag, boolean set)
 				throws MessagingException;
@@ -580,7 +580,7 @@ public abstract class Message implements Part {
      *			of existing values.
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
-     * @see		javax.mail.event.MessageChangedEvent
+     * @see		javax1.mail.event.MessageChangedEvent
      */
     public void setFlag(Flags.Flag flag, boolean set)
 				throws MessagingException {
@@ -709,7 +709,7 @@ public abstract class Message implements Part {
      * @return		true if the Message matches this search
      *			criterion, false otherwise.
      * @exception       MessagingException
-     * @see		javax.mail.search.SearchTerm
+     * @see		javax1.mail.search.SearchTerm
      */
     public boolean match(SearchTerm term) throws MessagingException {
 	return term.match(this);

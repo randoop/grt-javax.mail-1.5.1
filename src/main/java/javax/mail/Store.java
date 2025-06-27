@@ -38,12 +38,12 @@
  * holder.
  */
 
-package javax.mail;
+package javax1.mail;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import javax.mail.event.*;
+import javax1.mail.event.*;
 
 /**
  * An abstract class that models a message store and its
@@ -57,9 +57,9 @@ import javax.mail.event.*;
  * @author John Mani
  * @author Bill Shannon
  *
- * @see javax.mail.Service
- * @see javax.mail.event.ConnectionEvent
- * @see javax.mail.event.StoreEvent
+ * @see javax1.mail.Service
+ * @see javax1.mail.event.ConnectionEvent
+ * @see javax1.mail.event.StoreEvent
  */
 
 public abstract class Store extends Service {
@@ -193,7 +193,7 @@ public abstract class Store extends Service {
      * to an internal list of StoreListeners.
      *
      * @param l         the Listener for Store events
-     * @see             javax.mail.event.StoreEvent
+     * @see             javax1.mail.event.StoreEvent
      */
     public synchronized void addStoreListener(StoreListener l) {
 	if (storeListeners == null)
@@ -246,7 +246,7 @@ public abstract class Store extends Service {
      * to an internal list of FolderListeners.
      *
      * @param l         the Listener for Folder events
-     * @see             javax.mail.event.FolderEvent
+     * @see             javax1.mail.event.FolderEvent
      */
     public synchronized void addFolderListener(FolderListener l) {
    	if (folderListeners == null)

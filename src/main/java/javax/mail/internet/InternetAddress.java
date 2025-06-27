@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.mail.internet;
+package javax1.mail.internet;
 
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -47,8 +47,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Locale;
-import javax.mail.*;
-import com.sun.mail.util.PropUtil;
+import javax1.mail.*;
+import com.sun1.mail.util.PropUtil;
 
 /**
  * This class represents an Internet email address using the syntax

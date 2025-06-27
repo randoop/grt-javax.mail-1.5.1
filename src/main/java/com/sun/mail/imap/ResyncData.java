@@ -38,15 +38,15 @@
  * holder.
  */
 
-package com.sun.mail.imap;
+package com.sun1.mail.imap;
 
-import com.sun.mail.imap.protocol.UIDSet;
+import com.sun1.mail.imap.protocol.UIDSet;
 
 /**
  * Resynchronization data as defined by the QRESYNC extension
  * (<A HREF="http://www.ietf.org/rfc/rfc5162.txt">RFC 5162</A>).
  * An instance of <CODE>ResyncData</CODE> is supplied to the
- * {@link com.sun.mail.imap.IMAPFolder#open(int,com.sun.mail.imap.ResyncData)
+ * {@link com.sun1.mail.imap.IMAPFolder#open(int,com.sun1.mail.imap.ResyncData)
  * IMAPFolder open} method.
  * The CONDSTORE <CODE>ResyncData</CODE> instance is used to enable the
  * CONDSTORE extension

@@ -38,12 +38,12 @@
  * holder.
  */
 
-package com.sun.mail.util;
+package com.sun1.mail.util;
 
 import java.lang.reflect.*;
 import java.security.*;
 
-import javax.mail.internet.MimePart;
+import javax1.mail.internet.MimePart;
 
 /**
  * General MIME-related utility methods.

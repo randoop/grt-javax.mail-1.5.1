@@ -38,9 +38,9 @@
  * holder.
  */
 
-package com.sun.mail.util;
+package com.sun1.mail.util;
 
-import javax.mail.MessagingException;
+import javax1.mail.MessagingException;
 
 /**
  * A MessagingException that indicates a socket connection attempt failed.

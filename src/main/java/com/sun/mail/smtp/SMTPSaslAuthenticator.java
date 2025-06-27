@@ -38,16 +38,16 @@
  * holder.
  */
 
-package com.sun.mail.smtp;
+package com.sun1.mail.smtp;
 
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import javax.security.sasl.*;
 import javax.security.auth.callback.*;
-import javax.mail.MessagingException;
+import javax1.mail.MessagingException;
 
-import com.sun.mail.util.*;
+import com.sun1.mail.util.*;
 
 /**
  * This class contains a single method that does authentication using

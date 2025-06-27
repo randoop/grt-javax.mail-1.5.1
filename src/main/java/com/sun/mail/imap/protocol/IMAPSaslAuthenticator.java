@@ -38,7 +38,7 @@
  * holder.
  */
 
-package com.sun.mail.imap.protocol;
+package com.sun1.mail.imap.protocol;
 
 import java.io.*;
 import java.util.*;
@@ -46,9 +46,9 @@ import java.util.logging.Level;
 import javax.security.sasl.*;
 import javax.security.auth.callback.*;
 
-import com.sun.mail.iap.*;
-import com.sun.mail.imap.*;
-import com.sun.mail.util.*;
+import com.sun1.mail.iap.*;
+import com.sun1.mail.imap.*;
+import com.sun1.mail.util.*;
 
 /**
  * This class contains a single method that does authentication using
