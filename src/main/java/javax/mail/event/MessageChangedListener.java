@@ -40,6 +40,7 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -55,5 +56,6 @@ public interface MessageChangedListener extends java.util.EventListener {
      * @see MessageChangedEvent#FLAGS_CHANGED
      * @see MessageChangedEvent#ENVELOPE_CHANGED
      */
+    @SideEffectFree
     public void messageChanged(MessageChangedEvent e);
 }

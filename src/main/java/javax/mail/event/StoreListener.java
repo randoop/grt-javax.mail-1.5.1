@@ -40,6 +40,7 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -56,5 +57,6 @@ public interface StoreListener extends java.util.EventListener {
     * @see StoreEvent#ALERT
     * @see StoreEvent#NOTICE
     */
+   @SideEffectFree
    public void notification(StoreEvent e);
 }

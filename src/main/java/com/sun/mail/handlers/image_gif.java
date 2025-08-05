@@ -40,6 +40,8 @@
 
 package com.sun1.mail.handlers;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -55,6 +57,7 @@ public class image_gif implements DataContentHandler {
 	"image/gif",
 	"GIF Image");
 
+    @Pure
     protected ActivationDataFlavor getDF() {
 	return myDF;
     }
@@ -64,6 +67,8 @@ public class image_gif implements DataContentHandler {
      *
      * @return The DataFlavors
      */
+    @Pure
+    @Impure
     public DataFlavor[] getTransferDataFlavors() { // throws Exception;
 	return new DataFlavor[] { getDF() };
     }
@@ -75,6 +80,7 @@ public class image_gif implements DataContentHandler {
      * @param ds The DataSource corresponding to the data
      * @return String object
      */
+    @Impure
     public Object getTransferData(DataFlavor df, DataSource ds)
 			throws IOException {
 	// use myDF.equals to be sure to get ActivationDataFlavor.equals,
@@ -85,6 +91,7 @@ public class image_gif implements DataContentHandler {
 	    return null;
     }
 
+    @Impure
     public Object getContent(DataSource ds) throws IOException {
 	InputStream is = ds.getInputStream();
 	int pos = 0;
@@ -111,6 +118,7 @@ public class image_gif implements DataContentHandler {
     /**
      * Write the object to the output stream, using the specified MIME type.
      */
+    @Impure
     public void writeTo(Object obj, String type, OutputStream os)
 			throws IOException {
 	if (!(obj instanceof Image))

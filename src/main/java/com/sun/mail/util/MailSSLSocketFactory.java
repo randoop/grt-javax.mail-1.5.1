@@ -40,6 +40,9 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import java.net.*;
 import java.security.*;
@@ -90,6 +93,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * 
      * @throws  GeneralSecurityException
      */
+    @Impure
     public MailSSLSocketFactory() throws GeneralSecurityException {
 	this("TLS");
     }
@@ -101,6 +105,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * @param   protocol  The protocol to use
      * @throws  NoSuchAlgorithmException if given protocol is not supported
      */
+    @Impure
     public MailSSLSocketFactory(String protocol)
 				throws GeneralSecurityException {
 
@@ -125,6 +130,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * KeyManager array, TrustManager array and SecureRandom and
      * sets it to the instance var adapteeFactory.
      */
+    @Impure
     private synchronized void newAdapteeFactory()
 				throws KeyManagementException {
 	sslcontext.init(keyManagers, trustManagers, secureRandom);
@@ -136,6 +142,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @return the keyManagers
      */
+    @SideEffectFree
     public synchronized KeyManager[] getKeyManagers() {
 	return (KeyManager[])keyManagers.clone();
     }
@@ -143,6 +150,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @param keyManagers the keyManagers to set
      */
+    @Impure
     public synchronized void setKeyManagers(KeyManager[] keyManagers)
 				throws GeneralSecurityException  {
 	this.keyManagers = (KeyManager[])keyManagers.clone();
@@ -152,6 +160,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @return the secureRandom
      */
+    @Pure
     public synchronized SecureRandom getSecureRandom() {
 	return secureRandom;
     }
@@ -159,6 +168,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @param secureRandom the secureRandom to set
      */
+    @Impure
     public synchronized void setSecureRandom(SecureRandom secureRandom)
 				throws GeneralSecurityException  {
 	this.secureRandom = secureRandom;
@@ -168,6 +178,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @return the trustManagers
      */
+    @Pure
     public synchronized TrustManager[] getTrustManagers() {
 	return trustManagers;
     }
@@ -175,6 +186,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @param trustManagers the trustManagers to set
      */
+    @Impure
     public synchronized void setTrustManagers(TrustManager[] trustManagers)
 				throws GeneralSecurityException {
 	this.trustManagers = trustManagers;
@@ -184,6 +196,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @return	true if all hosts should be trusted
      */
+    @Pure
     public synchronized boolean isTrustAllHosts() {
 	return trustAllHosts;
     }
@@ -191,6 +204,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @param	trustAllHosts should all hosts be trusted?
      */
+    @Impure
     public synchronized void setTrustAllHosts(boolean trustAllHosts) {
 	this.trustAllHosts = trustAllHosts;
     }
@@ -198,6 +212,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @return	the trusted hosts
      */
+    @SideEffectFree
     public synchronized String[] getTrustedHosts() {
 	return (String[])trustedHosts.clone();
     }
@@ -205,6 +220,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
     /**
      * @param	trustedHosts the hosts to trust
      */
+    @Impure
     public synchronized void setTrustedHosts(String[] trustedHosts) {
 	this.trustedHosts = (String[])trustedHosts.clone();
     }
@@ -218,6 +234,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * @return  true  if "trustAllHosts" is set to true OR the server
      *		is contained in the "trustedHosts" array;
      */
+    @SideEffectFree
     public synchronized boolean isServerTrusted(String server,
 				SSLSocket sslSocket) {
 
@@ -244,6 +261,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      *						java.lang.String, int, boolean)
      */
     //@Override
+    @Impure
     public synchronized Socket createSocket(Socket socket, String s, int i,
 				boolean flag) throws IOException {
 	return adapteeFactory.createSocket(socket, s, i, flag);
@@ -253,6 +271,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * @see javax.net.ssl.SSLSocketFactory#getDefaultCipherSuites()
      */
     //@Override
+    @Impure
     public synchronized String[] getDefaultCipherSuites() {
 	return adapteeFactory.getDefaultCipherSuites();
     }
@@ -261,6 +280,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * @see javax.net.ssl.SSLSocketFactory#getSupportedCipherSuites()
      */
     //@Override
+    @Impure
     public synchronized String[] getSupportedCipherSuites() {
 	return adapteeFactory.getSupportedCipherSuites();
     }
@@ -269,6 +289,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * @see javax.net.SocketFactory#createSocket()
      */
     //@Override
+    @Impure
     public synchronized Socket createSocket() throws IOException {
 	return adapteeFactory.createSocket();
     }
@@ -278,6 +299,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      *						java.net.InetAddress, int)
      */
     //@Override
+    @Impure
     public synchronized Socket createSocket(InetAddress inetaddress, int i,
 			InetAddress inetaddress1, int j) throws IOException {
 	return adapteeFactory.createSocket(inetaddress, i, inetaddress1, j);
@@ -287,6 +309,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * @see javax.net.SocketFactory#createSocket(java.net.InetAddress, int)
      */
     //@Override
+    @Impure
     public synchronized Socket createSocket(InetAddress inetaddress, int i)
 				throws IOException {
 	return adapteeFactory.createSocket(inetaddress, i);
@@ -297,6 +320,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      *						java.net.InetAddress, int)
      */
     //@Override
+    @Impure
     public synchronized Socket createSocket(String s, int i,
 				InetAddress inetaddress, int j)
 				throws IOException, UnknownHostException {
@@ -307,6 +331,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
      * @see javax.net.SocketFactory#createSocket(java.lang.String, int)
      */
     //@Override
+    @Impure
     public synchronized Socket createSocket(String s, int i)
 				throws IOException, UnknownHostException {
 	return adapteeFactory.createSocket(s, i);
@@ -328,6 +353,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
 	/**
 	 * Initializes a new TrustManager instance.
 	 */
+	@Impure
 	private MailTrustManager() throws GeneralSecurityException {
 	    TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
 	    tmf.init((KeyStore)null);
@@ -338,6 +364,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
 	 * @see javax.net.ssl.X509TrustManager#checkClientTrusted(
 	 *		java.security.cert.X509Certificate[], java.lang.String)
 	 */
+	@Impure
 	public void checkClientTrusted(X509Certificate[] certs, String authType)
 					throws CertificateException {
 	    if (!(isTrustAllHosts() || getTrustedHosts() != null))
@@ -348,6 +375,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
 	 * @see javax.net.ssl.X509TrustManager#checkServerTrusted(
 	 *		java.security.cert.X509Certificate[], java.lang.String)
 	 */
+	@Impure
 	public void checkServerTrusted(X509Certificate[] certs, String authType)
 					throws CertificateException {
 
@@ -358,6 +386,7 @@ public class MailSSLSocketFactory extends SSLSocketFactory {
 	/* (non-Javadoc)
 	 * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
 	 */
+	@Impure
 	public X509Certificate[] getAcceptedIssuers() {
 	    return adapteeTrustManager.getAcceptedIssuers();
 	}

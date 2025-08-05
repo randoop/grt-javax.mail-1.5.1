@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import javax1.mail.*;
 import com.sun1.mail.imap.protocol.*;
@@ -60,6 +62,7 @@ public class IMAPNestedMessage extends IMAPMessage {
      * Note that nested messages have no containing folder, nor 
      * a message number.
      */
+    @Impure
     IMAPNestedMessage(IMAPMessage m, BODYSTRUCTURE b, ENVELOPE e, String sid) {
 	super(m._getSession());
 	msg = m;
@@ -73,6 +76,7 @@ public class IMAPNestedMessage extends IMAPMessage {
      * Get the enclosing message's Protocol object. Overrides
      * IMAPMessage.getProtocol().
      */
+    @Impure
     protected IMAPProtocol getProtocol()
 			throws ProtocolException, FolderClosedException {
 	return msg.getProtocol();
@@ -81,6 +85,7 @@ public class IMAPNestedMessage extends IMAPMessage {
     /*
      * Is this an IMAP4 REV1 server?
      */
+    @Impure
     protected boolean isREV1() throws FolderClosedException {
 	return msg.isREV1();
     }
@@ -89,6 +94,7 @@ public class IMAPNestedMessage extends IMAPMessage {
      * Get the enclosing message's messageCacheLock. Overrides
      * IMAPMessage.getMessageCacheLock().
      */
+    @Impure
     protected Object getMessageCacheLock() {
 	return msg.getMessageCacheLock();
     }
@@ -97,6 +103,7 @@ public class IMAPNestedMessage extends IMAPMessage {
      * Get the enclosing message's sequence number. Overrides
      * IMAPMessage.getSequenceNumber().
      */
+    @Impure
     protected int getSequenceNumber() {
 	return msg.getSequenceNumber();
     }
@@ -105,6 +112,7 @@ public class IMAPNestedMessage extends IMAPMessage {
      * Check whether the enclosing message is expunged. Overrides 
      * IMAPMessage.checkExpunged().
      */
+    @Impure
     protected void checkExpunged() throws MessageRemovedException {
 	msg.checkExpunged();
     }
@@ -113,6 +121,7 @@ public class IMAPNestedMessage extends IMAPMessage {
      * Check whether the enclosing message is expunged. Overrides
      * Message.isExpunged().
      */
+    @Impure
     public boolean isExpunged() {
 	return msg.isExpunged();
     }
@@ -120,6 +129,7 @@ public class IMAPNestedMessage extends IMAPMessage {
     /*
      * Get the enclosing message's fetchBlockSize. 
      */
+    @Impure
     protected int getFetchBlockSize() {
 	return msg.getFetchBlockSize();
     }
@@ -127,6 +137,7 @@ public class IMAPNestedMessage extends IMAPMessage {
     /*
      * Get the enclosing message's ignoreBodyStructureSize. 
      */
+    @Impure
     protected boolean ignoreBodyStructureSize() {
 	return msg.ignoreBodyStructureSize();
     }
@@ -135,6 +146,7 @@ public class IMAPNestedMessage extends IMAPMessage {
      * IMAPMessage uses RFC822.SIZE. We use the "size" field from
      * our BODYSTRUCTURE.
      */
+    @Pure
     public int getSize() throws MessagingException {
 	return bs.size;
     }
@@ -142,6 +154,7 @@ public class IMAPNestedMessage extends IMAPMessage {
     /*
      * Disallow setting flags on nested messages
      */
+    @Impure
     public synchronized void setFlags(Flags flag, boolean set) 
 			throws MessagingException {
 	// Cannot set FLAGS on a nested IMAP message	

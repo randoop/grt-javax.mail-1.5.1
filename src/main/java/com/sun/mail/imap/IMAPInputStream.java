@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import javax1.mail.*;
 import com.sun1.mail.imap.protocol.*;
@@ -75,6 +77,7 @@ public class IMAPInputStream extends InputStream {
     /**
      * Create an IMAPInputStream.
      */
+    @Impure
     public IMAPInputStream(IMAPMessage msg, String section, int max,
 				boolean peek) {
 	this.msg = msg;
@@ -89,6 +92,7 @@ public class IMAPInputStream extends InputStream {
      * Do a NOOP to force any untagged EXPUNGE responses
      * and then check if this message is expunged.
      */
+    @Impure
     private void forceCheckExpunged()
 		    throws MessageRemovedIOException, FolderClosedIOException {
 	synchronized (msg.getMessageCacheLock()) {
@@ -112,6 +116,7 @@ public class IMAPInputStream extends InputStream {
      * Fetch more data from the server. This method assumes that all
      * data has already been read in, hence bufpos > bufcount.
      */
+    @Impure
     private void fill() throws IOException {
 	/*
 	 * If we've read the last buffer, there's no more to read.
@@ -182,6 +187,7 @@ public class IMAPInputStream extends InputStream {
      * Reads the next byte of data from this buffered input stream.
      * If no byte is available, the value <code>-1</code> is returned.
      */
+    @Impure
     public synchronized int read() throws IOException {
 	if (bufpos >= bufcount) {
 	    fill();
@@ -205,6 +211,7 @@ public class IMAPInputStream extends InputStream {
      * the return value to insure that they have obtained the
      * requisite number of bytes.
      */
+    @Impure
     public synchronized int read(byte b[], int off, int len) 
 		throws IOException {
 
@@ -235,6 +242,7 @@ public class IMAPInputStream extends InputStream {
      * the return value to insure that they have obtained the
      * requisite number of bytes.
      */
+    @Impure
     public int read(byte b[]) throws IOException {
 	return read(b, 0, b.length);
     }
@@ -243,6 +251,7 @@ public class IMAPInputStream extends InputStream {
      * Returns the number of bytes that can be read from this input
      * stream without blocking.
      */
+    @Pure
     public synchronized int available() throws IOException {
 	return (bufcount - bufpos);
     }
@@ -254,6 +263,7 @@ public class IMAPInputStream extends InputStream {
      * And of course, if there's no folder (e.g., a nested message)
      * don't do anything.
      */
+    @Impure
     private void checkSeen() {
 	if (peek)	// if we're peeking, don't set the SEEN flag
 	    return;

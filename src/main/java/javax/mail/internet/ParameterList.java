@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import java.io.*;
 import com.sun1.mail.util.PropUtil;
@@ -186,14 +189,17 @@ public class ParameterList {
     private static class ParamEnum implements Enumeration {
 	private Iterator it;
 
+	@SideEffectFree
 	ParamEnum(Iterator it) {
 	    this.it = it;
 	}
 
+	@Pure
 	public boolean hasMoreElements() {
 	    return it.hasNext();
 	}
 
+	@Impure
 	public Object nextElement() {
 	    return it.next();
 	}
@@ -202,6 +208,7 @@ public class ParameterList {
     /**
      * No-arg Constructor.
      */
+    @Impure
     public ParameterList() { 
 	// initialize other collections only if they'll be needed
 	if (decodeParameters) {
@@ -220,6 +227,7 @@ public class ParameterList {
      * @param	s	the parameter-list string.
      * @exception	ParseException if the parse fails.
      */
+    @Impure
     public ParameterList(String s) throws ParseException {
 	this();
 
@@ -318,6 +326,7 @@ public class ParameterList {
      *
      * @since	JavaMail 1.5
      */ 
+    @Impure
     public void combineSegments() {
 	/*
 	 * If we've accumulated any multi-segment names from calls to
@@ -344,6 +353,7 @@ public class ParameterList {
      * to appear in the position of the first seen segment of the
      * parameter.
      */
+    @Impure
     private void putEncodedName(String name, String value)
 				throws ParseException {
 	int star = name.indexOf('*');
@@ -393,6 +403,7 @@ public class ParameterList {
      * a single decoded value, and save all segments in a MultiValue object
      * in the main list indexed by the parameter name.
      */
+    @Impure
     private void combineMultisegmentNames(boolean keepConsistentOnFailure)
 				throws ParseException {
 	boolean success = false;
@@ -500,6 +511,7 @@ public class ParameterList {
      * 
      * @return  number of parameters.
      */
+    @Pure
     public int size() {
 	return list.size();
     }
@@ -513,6 +525,7 @@ public class ParameterList {
      *			<code>null</code> if the parameter is not 
      *			present.
      */
+    @SideEffectFree
     public String get(String name) {
 	String value;
 	Object v = list.get(name.trim().toLowerCase(Locale.ENGLISH));
@@ -532,6 +545,7 @@ public class ParameterList {
      * @param	name 	name of the parameter.
      * @param	value	value of the parameter.
      */
+    @Impure
     public void set(String name, String value) {
 	name = name.trim().toLowerCase(Locale.ENGLISH);
 	if (decodeParameters) {
@@ -557,6 +571,7 @@ public class ParameterList {
      * @param	charset	charset of the parameter value.
      * @since	JavaMail 1.4
      */
+    @Impure
     public void set(String name, String value, String charset) {
 	if (encodeParameters) {
 	    Value ev = encodeValue(value, charset);
@@ -575,6 +590,7 @@ public class ParameterList {
      *
      * @param	name	name of the parameter.
      */
+    @Impure
     public void remove(String name) {
 	list.remove(name.trim().toLowerCase(Locale.ENGLISH));
     }
@@ -585,6 +601,8 @@ public class ParameterList {
      *
      * @return Enumeration of all parameter names in this list.
      */
+    @SideEffectFree
+    @Impure
     public Enumeration getNames() {
 	return new ParamEnum(list.keySet().iterator());
     }
@@ -595,6 +613,7 @@ public class ParameterList {
      *
      * @return		String
      */
+    @Impure
     public String toString() {
 	return toString(0);
     }
@@ -613,6 +632,7 @@ public class ParameterList {
      *                  be inserted.
      * @return          String
      */  
+    @Impure
     public String toString(int used) {
         ToStringBuffer sb = new ToStringBuffer(used);
         Iterator e = list.keySet().iterator();
@@ -647,10 +667,12 @@ public class ParameterList {
 	private int used;	// keep track of how much used on current line
 	private StringBuffer sb = new StringBuffer();
 
+	@SideEffectFree
 	public ToStringBuffer(int used) {
 	    this.used = used;
 	}
 
+	@Impure
 	public void addNV(String name, String value) {
 	    value = quote(value);
 	    sb.append("; ");
@@ -677,12 +699,14 @@ public class ParameterList {
 	    }
 	}
 
+	@SideEffectFree
 	public String toString() {
 	    return sb.toString();
 	}
     }
  
     // Quote a parameter value token if required.
+    @Impure
     private static String quote(String value) {
 	return MimeUtility.quote(value, HeaderTokenizer.MIME);
     }
@@ -698,6 +722,7 @@ public class ParameterList {
      * Otherwise, null is returned.
      * XXX - Could return a MultiValue object if parameter value is too long.
      */
+    @Impure
     private static Value encodeValue(String value, String charset) {
 	if (MimeUtility.checkAscii(value) == MimeUtility.ALL_ASCII)
 	    return null;	// no need to encode it
@@ -730,6 +755,7 @@ public class ParameterList {
      * Extract charset and encoded value.
      * Value will be decoded later.
      */
+    @Impure
     private static Value extractCharset(String value) throws ParseException {
 	Value v = new Value();
 	v.value = v.encodedValue = value;
@@ -765,6 +791,7 @@ public class ParameterList {
     /**
      * Decode the encoded bytes in value using the specified charset.
      */
+    @Impure
     private static String decodeBytes(String value, String charset)
 			throws ParseException, UnsupportedEncodingException {
 	/*
@@ -804,6 +831,7 @@ public class ParameterList {
     /**
      * Decode the encoded bytes in value and write them to the OutputStream.
      */
+    @Impure
     private static void decodeBytes(String value, OutputStream os)
 				throws ParseException, IOException {
 	/*

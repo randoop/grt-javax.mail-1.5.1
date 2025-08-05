@@ -40,6 +40,9 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import javax1.mail.*;
 
@@ -97,6 +100,7 @@ public class TransportEvent extends MailEvent {
      * Constructor.
      * @param transport  The Transport object
      */
+    @Impure
     public TransportEvent(Transport transport, int type, Address[] validSent,
 			  Address[] validUnsent, Address[] invalid,
 			  Message msg) {
@@ -112,6 +116,7 @@ public class TransportEvent extends MailEvent {
      * Return the type of this event.
      * @return  type
      */
+    @Pure
     public int getType() {
 	return type;
     }
@@ -120,6 +125,7 @@ public class TransportEvent extends MailEvent {
      * Return the addresses to which this message was sent succesfully.
      * @return Addresses to which the message was sent successfully or null
      */
+    @Pure
     public Address[] getValidSentAddresses() {
 	return validSent;
     }
@@ -130,6 +136,7 @@ public class TransportEvent extends MailEvent {
      * @return Addresses that are valid but to which the message was 
      *         not sent successfully or null
      */
+    @Pure
     public Address[] getValidUnsentAddresses() {
 	return validUnsent;
     }
@@ -138,6 +145,7 @@ public class TransportEvent extends MailEvent {
      * Return the addresses to which this message could not be sent.
      * @return Addresses to which the message sending failed or null
      */
+    @Pure
     public Address[] getInvalidAddresses() {
 	return invalid;
     }
@@ -148,6 +156,7 @@ public class TransportEvent extends MailEvent {
      * @return          the Message object
      * @since		JavaMail 1.2
      */  
+    @Pure
     public Message getMessage() {
         return msg;
     }
@@ -155,6 +164,8 @@ public class TransportEvent extends MailEvent {
     /**
      * Invokes the appropriate TransportListener method.
      */
+    @SideEffectFree
+    @Impure
     public void dispatch(Object listener) {
 	if (type == MESSAGE_DELIVERED)	
 	    ((TransportListener)listener).messageDelivered(this);

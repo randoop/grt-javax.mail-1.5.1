@@ -40,6 +40,8 @@
 
 package com.sun1.mail.iap;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.*;
@@ -56,6 +58,7 @@ public class Argument {
     /**
      * Constructor
      */
+    @SideEffectFree
     public Argument() {
 	items = new ArrayList(1);
     }
@@ -65,6 +68,7 @@ public class Argument {
      * from the source argument are copied into this destination
      * argument.
      */
+    @Impure
     public Argument append(Argument arg) {
 	items.addAll(arg.items);
 	return this;
@@ -79,6 +83,7 @@ public class Argument {
      *
      * @param s  String to write out
      */
+    @Impure
     public Argument writeString(String s) {
 	items.add(new AString(ASCIIUtility.getBytes(s)));
 	return this;
@@ -88,6 +93,7 @@ public class Argument {
      * Convert the given string into bytes in the specified
      * charset, and write the bytes out as an ASTRING
      */
+    @Impure
     public Argument writeString(String s, String charset)
 		throws UnsupportedEncodingException {
 	if (charset == null) // convenience
@@ -105,6 +111,7 @@ public class Argument {
      * @param s  String to write out
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public Argument writeNString(String s) {
 	if (s == null)
 	    items.add(new NString(null));
@@ -119,6 +126,7 @@ public class Argument {
      *
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public Argument writeNString(String s, String charset)
 		throws UnsupportedEncodingException {
 	if (s == null)
@@ -134,6 +142,7 @@ public class Argument {
      * Write out given byte[] as a Literal.
      * @param b  byte[] to write out
      */
+    @Impure
     public Argument writeBytes(byte[] b)  {
 	items.add(b);
 	return this;
@@ -143,6 +152,7 @@ public class Argument {
      * Write out given ByteArrayOutputStream as a Literal.
      * @param b  ByteArrayOutputStream to be written out.
      */
+    @Impure
     public Argument writeBytes(ByteArrayOutputStream b)  {
 	items.add(b);
 	return this;
@@ -152,6 +162,7 @@ public class Argument {
      * Write out given data as a literal.
      * @param b  Literal representing data to be written out.
      */
+    @Impure
     public Argument writeBytes(Literal b)  {
 	items.add(b);
 	return this;
@@ -163,6 +174,7 @@ public class Argument {
      * in the string.
      * @param s  String
      */
+    @Impure
     public Argument writeAtom(String s) {
 	items.add(new Atom(s));
 	return this;
@@ -172,6 +184,7 @@ public class Argument {
      * Write out number.
      * @param i number
      */
+    @Impure
     public Argument writeNumber(int i) {
 	items.add(Integer.valueOf(i));
 	return this;
@@ -181,6 +194,7 @@ public class Argument {
      * Write out number.
      * @param i number
      */
+    @Impure
     public Argument writeNumber(long i) {
 	items.add(Long.valueOf(i));
 	return this;
@@ -189,6 +203,7 @@ public class Argument {
     /**
      * Write out as parenthesised list.
      */
+    @Impure
     public Argument writeArgument(Argument c) {
 	items.add(c);
 	return this;
@@ -197,6 +212,7 @@ public class Argument {
     /*
      * Write out all the buffered items into the output stream.
      */
+    @Impure
     public void write(Protocol protocol) 
 		throws IOException, ProtocolException {
 	int size = items != null ? items.size() : 0;
@@ -232,6 +248,7 @@ public class Argument {
     /**
      * Write out given String as either an Atom, QuotedString or Literal
      */
+    @Impure
     private void astring(byte[] bytes, Protocol protocol) 
 			throws IOException, ProtocolException {
 	nastring(bytes, protocol, false);
@@ -240,6 +257,7 @@ public class Argument {
     /**
      * Write out given String as either NIL, QuotedString, or Literal.
      */
+    @Impure
     private void nstring(byte[] bytes, Protocol protocol) 
 			throws IOException, ProtocolException {
 	if (bytes == null) {
@@ -249,6 +267,7 @@ public class Argument {
 	    nastring(bytes, protocol, true);
     }
 
+    @Impure
     private void nastring(byte[] bytes, Protocol protocol, boolean doQuote) 
 			throws IOException, ProtocolException {
 	DataOutputStream os = (DataOutputStream)protocol.getOutputStream();
@@ -315,6 +334,7 @@ public class Argument {
     /**
      * Write out given byte[] as a literal
      */
+    @Impure
     private void literal(byte[] b, Protocol protocol) 
 			throws IOException, ProtocolException {
 	startLiteral(protocol, b.length).write(b);
@@ -323,6 +343,7 @@ public class Argument {
     /**
      * Write out given ByteArrayOutputStream as a literal.
      */
+    @Impure
     private void literal(ByteArrayOutputStream b, Protocol protocol) 
 			throws IOException, ProtocolException {
 	b.writeTo(startLiteral(protocol, b.size()));
@@ -331,11 +352,13 @@ public class Argument {
     /**
      * Write out given Literal as a literal.
      */
+    @Impure
     private void literal(Literal b, Protocol protocol) 
 			throws IOException, ProtocolException {
 	b.writeTo(startLiteral(protocol, b.size()));
     }
 
+    @Impure
     private OutputStream startLiteral(Protocol protocol, int size) 
 			throws IOException, ProtocolException {
 	DataOutputStream os = (DataOutputStream)protocol.getOutputStream();
@@ -369,6 +392,7 @@ public class Argument {
 class Atom {
     String string;
 
+    @SideEffectFree
     Atom(String s) {
 	string = s;
     }
@@ -377,6 +401,7 @@ class Atom {
 class AString {
     byte[] bytes;
 
+    @SideEffectFree
     AString(byte[] b) {
 	bytes = b;
     }
@@ -385,6 +410,7 @@ class AString {
 class NString {
     byte[] bytes;
 
+    @SideEffectFree
     NString(byte[] b) {
 	bytes = b;
     }

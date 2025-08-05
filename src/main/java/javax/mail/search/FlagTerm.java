@@ -40,6 +40,9 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import javax1.mail.*;
 
 /**
@@ -75,6 +78,7 @@ public final class FlagTerm extends SearchTerm {
      * @param flags	Flags object containing the flags to check for
      * @param set	the flag setting to check for
      */
+    @Impure
     public FlagTerm(Flags flags, boolean set) {
 	this.flags = flags;
 	this.set = set;
@@ -83,6 +87,7 @@ public final class FlagTerm extends SearchTerm {
     /**
      * Return the Flags to test.
      */
+    @SideEffectFree
     public Flags getFlags() {
 	return (Flags)flags.clone();
     }
@@ -90,6 +95,7 @@ public final class FlagTerm extends SearchTerm {
     /**
      * Return true if testing whether the flags are set.
      */
+    @Pure
     public boolean getTestSet() {
 	return set;
     }
@@ -100,6 +106,7 @@ public final class FlagTerm extends SearchTerm {
      * @param msg	The flag comparison is applied to this Message
      * @return		true if the comparson succeeds, otherwise false.
      */
+    @Impure
     public boolean match(Message msg) {
 
 	try {
@@ -145,6 +152,7 @@ public final class FlagTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof FlagTerm))
 	    return false;
@@ -155,6 +163,7 @@ public final class FlagTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return set ? flags.hashCode() : ~flags.hashCode();
     }

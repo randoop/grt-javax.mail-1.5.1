@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 
@@ -54,10 +55,12 @@ public class CRLFOutputStream extends FilterOutputStream {
     protected boolean atBOL = true;	// at beginning of line?
     private static final byte[] newline = { (byte)'\r', (byte)'\n' };
 
+    @Impure
     public CRLFOutputStream(OutputStream os) {
 	super(os);
     }
 
+    @Impure
     public void write(int b) throws IOException {
 	if (b == '\r') {
 	    writeln();
@@ -71,10 +74,12 @@ public class CRLFOutputStream extends FilterOutputStream {
 	lastb = b;
     }
 
+    @Impure
     public void write(byte b[]) throws IOException {
 	write(b, 0, b.length);
     }
 
+    @Impure
     public void write(byte b[], int off, int len) throws IOException {
 	int start = off;
 	
@@ -102,6 +107,7 @@ public class CRLFOutputStream extends FilterOutputStream {
     /*
      * Just write out a new line, something similar to out.println()
      */
+    @Impure
     public void writeln() throws IOException {
         out.write(newline);
 	atBOL = true;

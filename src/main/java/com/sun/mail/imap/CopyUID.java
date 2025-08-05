@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.sun1.mail.imap.protocol.UIDSet;
 
 /**
@@ -55,6 +56,7 @@ public class CopyUID {
     public UIDSet[] src;
     public UIDSet[] dst;
 
+    @SideEffectFree
     public CopyUID(long uidvalidity, UIDSet[] src, UIDSet[] dst) {
 	this.uidvalidity = uidvalidity;
 	this.src = src;

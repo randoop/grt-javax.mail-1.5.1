@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import com.sun1.mail.iap.*; 
 
 /**
@@ -58,6 +59,7 @@ public class UID implements Item {
     /**
      * Constructor
      */
+    @Impure
     public UID(FetchResponse r) throws ParsingException {
 	seqnum = r.getNumber();
 	r.skipSpaces();

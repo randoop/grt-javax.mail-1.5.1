@@ -40,6 +40,8 @@
 
 package com.sun1.mail.pop3;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import java.net.*;
 import java.io.*;
@@ -60,6 +62,7 @@ class TempFile {
      * Create a temp file in the specified directory (if not null).
      * The file will be deleted when the JVM exits.
      */
+    @Impure
     public TempFile(File dir) throws IOException {
 	file = File.createTempFile("pop3.", ".mbox", dir);
 	// XXX - need JDK 6 to set permissions on the file to owner-only
@@ -70,6 +73,7 @@ class TempFile {
     /**
      * Return a stream for appending to the temp file.
      */
+    @Impure
     public AppendStream getAppendStream() throws IOException {
 	return sf.getAppendStream();
     }
@@ -77,6 +81,7 @@ class TempFile {
     /**
      * Close and remove this temp file.
      */
+    @Impure
     public void close() {
 	try {
 	    sf.close();
@@ -86,6 +91,7 @@ class TempFile {
 	file.delete();
     }
 
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	close();
@@ -99,6 +105,7 @@ class WritableSharedFile extends SharedFileInputStream {
     private RandomAccessFile raf;
     private AppendStream af;
 
+    @Impure
     public WritableSharedFile(File file) throws IOException {
 	super(file);
 	try {
@@ -113,6 +120,7 @@ class WritableSharedFile extends SharedFileInputStream {
     /**
      * Return the writable version of this file.
      */
+    @Pure
     public RandomAccessFile getWritableFile() {
 	return raf;
     }
@@ -120,6 +128,7 @@ class WritableSharedFile extends SharedFileInputStream {
     /**
      * Close the readable and writable files.
      */
+    @Impure
     public void close() throws IOException {
 	try {
 	    super.close();
@@ -133,6 +142,7 @@ class WritableSharedFile extends SharedFileInputStream {
      * to the file.  Updates the length to be the current
      * size of the file.
      */
+    @Impure
     synchronized long updateLength() throws IOException {
 	datalen = in.length();
 	af = null;
@@ -142,6 +152,7 @@ class WritableSharedFile extends SharedFileInputStream {
     /**
      * Return a new AppendStream, but only if one isn't in active use.
      */
+    @Impure
     public synchronized AppendStream getAppendStream() throws IOException {
 	if (af != null)
 	    throw new IOException(
@@ -163,6 +174,7 @@ class AppendStream extends OutputStream {
     private final long start;
     private long end;
 
+    @Impure
     public AppendStream(WritableSharedFile tf) throws IOException {
 	this.tf = tf;
 	raf = tf.getWritableFile();
@@ -170,23 +182,28 @@ class AppendStream extends OutputStream {
 	raf.seek(start);
     }
 
+    @Impure
     public void write(int b) throws IOException {
 	raf.write(b);
     }
 
+    @Impure
     public void write(byte[] b) throws IOException {
 	raf.write(b);
     }
 
+    @Impure
     public void write(byte[] b, int off, int len) throws IOException {
 	raf.write(b, off, len);
     }
 
+    @Impure
     public synchronized void close() throws IOException {
 	end = tf.updateLength();
 	raf = null;	// no more writing allowed
     }
 
+    @Impure
     public synchronized InputStream getInputStream() throws IOException {
 	return tf.newStream(start, end);
     }

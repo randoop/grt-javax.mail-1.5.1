@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -53,8 +56,10 @@ public class UIDSet {
     public long start;
     public long end;
 
+    @SideEffectFree
     public UIDSet() { }
 
+    @SideEffectFree
     public UIDSet(long start, long end) {
 	this.start = start;
 	this.end = end;
@@ -63,6 +68,7 @@ public class UIDSet {
     /**
      * Count the total number of elements in a UIDSet
      */
+    @Pure
     public long size() {
 	return end - start + 1;
     }
@@ -70,6 +76,7 @@ public class UIDSet {
     /**
      * Convert an array of longs into an array of UIDSets
      */
+    @Impure
     public static UIDSet[] createUIDSets(long[] uids) {
 	if (uids == null)
 	    return null;
@@ -98,6 +105,7 @@ public class UIDSet {
      *
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public static UIDSet[] parseUIDSets(String uids) {
 	if (uids == null)
 	    return null;
@@ -134,6 +142,7 @@ public class UIDSet {
     /**
      * Convert an array of UIDSets into an IMAP sequence range.
      */
+    @Impure
     public static String toString(UIDSet[] uidset) {
 	if (uidset == null)
 	    return null;
@@ -168,6 +177,7 @@ public class UIDSet {
      *
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public static long[] toArray(UIDSet[] uidset) {
 	//return toArray(uidset, -1);
 	if (uidset == null)
@@ -187,6 +197,7 @@ public class UIDSet {
      *
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public static long[] toArray(UIDSet[] uidset, long uidmax) {
 	if (uidset == null)
 	    return null;
@@ -205,6 +216,8 @@ public class UIDSet {
     /**
      * Count the total number of elements in an array of UIDSets.
      */
+    @Pure
+    @Impure
     public static long size(UIDSet[] uidset) {
 	long count = 0;
 
@@ -221,6 +234,8 @@ public class UIDSet {
      *
      * @since	JavaMail 1.5.1
      */
+    @Pure
+    @Impure
     private static long size(UIDSet[] uidset, long uidmax) {
 	long count = 0;
 

@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Flags;
 import com.sun1.mail.iap.*; 
 
@@ -60,6 +61,7 @@ public class FLAGS extends Flags implements Item {
     /**
      * Constructor
      */
+    @Impure
     public FLAGS(IMAPResponse r) throws ParsingException {
 	msgno = r.getNumber();
 

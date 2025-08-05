@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 import javax1.mail.*;
 
@@ -60,6 +62,7 @@ public final class BodyTerm extends StringTerm {
      * Constructor
      * @param pattern	The String to search for
      */
+    @Impure
     public BodyTerm(String pattern) {
 	// Note: comparison is case-insensitive
 	super(pattern);
@@ -71,6 +74,7 @@ public final class BodyTerm extends StringTerm {
      * @param msg	The pattern search is applied on this Message's body
      * @return		true if the pattern is found; otherwise false 
      */
+    @Impure
     public boolean match(Message msg) {
 	return matchPart(msg);
     }
@@ -79,6 +83,7 @@ public final class BodyTerm extends StringTerm {
      * Search all the parts of the message for any text part
      * that matches the pattern.
      */
+    @Impure
     private boolean matchPart(Part p) {
 	try {
 	    /*
@@ -117,6 +122,7 @@ public final class BodyTerm extends StringTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof BodyTerm))
 	    return false;

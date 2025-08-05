@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.lang.reflect.*;
 
 import javax1.mail.FetchProfile;
@@ -57,15 +59,18 @@ public abstract class FetchItem {
     private String name;
     private FetchProfile.Item fetchProfileItem;
 
+    @SideEffectFree
     public FetchItem(String name, FetchProfile.Item fetchProfileItem) {
 	this.name = name;
 	this.fetchProfileItem = fetchProfileItem;
     }
 
+    @Pure
     public String getName() {
 	return name;
     }
 
+    @Pure
     public FetchProfile.Item getFetchProfileItem() {
 	return fetchProfileItem;
     }
@@ -74,5 +79,6 @@ public abstract class FetchItem {
      * Parse the item into some kind of object appropriate for the item.
      * Note that the item name will have been parsed and skipped already.
      */
+    @Pure
     public abstract Object parseItem(FetchResponse r) throws ParsingException;
 }

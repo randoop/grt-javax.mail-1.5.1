@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -51,8 +54,10 @@ public class MessageSet {
     public int start;
     public int end;
 
+    @SideEffectFree
     public MessageSet() { }
 
+    @SideEffectFree
     public MessageSet(int start, int end) {
 	this.start = start;
 	this.end = end;
@@ -61,6 +66,7 @@ public class MessageSet {
     /**
      * Count the total number of elements in a MessageSet
      **/
+    @Pure
     public int size() {
 	return end - start + 1;
     }
@@ -68,6 +74,7 @@ public class MessageSet {
     /*
      * Convert an array of integers into an array of MessageSets
      */
+    @Impure
     public static MessageSet[] createMessageSets(int[] msgs) {
 	List<MessageSet> v = new ArrayList<MessageSet>();
 	int i,j;
@@ -91,6 +98,7 @@ public class MessageSet {
     /**
      * Convert an array of MessageSets into an IMAP sequence range
      */
+    @Impure
     public static String toString(MessageSet[] msgsets) {
 	if (msgsets == null || msgsets.length == 0) // Empty msgset
 	    return null; 
@@ -122,6 +130,8 @@ public class MessageSet {
     /*
      * Count the total number of elements in an array of MessageSets
      */
+    @Pure
+    @Impure
     public static int size(MessageSet[] msgsets) {
 	int count = 0;
 

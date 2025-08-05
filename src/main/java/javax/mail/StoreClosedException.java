@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This exception is thrown when a method is invoked on a Messaging object
@@ -65,6 +67,7 @@ public class StoreClosedException extends MessagingException {
      *
      * @param store	The dead Store object
      */
+    @Impure
     public StoreClosedException(Store store) {
 	this(store, null);
     }
@@ -76,6 +79,7 @@ public class StoreClosedException extends MessagingException {
      * @param store	The dead Store object
      * @param message	The detailed error message
      */
+    @Impure
     public StoreClosedException(Store store, String message) {
 	super(message);
 	this.store = store;
@@ -91,6 +95,7 @@ public class StoreClosedException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public StoreClosedException(Store store, String message, Exception e) {
 	super(message, e);
 	this.store = store;
@@ -99,6 +104,7 @@ public class StoreClosedException extends MessagingException {
     /**
      * Returns the dead Store object 
      */
+    @Pure
     public Store getStore() {
 	return store;
     }

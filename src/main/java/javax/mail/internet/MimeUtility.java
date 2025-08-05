@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import javax1.mail.MessagingException;
 import javax1.mail.EncodingAware;
 import javax.activation.*;
@@ -142,6 +145,7 @@ import com.sun1.mail.util.*;
 public class MimeUtility {
 
     // This class cannot be instantiated
+    @SideEffectFree
     private MimeUtility() { }
 
     public static final int ALL = -1;
@@ -195,6 +199,7 @@ public class MimeUtility {
      * @return		the encoding. This is either "7bit",
      *			"quoted-printable" or "base64"
      */ 
+    @Impure
     public static String getEncoding(DataSource ds) {
 	ContentType cType = null;
 	InputStream is = null;
@@ -249,6 +254,7 @@ public class MimeUtility {
      *
      * For performance, we keep a static map that caches the results.
      */
+    @Impure
     private static boolean nonAsciiCharset(ContentType ct) {
 	String charset = ct.getParameter("charset");
 	if (charset == null)
@@ -288,6 +294,7 @@ public class MimeUtility {
      *
      * @since	JavaMail 1.2
      */
+    @Impure
     public static String getEncoding(DataHandler dh) {
 	ContentType cType = null;
 	String encoding = null;
@@ -367,6 +374,7 @@ public class MimeUtility {
      * @return			decoded input stream.
      * @exception MessagingException	if the encoding is unknown
      */
+    @Impure
     public static InputStream decode(InputStream is, String encoding)
 		throws MessagingException {
 	if (encoding.equalsIgnoreCase("base64"))
@@ -400,6 +408,7 @@ public class MimeUtility {
      *				specified encoding.
      * @exception MessagingException	if the encoding is unknown
      */
+    @Impure
     public static OutputStream encode(OutputStream os, String encoding)
 		throws MessagingException {
         if (encoding == null)
@@ -436,6 +445,7 @@ public class MimeUtility {
      *                          specified encoding.
      * @since                   JavaMail 1.2
      */
+    @Impure
     public static OutputStream encode(OutputStream os, String encoding,
                                       String filename)
                 throws MessagingException {
@@ -493,6 +503,7 @@ public class MimeUtility {
      * @return	Unicode string containing only US-ASCII characters
      * @exception UnsupportedEncodingException if the encoding fails
      */
+    @Impure
     public static String encodeText(String text)
 			throws UnsupportedEncodingException {
 	return encodeText(text, null, null);
@@ -523,6 +534,7 @@ public class MimeUtility {
      *		is used.
      * @return	Unicode string containing only US-ASCII characters
      */
+    @Impure
     public static String encodeText(String text, String charset,
 				    String encoding)
 			throws UnsupportedEncodingException {
@@ -561,6 +573,7 @@ public class MimeUtility {
      * @exception       UnsupportedEncodingException if the charset
      *			conversion failed.
      */
+    @Impure
     public static String decodeText(String etext)
 		throws UnsupportedEncodingException {
 	/*
@@ -672,6 +685,7 @@ public class MimeUtility {
      *		characters.
      * @exception UnsupportedEncodingException if the encoding fails
      */
+    @Impure
     public static String encodeWord(String word) 
 			throws UnsupportedEncodingException {
 	return encodeWord(word, null, null);
@@ -699,6 +713,7 @@ public class MimeUtility {
      * @return	Unicode string containing only US-ASCII characters
      * @exception UnsupportedEncodingException if the encoding fails
      */
+    @Impure
     public static String encodeWord(String word, String charset, 
 				    String encoding)
     			throws UnsupportedEncodingException {
@@ -712,6 +727,7 @@ public class MimeUtility {
      * "Q" encoding defined in RFC 2047 has more restrictions when
      * encoding "word" tokens. (Sigh)
      */ 
+    @Impure
     private static String encodeWord(String string, String charset,
 				     String encoding, boolean encodingWord)
 			throws UnsupportedEncodingException {
@@ -759,6 +775,7 @@ public class MimeUtility {
 	return outb.toString();
     }
 
+    @Impure
     private static void doEncode(String string, boolean b64, 
 		String jcharset, int avail, String prefix, 
 		boolean first, boolean encodingWord, StringBuffer buf) 
@@ -824,6 +841,7 @@ public class MimeUtility {
      * @exception       UnsupportedEncodingException if the charset
      *			conversion failed.
      */
+    @Impure
     public static String decodeWord(String eword)
 		throws ParseException, UnsupportedEncodingException {
 
@@ -930,6 +948,7 @@ public class MimeUtility {
      * allow this, but many broken mailers, especially Japanese mailers,
      * produce such incorrect encodings.
      */
+    @Impure
     private static String decodeInnerWords(String word)
 				throws UnsupportedEncodingException {
 	int start = 0, i;
@@ -980,6 +999,7 @@ public class MimeUtility {
      * @see	javax1.mail.internet.HeaderTokenizer#MIME
      * @see	javax1.mail.internet.HeaderTokenizer#RFC822
      */
+    @Impure
     public static String quote(String word, String specials) {
 	int len = word == null ? 0 : word.length();
 	if (len == 0)
@@ -1040,6 +1060,7 @@ public class MimeUtility {
      * @return		the folded string
      * @since		JavaMail 1.4
      */
+    @Impure
     public static String fold(int used, String s) {
 	if (!foldText)
 	    return s;
@@ -1099,6 +1120,7 @@ public class MimeUtility {
      * @return		the unfolded string
      * @since		JavaMail 1.4
      */
+    @Impure
     public static String unfold(String s) {
 	if (!foldText)
 	    return s;
@@ -1156,10 +1178,13 @@ public class MimeUtility {
      *
      * This should be a method on String.
      */
+    @SideEffectFree
+    @Impure
     private static int indexOfAny(String s, String any) {
 	return indexOfAny(s, any, 0);
     }
 
+    @SideEffectFree
     private static int indexOfAny(String s, String any, int start) {
 	try {
 	    int len = s.length();
@@ -1180,6 +1205,7 @@ public class MimeUtility {
      * @return  the Java charset equivalent. If a suitable mapping is
      *		not available, the passed in charset is itself returned.
      */
+    @SideEffectFree
     public static String javaCharset(String charset) {
 	if (mime2java == null || charset == null)
 	    // no mapping table, or charset parameter is null
@@ -1203,6 +1229,7 @@ public class MimeUtility {
      *			is returned.
      * @since		JavaMail 1.1
      */
+    @SideEffectFree
     public static String mimeCharset(String charset) {
 	if (java2mime == null || charset == null) 
 	    // no mapping table or charset param is null
@@ -1226,6 +1253,7 @@ public class MimeUtility {
      * 		as a Java charset. (NOT a MIME charset)
      * @since	JavaMail 1.1
      */
+    @Impure
     public static String getDefaultJavaCharset() {
 	if (defaultJavaCharset == null) {
 	    /*
@@ -1265,6 +1293,7 @@ public class MimeUtility {
     /*
      * Get the default MIME charset for this locale.
      */
+    @Impure
     static String getDefaultMIMECharset() {
 	if (defaultMIMECharset == null) {
 	    try {
@@ -1374,6 +1403,7 @@ public class MimeUtility {
 	}
     }
 
+    @Impure
     private static void loadMappings(LineInputStream is, Hashtable table) {
 	String currLine;
 
@@ -1417,6 +1447,8 @@ public class MimeUtility {
      *			if more than half of the available characters
      *			are US-ASCII characters. Else MOSTLY_NONASCII.
      */
+    @Pure
+    @Impure
     static int checkAscii(String s) {
 	int ascii = 0, non_ascii = 0;
 	int l = s.length();
@@ -1446,6 +1478,8 @@ public class MimeUtility {
      *
      * XXX - this method is no longer used
      */
+    @Pure
+    @Impure
     static int checkAscii(byte[] b) {
 	int ascii = 0, non_ascii = 0;
 
@@ -1488,6 +1522,7 @@ public class MimeUtility {
      *			if more than half of the available characters
      *			are US-ASCII characters. Else MOSTLY_NONASCII.
      */
+    @Impure
     static int checkAscii(InputStream is, int max, boolean breakOnNonAscii) {
 	int ascii = 0, non_ascii = 0;
 	int len;
@@ -1565,6 +1600,7 @@ public class MimeUtility {
 	return MOSTLY_NONASCII;
     }
 
+    @Pure
     static final boolean nonascii(int b) {
 	return b >= 0177 || (b < 040 && b != '\r' && b != '\n' && b != '\t');
     }
@@ -1584,25 +1620,30 @@ class AsciiOutputStream extends OutputStream {
     private int lastb = 0;
     private int ret = 0;
 
+    @Impure
     public AsciiOutputStream(boolean breakOnNonAscii, boolean encodeEolStrict) {
 	this.breakOnNonAscii = breakOnNonAscii;
 	checkEOL = encodeEolStrict && breakOnNonAscii;
     }
 
+    @Impure
     public void write(int b) throws IOException {
 	check(b);
     }
 
+    @Impure
     public void write(byte b[]) throws IOException {
 	write(b, 0, b.length);
     }
 
+    @Impure
     public void write(byte b[], int off, int len) throws IOException {
 	len += off;
 	for (int i = off; i < len ; i++)
 	    check(b[i]);
     }
 
+    @Impure
     private final void check(int b) throws IOException {
 	b &= 0xff;
 	if (checkEOL &&
@@ -1629,6 +1670,7 @@ class AsciiOutputStream extends OutputStream {
     /**
      * Return ASCII-ness of data stream.
      */
+    @Pure
     public int getAscii() {
 	if (ret != 0)
 	    return ret;

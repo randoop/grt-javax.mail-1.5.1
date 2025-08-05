@@ -39,6 +39,7 @@
  */
 
 package com.sun1.mail.iap;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * @author Bill Shannon
@@ -51,6 +52,7 @@ public class LiteralException extends ProtocolException {
     /**
      * Constructs a LiteralException with the specified Response object.
      */
+    @Impure
     public LiteralException(Response r) {
 	super(r.toString());
 	response = r;

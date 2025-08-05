@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Vector;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -87,6 +90,7 @@ public abstract class Multipart {
     /** 
      * Default constructor. An empty Multipart object is created.
      */
+    @SideEffectFree
     protected Multipart() { }
 
     /**
@@ -104,6 +108,7 @@ public abstract class Multipart {
      * 
      * @param	mp	Multipart datasource
      */
+    @Impure
     protected synchronized void setMultipartDataSource(MultipartDataSource mp)
 			throws MessagingException {
 	contentType = mp.getContentType();
@@ -122,6 +127,7 @@ public abstract class Multipart {
      * @return 	content-type
      * @see	#contentType
      */
+    @Pure
     public synchronized String getContentType() {
 	return contentType;
     }
@@ -132,6 +138,7 @@ public abstract class Multipart {
      * @return		number of parts
      * @see		#parts
      */
+    @Impure
     public synchronized int getCount() throws MessagingException {
 	if (parts == null)
 	    return 0;
@@ -148,6 +155,7 @@ public abstract class Multipart {
      *			is out of range.
      * @exception       MessagingException
      */
+    @Impure
     public synchronized BodyPart getBodyPart(int index)
 				throws MessagingException {
 	if (parts == null)
@@ -167,6 +175,7 @@ public abstract class Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public synchronized boolean removeBodyPart(BodyPart part)
 				throws MessagingException {
 	if (parts == null)
@@ -189,6 +198,7 @@ public abstract class Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public synchronized void removeBodyPart(int index)
 				throws MessagingException {
 	if (parts == null)
@@ -209,6 +219,7 @@ public abstract class Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public synchronized void addBodyPart(BodyPart part) 
 		throws MessagingException {
 	if (parts == null)
@@ -232,6 +243,7 @@ public abstract class Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public synchronized void addBodyPart(BodyPart part, int index) 
 				throws MessagingException {
 	if (parts == null)
@@ -250,6 +262,7 @@ public abstract class Multipart {
      * @exception       IOException if an IO related exception occurs
      * @exception       MessagingException
      */
+    @Impure
     public abstract void writeTo(OutputStream os) 
 		throws IOException, MessagingException;
 
@@ -258,6 +271,7 @@ public abstract class Multipart {
      * object, or <code>null</code> if not known.
      * @since	JavaMail 1.1
      */
+    @Pure
     public synchronized Part getParent() {
 	return parent;
     }
@@ -271,6 +285,7 @@ public abstract class Multipart {
      * <code>Part</code>.
      * @since	JavaMail 1.1
      */
+    @Impure
     public synchronized void setParent(Part parent) {
 	this.parent = parent;
     }

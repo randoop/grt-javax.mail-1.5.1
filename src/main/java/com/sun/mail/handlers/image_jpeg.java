@@ -40,6 +40,7 @@
 
 package com.sun1.mail.handlers;
 
+import org.checkerframework.dataflow.qual.Pure;
 import java.awt.datatransfer.DataFlavor;
 import javax.activation.*;
 
@@ -52,6 +53,7 @@ public class image_jpeg extends image_gif {
 	"image/jpeg",
 	"JPEG Image");
 
+    @Pure
     protected ActivationDataFlavor getDF() {
 	return myDF;
     }

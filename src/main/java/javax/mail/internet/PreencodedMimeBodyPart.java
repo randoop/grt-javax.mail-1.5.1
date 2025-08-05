@@ -40,6 +40,8 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import java.util.Enumeration;
 import javax1.mail.*;
@@ -68,6 +70,7 @@ public class PreencodedMimeBodyPart extends MimeBodyPart {
      * encoded using the specified encoding.  The encoding must
      * be a MIME supported Content-Transfer-Encoding.
      */
+    @Impure
     public PreencodedMimeBodyPart(String encoding) {
 	this.encoding = encoding;
     }
@@ -76,6 +79,7 @@ public class PreencodedMimeBodyPart extends MimeBodyPart {
      * Returns the content transfer encoding specified when
      * this object was created.
      */
+    @Pure
     public String getEncoding() throws MessagingException {
 	return encoding;
     }
@@ -89,6 +93,7 @@ public class PreencodedMimeBodyPart extends MimeBodyPart {
      *				by the javax.activation layer.
      * @see javax.activation.DataHandler#writeTo
      */
+    @Impure
     public void writeTo(OutputStream os)
 			throws IOException, MessagingException {
 
@@ -117,6 +122,7 @@ public class PreencodedMimeBodyPart extends MimeBodyPart {
      * Force the <code>Content-Transfer-Encoding</code> header to use
      * the encoding that was specified when this object was created.
      */
+    @Impure
     protected void updateHeaders() throws MessagingException {
 	super.updateHeaders();
 	MimeBodyPart.setEncoding(this, encoding);

@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 import javax1.mail.Address;
 
@@ -66,6 +68,7 @@ public final class RecipientTerm extends AddressTerm {
      * @param type	the recipient type
      * @param address	the address to match for
      */
+    @Impure
     public RecipientTerm(Message.RecipientType type, Address address) {
 	super(address);
 	this.type = type;
@@ -74,6 +77,7 @@ public final class RecipientTerm extends AddressTerm {
     /**
      * Return the type of recipient to match with.
      */
+    @Pure
     public Message.RecipientType getRecipientType() {
 	return type;
     }
@@ -85,6 +89,7 @@ public final class RecipientTerm extends AddressTerm {
      *			address
      * @return		true if the match succeeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	Address[] recipients;
 
@@ -106,6 +111,7 @@ public final class RecipientTerm extends AddressTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof RecipientTerm))
 	    return false;
@@ -116,6 +122,7 @@ public final class RecipientTerm extends AddressTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return type.hashCode() + super.hashCode();
     }

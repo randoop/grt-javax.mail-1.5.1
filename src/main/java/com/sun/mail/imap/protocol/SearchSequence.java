@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import java.io.IOException;
 
@@ -65,6 +67,7 @@ public class SearchSequence {
     /**
      * Generate the IMAP search sequence for the given search expression. 
      */
+    @Impure
     public Argument generateSequence(SearchTerm term, String charset) 
 		throws SearchException, IOException {
 	/*
@@ -127,6 +130,7 @@ public class SearchSequence {
      * Check if the "text" terms in the given SearchTerm contain
      * non US-ASCII characters.
      */
+    @Impure
     public static boolean isAscii(SearchTerm term) {
 	if (term instanceof AndTerm)
 	    return isAscii(((AndTerm)term).getTerms());
@@ -147,6 +151,7 @@ public class SearchSequence {
      * Check if any of the "text" terms in the given SearchTerms contain
      * non US-ASCII characters.
      */
+    @Impure
     public static boolean isAscii(SearchTerm[] terms) {
 	for (int i = 0; i < terms.length; i++)
 	    if (!isAscii(terms[i])) // outta here !
@@ -157,6 +162,7 @@ public class SearchSequence {
     /**
      * Does this string contain only ASCII characters?
      */
+    @Pure
     public static boolean isAscii(String s) {
 	int l = s.length();
 
@@ -167,6 +173,7 @@ public class SearchSequence {
 	return true;
     }
 
+    @Impure
     protected Argument and(AndTerm term, String charset) 
 			throws SearchException, IOException {
 	// Combine the sequences for both terms
@@ -179,6 +186,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument or(OrTerm term, String charset) 
 			throws SearchException, IOException {
 	SearchTerm[] terms = term.getTerms();
@@ -227,6 +235,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument not(NotTerm term, String charset) 
 			throws SearchException, IOException {
 	Argument result = new Argument();
@@ -248,6 +257,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument header(HeaderTerm term, String charset) 
 			throws SearchException, IOException {
 	Argument result = new Argument();
@@ -257,6 +267,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument messageid(MessageIDTerm term, String charset) 
 			throws SearchException, IOException {
 	Argument result = new Argument();
@@ -267,6 +278,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument flag(FlagTerm term) throws SearchException {
 	boolean set = term.getTestSet();
 
@@ -301,6 +313,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument from(String address, String charset) 
 			throws SearchException, IOException {
 	Argument result = new Argument();
@@ -309,6 +322,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument recipient(Message.RecipientType type,
 				      String address, String charset)
 			throws SearchException, IOException {
@@ -327,6 +341,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument subject(SubjectTerm term, String charset) 
 			throws SearchException, IOException {
 	Argument result = new Argument();
@@ -336,6 +351,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument body(BodyTerm term, String charset) 
 			throws SearchException, IOException {
 	Argument result = new Argument();
@@ -345,6 +361,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument size(SizeTerm term) 
 			throws SearchException {
 	Argument result = new Argument();
@@ -384,6 +401,7 @@ public class SearchSequence {
     // A GregorianCalendar object in the current timezone
     protected Calendar cal = new GregorianCalendar();
 
+    @Impure
     protected String toIMAPDate(Date date) {
 	StringBuffer s = new StringBuffer();
 
@@ -396,6 +414,7 @@ public class SearchSequence {
 	return s.toString();
     }
 
+    @Impure
     protected Argument sentdate(DateTerm term) 
 			throws SearchException {
 	Argument result = new Argument();
@@ -427,6 +446,7 @@ public class SearchSequence {
 	return result;
     }
 
+    @Impure
     protected Argument receiveddate(DateTerm term) 
 			throws SearchException {
 	Argument result = new Argument();
@@ -463,6 +483,7 @@ public class SearchSequence {
      *
      * @since	JavaMail 1.5.1
      */
+    @Impure
     protected Argument older(OlderTerm term) throws SearchException {
 	Argument result = new Argument();
 	result.writeAtom("OLDER");
@@ -475,6 +496,7 @@ public class SearchSequence {
      *
      * @since	JavaMail 1.5.1
      */
+    @Impure
     protected Argument younger(YoungerTerm term) throws SearchException {
 	Argument result = new Argument();
 	result.writeAtom("YOUNGER");
@@ -487,6 +509,7 @@ public class SearchSequence {
      *
      * @since	JavaMail 1.5.1
      */
+    @Impure
     protected Argument modifiedSince(ModifiedSinceTerm term)
 				throws SearchException {
 	Argument result = new Argument();

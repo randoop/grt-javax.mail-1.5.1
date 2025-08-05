@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 
 import java.util.Enumeration;
@@ -72,6 +75,7 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
     private static final boolean decodeFileName =
 	PropUtil.getBooleanSystemProperty("mail.mime.decodefilename", false);
 
+    @Impure
     protected IMAPBodyPart(BODYSTRUCTURE bs, String sid, IMAPMessage message) {
 	super();
 	this.bs = bs;
@@ -87,46 +91,57 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
      * be inserted in newly crafted MimeMessages, especially when
      * forwarding or replying to messages.
      */
+    @SideEffectFree
     protected void updateHeaders() {
 	return;
     }
 
+    @Pure
     public int getSize() throws MessagingException {
 	return bs.size;
     }
 
+    @Pure
     public int getLineCount() throws MessagingException {
 	return bs.lines;
     }
 
+    @Pure
     public String getContentType() throws MessagingException {
 	return type;
     }
 
+    @Pure
     public String getDisposition() throws MessagingException {
 	return bs.disposition;
     }
 
+    @Impure
     public void setDisposition(String disposition) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Pure
     public String getEncoding() throws MessagingException {
 	return bs.encoding;
     }
 
+    @Pure
     public String getContentID() throws MessagingException {
 	return bs.id;
     }
 
+    @Pure
     public String getContentMD5() throws MessagingException {
 	return bs.md5;
     }
 
+    @Impure
     public void setContentMD5(String md5) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public String getDescription() throws MessagingException {
 	if (description != null) // cached value ?
 	    return description;
@@ -143,11 +158,13 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
 	return description;
     }
 
+    @Impure
     public void setDescription(String description, String charset)
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public String getFileName() throws MessagingException {
 	String filename = null;
 	if (bs.dParams != null)
@@ -164,10 +181,12 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
 	return filename;
     }
 
+    @Impure
     public void setFileName(String filename) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     protected InputStream getContentStream() throws MessagingException {
 	InputStream is = null;
 	boolean pk = message.getPeek();	// acquire outside of message cache lock
@@ -211,6 +230,7 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
     /**
      * Return the MIME format stream of headers for this body part.
      */
+    @Impure
     private InputStream getHeaderStream() throws MessagingException {
 	if (!message.isREV1())
 	    loadHeaders();	// will be needed below
@@ -273,6 +293,7 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
      * @return	the MIME format stream
      * @since	JavaMail 1.4.5
      */
+    @Impure
     public InputStream getMimeStream() throws MessagingException {
 	/*
 	 * The IMAP protocol doesn't support returning the entire
@@ -282,6 +303,7 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
 	return new SequenceInputStream(getHeaderStream(), getContentStream());
     }
 	    
+    @Impure
     public synchronized DataHandler getDataHandler() 
 		throws MessagingException {
 	if (dh == null) {
@@ -303,75 +325,90 @@ public class IMAPBodyPart extends MimeBodyPart implements ReadableMime {
 	return super.getDataHandler();
     }
 
+    @Impure
     public void setDataHandler(DataHandler content) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public void setContent(Object o, String type) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public void setContent(Multipart mp) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public String[] getHeader(String name) throws MessagingException {
 	loadHeaders();
 	return super.getHeader(name);
     }
 
+    @Impure
     public void setHeader(String name, String value)
 		throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public void addHeader(String name, String value)
 		throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public void removeHeader(String name) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public Enumeration getAllHeaders() throws MessagingException {
 	loadHeaders();
 	return super.getAllHeaders();
     }
 
+    @Impure
     public Enumeration getMatchingHeaders(String[] names)
 		throws MessagingException {
 	loadHeaders();
 	return super.getMatchingHeaders(names);
     }
 
+    @Impure
     public Enumeration getNonMatchingHeaders(String[] names)
 		throws MessagingException {
 	loadHeaders();
 	return super.getNonMatchingHeaders(names);
     }
 
+    @Impure
     public void addHeaderLine(String line) throws MessagingException {
 	throw new IllegalWriteException("IMAPBodyPart is read-only");
     }
 
+    @Impure
     public Enumeration getAllHeaderLines() throws MessagingException {
 	loadHeaders();
 	return super.getAllHeaderLines();
     }
 
+    @Impure
     public Enumeration getMatchingHeaderLines(String[] names)
 		throws MessagingException {
 	loadHeaders();
 	return super.getMatchingHeaderLines(names);
     }
 
+    @Impure
     public Enumeration getNonMatchingHeaderLines(String[] names)
 		throws MessagingException {
 	loadHeaders();
 	return super.getNonMatchingHeaderLines(names);
     }
 
+    @Impure
     private synchronized void loadHeaders() throws MessagingException {
 	if (headersLoaded)
 	    return;

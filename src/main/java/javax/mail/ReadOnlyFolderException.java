@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This exception is thrown when an attempt is made to open a folder
@@ -62,6 +64,7 @@ public class ReadOnlyFolderException extends MessagingException {
      * @param folder	the Folder
      * @since 		JavaMail 1.2
      */
+    @Impure
     public ReadOnlyFolderException(Folder folder) {
 	this(folder, null);
     }
@@ -74,6 +77,7 @@ public class ReadOnlyFolderException extends MessagingException {
      * @param message	The detailed error message
      * @since 		JavaMail 1.2
      */
+    @Impure
     public ReadOnlyFolderException(Folder folder, String message) {
 	super(message);
 	this.folder = folder;
@@ -89,6 +93,7 @@ public class ReadOnlyFolderException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public ReadOnlyFolderException(Folder folder, String message, Exception e) {
 	super(message, e);
 	this.folder = folder;
@@ -98,6 +103,7 @@ public class ReadOnlyFolderException extends MessagingException {
      * Returns the dead Folder object.
      * @since 		JavaMail 1.2
      */
+    @Pure
     public Folder getFolder() {
 	return folder;
     }

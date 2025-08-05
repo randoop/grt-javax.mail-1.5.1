@@ -40,6 +40,8 @@
 
 package com.sun1.mail.iap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 
 /**
@@ -53,10 +55,12 @@ public interface Literal {
     /**
      * Return the size of the data.
      */
+    @Pure
     public int size();
 
     /**
      * Write the data to the OutputStream.
      */
+    @Impure
     public void writeTo(OutputStream os) throws IOException;
 }

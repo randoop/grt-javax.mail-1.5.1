@@ -40,6 +40,8 @@
 
 package com.sun1.mail.pop3;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.lang.reflect.*;
@@ -96,10 +98,12 @@ public class POP3Store extends Store {
     volatile File fileCacheDir = null;
     volatile boolean keepMessageContent = false;
 
+    @Impure
     public POP3Store(Session session, URLName url) {
 	this(session, url, "pop3", false);
     }
 
+    @Impure
     public POP3Store(Session session, URLName url,
 				String name, boolean isSSL) {
 	super(session, url);
@@ -168,6 +172,7 @@ public class POP3Store extends Store {
      * Get the value of a boolean property.
      * Print out the value if logging is enabled.
      */
+    @Impure
     private final synchronized boolean getBoolProp(String prop) {
 	prop = "mail." + name + "." + prop;
 	boolean val = PropUtil.getBooleanSessionProperty(session, prop, false);
@@ -179,10 +184,12 @@ public class POP3Store extends Store {
     /**
      * Get a reference to the session.
      */
+    @Pure
     synchronized Session getSession() {
         return session;
     }
 
+    @Impure
     protected synchronized boolean protocolConnect(String host, int portNum,
 		String user, String passwd) throws MessagingException {
 		    
@@ -228,6 +235,7 @@ public class POP3Store extends Store {
      * as long as we can reconnect at that point.  This means that we
      * need to be able to reconnect the Store on demand.
      */
+    @Impure
     public synchronized boolean isConnected() {
 	if (!super.isConnected())
 	    // if we haven't been connected at all, don't bother with
@@ -251,6 +259,7 @@ public class POP3Store extends Store {
 	}
     }
 
+    @Impure
     synchronized Protocol getPort(POP3Folder owner) throws IOException {
 	Protocol p;
 
@@ -333,6 +342,7 @@ public class POP3Store extends Store {
 	return p;
     }
 
+    @Impure
     synchronized void closePort(POP3Folder owner) {
 	if (portOwner == owner) {
 	    port = null;
@@ -340,6 +350,7 @@ public class POP3Store extends Store {
 	}
     }
 
+    @Impure
     public synchronized void close() throws MessagingException {
 	try {
 	    if (port != null)
@@ -353,6 +364,7 @@ public class POP3Store extends Store {
 	}
     }
 
+    @Impure
     public Folder getDefaultFolder() throws MessagingException {
 	checkConnected();
 	return new DefaultFolder(this);
@@ -361,11 +373,13 @@ public class POP3Store extends Store {
     /**
      * Only the name "INBOX" is supported.
      */
+    @Impure
     public Folder getFolder(String name) throws MessagingException {
 	checkConnected();
 	return new POP3Folder(this, name);
     }
 
+    @Impure
     public Folder getFolder(URLName url) throws MessagingException {
 	checkConnected();
 	return new POP3Folder(this, url.getFile());
@@ -385,6 +399,7 @@ public class POP3Store extends Store {
      * @return	Map of capabilities
      * @since	JavaMail 1.4.3
      */
+    @Impure
     public Map capabilities() throws MessagingException {
 	Map c;
 	synchronized (this) {
@@ -402,10 +417,12 @@ public class POP3Store extends Store {
      * @return	true if using SSL
      * @since	JavaMail 1.4.6
      */
+    @Pure
     public synchronized boolean isSSL() {
 	return usingSSL;
     }
 
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 
@@ -413,6 +430,7 @@ public class POP3Store extends Store {
 	    close();
     }
 
+    @Impure
     private void checkConnected() throws MessagingException {
 	if (!super.isConnected())
 	    throw new MessagingException("Not connected");

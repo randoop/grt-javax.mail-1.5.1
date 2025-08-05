@@ -40,6 +40,8 @@
 
 package com.sun1.mail.handlers;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import java.awt.datatransfer.DataFlavor;
 import javax.activation.*;
@@ -58,6 +60,7 @@ public class multipart_mixed implements DataContentHandler {
      *
      * @return The DataFlavors
      */
+    @Pure
     public DataFlavor[] getTransferDataFlavors() { // throws Exception;
 	return new DataFlavor[] { myDF };
     }
@@ -69,6 +72,7 @@ public class multipart_mixed implements DataContentHandler {
      * @param ds The DataSource corresponding to the data
      * @return String object
      */
+    @Impure
     public Object getTransferData(DataFlavor df, DataSource ds)
 				throws IOException {
 	// use myDF.equals to be sure to get ActivationDataFlavor.equals,
@@ -82,6 +86,7 @@ public class multipart_mixed implements DataContentHandler {
     /**
      * Return the content.
      */
+    @Impure
     public Object getContent(DataSource ds) throws IOException {
 	try {
 	    return new MimeMultipart(ds); 
@@ -96,6 +101,7 @@ public class multipart_mixed implements DataContentHandler {
     /**
      * Write the object to the output stream, using the specific MIME type.
      */
+    @Impure
     public void writeTo(Object obj, String mimeType, OutputStream os) 
 			throws IOException {
 	if (obj instanceof MimeMultipart) {

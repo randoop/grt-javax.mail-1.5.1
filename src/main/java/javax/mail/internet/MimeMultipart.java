@@ -40,6 +40,8 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import javax1.mail.*;
 import javax.activation.*;
 import java.util.*;
@@ -189,6 +191,7 @@ public class MimeMultipart extends Multipart {
      *
      * MimeBodyParts may be added later.
      */
+    @Impure
     public MimeMultipart() {
 	this("mixed");
     }
@@ -202,6 +205,7 @@ public class MimeMultipart extends Multipart {
      *
      * MimeBodyParts may be added later.
      */
+    @Impure
     public MimeMultipart(String subtype) {
 	super();
 	/*
@@ -220,6 +224,7 @@ public class MimeMultipart extends Multipart {
      *
      * @since	JavaMail 1.5
      */
+    @Impure
     public MimeMultipart(BodyPart... parts) throws MessagingException {
 	this();
 	for (BodyPart bp : parts)
@@ -232,6 +237,7 @@ public class MimeMultipart extends Multipart {
      *
      * @since	JavaMail 1.5
      */
+    @Impure
     public MimeMultipart(String subtype, BodyPart... parts)
 				throws MessagingException {
 	this(subtype);
@@ -257,6 +263,7 @@ public class MimeMultipart extends Multipart {
      *
      * @param	ds	DataSource, can be a MultipartDataSource
      */
+    @Impure
     public MimeMultipart(DataSource ds) throws MessagingException {
 	super();
 
@@ -285,6 +292,7 @@ public class MimeMultipart extends Multipart {
      *
      * @since	JavaMail 1.5
      */
+    @Impure
     protected void initializeProperties() {
 	// read properties that control parsing
 
@@ -309,6 +317,7 @@ public class MimeMultipart extends Multipart {
      *
      * @param	subtype		Subtype
      */
+    @Impure
     public synchronized void setSubType(String subtype) 
 			throws MessagingException {
 	ContentType cType = new ContentType(contentType);	
@@ -321,6 +330,7 @@ public class MimeMultipart extends Multipart {
      *
      * @return		number of parts
      */
+    @Impure
     public synchronized int getCount() throws MessagingException {
 	parse();
 	return super.getCount();
@@ -333,6 +343,7 @@ public class MimeMultipart extends Multipart {
      * @return		the Part
      * @exception       MessagingException if no such BodyPart exists
      */
+    @Impure
     public synchronized BodyPart getBodyPart(int index) 
 			throws MessagingException {
 	parse();
@@ -346,6 +357,7 @@ public class MimeMultipart extends Multipart {
      * @param  CID 	the ContentID of the desired part
      * @return          the Part
      */
+    @Impure
     public synchronized BodyPart getBodyPart(String CID) 
 			throws MessagingException {
 	parse();
@@ -371,6 +383,7 @@ public class MimeMultipart extends Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public boolean removeBodyPart(BodyPart part) throws MessagingException {
 	parse();
 	return super.removeBodyPart(part);
@@ -388,6 +401,7 @@ public class MimeMultipart extends Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public void removeBodyPart(int index) throws MessagingException {
 	parse();
 	super.removeBodyPart(index);
@@ -403,6 +417,7 @@ public class MimeMultipart extends Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public synchronized void addBodyPart(BodyPart part) 
 		throws MessagingException {
 	parse();
@@ -423,6 +438,7 @@ public class MimeMultipart extends Multipart {
      *			implementation does not support modification
      *			of existing values
      */
+    @Impure
     public synchronized void addBodyPart(BodyPart part, int index) 
 				throws MessagingException {
 	parse();
@@ -443,6 +459,7 @@ public class MimeMultipart extends Multipart {
      * @return	true if the final boundary line was seen
      * @since		JavaMail 1.4
      */
+    @Impure
     public synchronized boolean isComplete() throws MessagingException {
 	parse();
 	return complete;
@@ -456,6 +473,7 @@ public class MimeMultipart extends Multipart {
      * @return		the preamble text, or null if no preamble
      * @since		JavaMail 1.4
      */
+    @Impure
     public synchronized String getPreamble() throws MessagingException {
 	parse();
 	return preamble;
@@ -472,6 +490,7 @@ public class MimeMultipart extends Multipart {
      * @param	preamble	the preamble text
      * @since		JavaMail 1.4
      */
+    @Impure
     public synchronized void setPreamble(String preamble)
 				throws MessagingException {
 	this.preamble = preamble;
@@ -494,6 +513,7 @@ public class MimeMultipart extends Multipart {
      * might itself want to track whether its internal state actually
      * did change, and do the header updating only if necessary.
      */
+    @Impure
     protected synchronized void updateHeaders() throws MessagingException {
 	parse();
 	for (int i = 0; i < parts.size(); i++)
@@ -504,6 +524,7 @@ public class MimeMultipart extends Multipart {
      * Iterates through all the parts and outputs each MIME part
      * separated by a boundary.
      */
+    @Impure
     public synchronized void writeTo(OutputStream os)
 				throws IOException, MessagingException {
 	parse();
@@ -555,6 +576,7 @@ public class MimeMultipart extends Multipart {
      *
      * @since	JavaMail 1.2
      */
+    @Impure
     protected synchronized void parse() throws MessagingException {
 	if (parsed)
 	    return;
@@ -901,6 +923,7 @@ public class MimeMultipart extends Multipart {
     /**
      * Is the string all dashes ('-')?
      */
+    @Pure
     private static boolean allDashes(String s) {
 	for (int i = 0; i < s.length(); i++) {
 	    if (s.charAt(i) != '-')
@@ -923,6 +946,7 @@ public class MimeMultipart extends Multipart {
      * @return		-1 on EOF, otherwise number of bytes read
      * @exception	IOException	on I/O errors
      */
+    @Impure
     private static int readFully(InputStream in, byte[] buf, int off, int len)
 				throws IOException {
 	if (len == 0)
@@ -943,6 +967,7 @@ public class MimeMultipart extends Multipart {
      * Skip the specified number of bytes, repeatedly calling
      * the skip method as necessary.
      */
+    @Impure
     private void skipFully(InputStream in, long offset) throws IOException {
 	while (offset > 0) {
 	    long cur = in.skip(offset);
@@ -963,6 +988,7 @@ public class MimeMultipart extends Multipart {
      * @exception  	MessagingException
      * @since		JavaMail 1.2
      */
+    @Impure
     protected InternetHeaders createInternetHeaders(InputStream is)
 				throws MessagingException {
 	return new InternetHeaders(is);
@@ -980,6 +1006,7 @@ public class MimeMultipart extends Multipart {
      * @exception  		MessagingException
      * @since			JavaMail 1.2
      */
+    @Impure
     protected MimeBodyPart createMimeBodyPart(InternetHeaders headers,
 				byte[] content) throws MessagingException {
 	return new MimeBodyPart(headers, content);
@@ -996,11 +1023,13 @@ public class MimeMultipart extends Multipart {
      * @exception  		MessagingException
      * @since			JavaMail 1.2
      */
+    @Impure
     protected MimeBodyPart createMimeBodyPart(InputStream is)
 				throws MessagingException {
 	return new MimeBodyPart(is);
     }
 
+    @Impure
     private MimeBodyPart createMimeBodyPartIs(InputStream is)
 				throws MessagingException {
 	try {

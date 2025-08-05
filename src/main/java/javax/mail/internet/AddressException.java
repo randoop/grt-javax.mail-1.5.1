@@ -39,6 +39,9 @@
  */
 
 package javax1.mail.internet;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * The exception thrown when a wrongly formatted address is encountered.
@@ -67,6 +70,7 @@ public class AddressException extends ParseException {
     /**
      * Constructs an AddressException with no detail message.
      */
+    @Impure
     public AddressException() {
 	super();
     }
@@ -75,6 +79,7 @@ public class AddressException extends ParseException {
      * Constructs an AddressException with the specified detail message.
      * @param s		the detail message
      */
+    @Impure
     public AddressException(String s) {
 	super(s);
     }
@@ -86,6 +91,7 @@ public class AddressException extends ParseException {
      * @param s		the detail message
      */
 
+    @Impure
     public AddressException(String s, String ref) {
 	super(s);
 	this.ref = ref;
@@ -96,6 +102,7 @@ public class AddressException extends ParseException {
      *
      * @param s		the detail message
      */
+    @Impure
     public AddressException(String s, String ref, int pos) {
 	super(s);
 	this.ref = ref;
@@ -106,6 +113,7 @@ public class AddressException extends ParseException {
      * Get the string that was being parsed when the error was detected
      * (null if not relevant).
      */
+    @Pure
     public String getRef() {
 	return ref;
     }
@@ -114,10 +122,12 @@ public class AddressException extends ParseException {
      * Get the position with the reference string where the error was
      * detected (-1 if not relevant).
      */
+    @Pure
     public int getPos() {
 	return pos;
     }
 
+    @SideEffectFree
     public String toString() {
 	String s = super.toString();
 	if (ref == null)

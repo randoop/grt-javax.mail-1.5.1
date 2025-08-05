@@ -40,6 +40,7 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.MessagingException;
 
 /**
@@ -56,6 +57,7 @@ public class ParseException extends MessagingException {
     /**
      * Constructs a ParseException with no detail message.
      */
+    @Impure
     public ParseException() {
 	super();
     }
@@ -64,6 +66,7 @@ public class ParseException extends MessagingException {
      * Constructs a ParseException with the specified detail message.
      * @param s		the detail message
      */
+    @Impure
     public ParseException(String s) {
 	super(s);
     }

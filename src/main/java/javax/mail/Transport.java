@@ -40,6 +40,7 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 import java.net.*;
 import java.util.Vector;
@@ -72,6 +73,7 @@ public abstract class Transport extends Service {
      * @param	session Session object for this Transport.
      * @param	urlname	URLName object to be used for this Transport
      */
+    @Impure
     public Transport(Session session, URLName urlname) {
 	super(session, urlname);
     }
@@ -119,6 +121,7 @@ public abstract class Transport extends Service {
      * @see		#send(Message, Address[])
      * @see		javax1.mail.SendFailedException
      */
+    @Impure
     public static void send(Message msg) throws MessagingException {
 	msg.saveChanges(); // do this first
 	send0(msg, msg.getAllRecipients(), null, null);
@@ -139,6 +142,7 @@ public abstract class Transport extends Service {
      * @see             #send(Message)
      * @see		javax1.mail.SendFailedException
      */
+    @Impure
     public static void send(Message msg, Address[] addresses) 
 		throws MessagingException {
 
@@ -167,6 +171,7 @@ public abstract class Transport extends Service {
      * @see		javax1.mail.SendFailedException
      * @since		JavaMail 1.5
      */
+    @Impure
     public static void send(Message msg,
 		String user, String password) throws MessagingException {
 
@@ -195,6 +200,7 @@ public abstract class Transport extends Service {
      * @see		javax1.mail.SendFailedException
      * @since		JavaMail 1.5
      */
+    @Impure
     public static void send(Message msg, Address[] addresses,
 		String user, String password) throws MessagingException {
 
@@ -203,6 +209,7 @@ public abstract class Transport extends Service {
     }
 
     // send, but without the saveChanges
+    @Impure
     private static void send0(Message msg, Address[] addresses,
 		String user, String password) throws MessagingException {
 
@@ -361,6 +368,7 @@ public abstract class Transport extends Service {
      * @exception MessagingException if the connection is dead or not in the 
      * 				connected state
      */
+    @Impure
     public abstract void sendMessage(Message msg, Address[] addresses) 
 				throws MessagingException;
 
@@ -376,6 +384,7 @@ public abstract class Transport extends Service {
      * @param l         the Listener for Transport events
      * @see             javax1.mail.event.TransportEvent
      */
+    @Impure
     public synchronized void addTransportListener(TransportListener l) {
 	if (transportListeners == null)
 	    transportListeners = new Vector();
@@ -391,6 +400,7 @@ public abstract class Transport extends Service {
      * @param l         the listener
      * @see             #addTransportListener
      */
+    @Impure
     public synchronized void removeTransportListener(TransportListener l) {
 	if (transportListeners != null)
 	    transportListeners.removeElement(l);
@@ -406,6 +416,7 @@ public abstract class Transport extends Service {
      * TransportListeners. Note that the event dispatching occurs
      * in a separate thread, thus avoiding potential deadlock problems.
      */
+    @Impure
     protected void notifyTransportListeners(int type, Address[] validSent,
 					    Address[] validUnsent,
 					    Address[] invalid, Message msg) {

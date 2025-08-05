@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Vector;
@@ -61,6 +63,7 @@ public class IMAPMultipartDataSource extends MimePartDataSource
 				     implements MultipartDataSource {
     private Vector parts;
 
+    @Impure
     protected IMAPMultipartDataSource(MimePart part, BODYSTRUCTURE[] bs, 
 				      String sectionId, IMAPMessage msg) {
 	super(part);
@@ -76,10 +79,12 @@ public class IMAPMultipartDataSource extends MimePartDataSource
 	    );
     }
 
+    @Pure
     public int getCount() {
 	return parts.size();
     }
 
+    @Impure
     public BodyPart getBodyPart(int index) throws MessagingException {
 	return (BodyPart)parts.elementAt(index);
     }

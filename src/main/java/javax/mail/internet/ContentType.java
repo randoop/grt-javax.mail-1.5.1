@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import javax1.mail.*;
 import java.util.*;
 import java.io.*;
@@ -61,6 +64,7 @@ public class ContentType {
     /**
      * No-arg Constructor.
      */
+    @SideEffectFree
     public ContentType() { }
 
     /**
@@ -70,6 +74,7 @@ public class ContentType {
      * @param	subType	subType
      * @param	list	ParameterList
      */
+    @SideEffectFree
     public ContentType(String primaryType, String subType, 
 			ParameterList list) {
 	this.primaryType = primaryType;
@@ -85,6 +90,7 @@ public class ContentType {
      * @param	s	the Content-Type string.
      * @exception	ParseException if the parse fails.
      */
+    @Impure
     public ContentType(String s) throws ParseException {
 	HeaderTokenizer h = new HeaderTokenizer(s, HeaderTokenizer.MIME);
 	HeaderTokenizer.Token tk;
@@ -118,6 +124,7 @@ public class ContentType {
      * Return the primary type.
      * @return the primary type
      */
+    @Pure
     public String getPrimaryType() {
 	return primaryType;
     }
@@ -126,6 +133,7 @@ public class ContentType {
      * Return the subType.
      * @return the subType
      */
+    @Pure
     public String getSubType() {
 	return subType;
     }
@@ -137,6 +145,7 @@ public class ContentType {
      *
      * @return the type
      */
+    @Pure
     public String getBaseType() {
 	return primaryType + '/' + subType;
     }
@@ -146,6 +155,8 @@ public class ContentType {
      * if this parameter is absent.
      * @return	parameter value
      */
+    @SideEffectFree
+    @Impure
     public String getParameter(String name) {
 	if (list == null)
 	    return null;
@@ -159,6 +170,7 @@ public class ContentType {
      *
      * @return	ParameterList
      */
+    @Pure
     public ParameterList getParameterList() {
 	return list;
     }
@@ -167,6 +179,7 @@ public class ContentType {
      * Set the primary type. Overrides existing primary type.
      * @param	primaryType	primary type
      */
+    @Impure
     public void setPrimaryType(String primaryType) {
 	this.primaryType = primaryType;
     }
@@ -175,6 +188,7 @@ public class ContentType {
      * Set the subType.  Replaces the existing subType.
      * @param	subType	the subType
      */
+    @Impure
     public void setSubType(String subType) {
 	this.subType = subType;
     }
@@ -186,6 +200,7 @@ public class ContentType {
      * @param	name	parameter name
      * @param	value	parameter value
      */
+    @Impure
     public void setParameter(String name, String value) {
 	if (list == null)
 	    list = new ParameterList();
@@ -197,6 +212,7 @@ public class ContentType {
      * Set a new ParameterList.
      * @param	list	ParameterList
      */
+    @Impure
     public void setParameterList(ParameterList list) {
 	this.list = list;
     }
@@ -208,6 +224,7 @@ public class ContentType {
      *
      * @return	RFC2045 style string
      */
+    @Impure
     public String toString() {
 	if (primaryType == null || subType == null) // need both
 	    return "";
@@ -241,6 +258,8 @@ public class ContentType {
      *
      * @param   cType	ContentType to compare this against
      */
+    @Pure
+    @Impure
     public boolean match(ContentType cType) {
 	// Match primaryType
 	if (!primaryType.equalsIgnoreCase(cType.getPrimaryType()))
@@ -275,6 +294,7 @@ public class ContentType {
      * comparing the ContentType for <strong>"text/plain"</strong> 
      * with <strong>"text/*" </strong>
      */
+    @Impure
     public boolean match(String s) {
 	try {
 	    return match(new ContentType(s));

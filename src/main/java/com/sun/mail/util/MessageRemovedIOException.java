@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 
 /**
@@ -59,6 +60,7 @@ public class MessageRemovedIOException extends IOException {
     /**
      * Constructs a MessageRemovedIOException with no detail message.
      */
+    @Impure
     public MessageRemovedIOException() {
 	super();
     }
@@ -67,6 +69,7 @@ public class MessageRemovedIOException extends IOException {
      * Constructs a MessageRemovedIOException with the specified detail message.
      * @param s		the detail message
      */
+    @Impure
     public MessageRemovedIOException(String s) {
 	super(s);
     }

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.iap;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Vector;
 import java.util.Properties;
 import java.io.*;
@@ -102,6 +105,7 @@ public class Protocol {
      * @param isSSL 	use SSL?
      * @param logger 	log messages here
      */
+    @Impure
     public Protocol(String host, int port, 
 		    Properties props, String prefix,
 		    boolean isSSL, MailLogger logger)
@@ -137,6 +141,7 @@ public class Protocol {
 	}
     }
 
+    @Impure
     private void initStreams() throws IOException {
 	traceInput = new TraceInputStream(socket.getInputStream(), traceLogger);
 	traceInput.setQuote(quote);
@@ -151,6 +156,7 @@ public class Protocol {
     /**
      * Constructor for debugging.
      */
+    @Impure
     public Protocol(InputStream in, PrintStream out, boolean debug)
 				throws IOException {
 	this.host = "localhost";
@@ -174,6 +180,7 @@ public class Protocol {
      * Returns the timestamp.
      */
  
+    @Pure
     public long getTimestamp() {
         return timestamp;
     }
@@ -181,6 +188,7 @@ public class Protocol {
     /**
      * Adds a response handler.
      */
+    @Impure
     public void addResponseHandler(ResponseHandler h) {
 	handlers.addElement(h);
     }
@@ -188,6 +196,7 @@ public class Protocol {
     /**
      * Removed the specified response handler.
      */
+    @Impure
     public void removeResponseHandler(ResponseHandler h) {
 	handlers.removeElement(h);
     }
@@ -195,6 +204,7 @@ public class Protocol {
     /**
      * Notify response handlers
      */
+    @Impure
     public void notifyResponseHandlers(Response[] responses) {
 	if (handlers.size() == 0)
 	    return;
@@ -218,6 +228,7 @@ public class Protocol {
 	}
     }
 
+    @Impure
     protected void processGreeting(Response r) throws ProtocolException {
 	if (r.isBYE())
 	    throw new ConnectionException(this, r);
@@ -226,6 +237,7 @@ public class Protocol {
     /**
      * Return the Protocol's InputStream.
      */
+    @Pure
     protected ResponseInputStream getInputStream() {
 	return input;
     }
@@ -233,6 +245,7 @@ public class Protocol {
     /**
      * Return the Protocol's OutputStream
      */
+    @Pure
     protected OutputStream getOutputStream() {
 	return output;
     }
@@ -241,10 +254,12 @@ public class Protocol {
      * Returns whether this Protocol supports non-synchronizing literals
      * Default is false. Subclasses should override this if required
      */
+    @Impure
     protected synchronized boolean supportsNonSyncLiterals() {
 	return false;
     }
 
+    @Impure
     public Response readResponse() 
 		throws IOException, ProtocolException {
 	return new Response(this);
@@ -257,10 +272,12 @@ public class Protocol {
      *
      * @since	JavaMail 1.4.1
      */
+    @Impure
     protected ByteArray getResponseBuffer() {
 	return null;
     }
 
+    @Impure
     public String writeCommand(String command, Argument args) 
 		throws IOException, ProtocolException {
 	// assert Thread.holdsLock(this);
@@ -288,6 +305,7 @@ public class Protocol {
      * @param	args	the arguments
      * @return		array of Response objects returned by the server
      */
+    @Impure
     public synchronized Response[] command(String command, Argument args) {
 	commandStart(command);
 	Vector v = new Vector();
@@ -344,6 +362,7 @@ public class Protocol {
     /**
      * Convenience routine to handle OK, NO, BAD and BYE responses.
      */
+    @Impure
     public void handleResult(Response response) throws ProtocolException {
 	if (response.isOK())
 	    return;
@@ -361,6 +380,7 @@ public class Protocol {
      * Convenience routine to handle simple IAP commands
      * that do not have responses specific to that command.
      */
+    @Impure
     public void simpleCommand(String cmd, Argument args)
 			throws ProtocolException {
 	// Issue command
@@ -380,6 +400,7 @@ public class Protocol {
      * If the socket is already an SSLSocket this is a nop and the command
      * is not issued.
      */
+    @Impure
     public synchronized void startTLS(String cmd)
 				throws IOException, ProtocolException {
 	if (socket instanceof SSLSocket)
@@ -395,6 +416,7 @@ public class Protocol {
      * @return	true if using SSL
      * @since	JavaMail 1.4.6
      */
+    @Pure
     public boolean isSSL() {
 	return socket instanceof SSLSocket;
     }
@@ -402,6 +424,7 @@ public class Protocol {
     /**
      * Disconnect.
      */
+    @Impure
     protected synchronized void disconnect() {
 	if (socket != null) {
 	    try {
@@ -418,6 +441,7 @@ public class Protocol {
      * The property <prefix>.localhost overrides <prefix>.localaddress,
      * which overrides what InetAddress would tell us.
      */
+    @Impure
     protected synchronized String getLocalHost() {
 	// get our hostname and cache it for future use
 	if (localHostName == null || localHostName.length() <= 0)
@@ -455,6 +479,8 @@ public class Protocol {
     /**
      * Is protocol tracing enabled?
      */
+    @Pure
+    @Impure
     protected boolean isTracing() {
 	return traceLogger.isLoggable(Level.FINEST);
     }
@@ -463,6 +489,7 @@ public class Protocol {
      * Temporarily turn off protocol tracing, e.g., to prevent
      * tracing the authentication sequence, including the password.
      */
+    @Impure
     protected void suspendTracing() {
 	if (traceLogger.isLoggable(Level.FINEST)) {
 	    traceInput.setTrace(false);
@@ -473,6 +500,7 @@ public class Protocol {
     /**
      * Resume protocol tracing, if it was enabled to begin with.
      */
+    @Impure
     protected void resumeTracing() {
 	if (traceLogger.isLoggable(Level.FINEST)) {
 	    traceInput.setTrace(true);
@@ -483,6 +511,7 @@ public class Protocol {
     /**
      * Finalizer.
      */
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	disconnect();
@@ -491,6 +520,8 @@ public class Protocol {
     /*
      * Probe points for GlassFish monitoring.
      */
+    @SideEffectFree
     private void commandStart(String command) { }
+    @SideEffectFree
     private void commandEnd() { }
 }

@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This exception is thrown when the connect method on a Store or
@@ -55,6 +56,7 @@ public class AuthenticationFailedException extends MessagingException {
     /**
      * Constructs an AuthenticationFailedException.
      */
+    @Impure
     public AuthenticationFailedException() {
 	super();
     }
@@ -65,6 +67,7 @@ public class AuthenticationFailedException extends MessagingException {
      *
      * @param message	The detailed error message
      */
+    @Impure
     public AuthenticationFailedException(String message) {
 	super(message);
     }
@@ -78,6 +81,7 @@ public class AuthenticationFailedException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public AuthenticationFailedException(String message, Exception e) {
 	super(message, e);
     }

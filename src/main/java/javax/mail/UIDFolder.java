@@ -40,6 +40,8 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.NoSuchElementException;
 
 /**
@@ -89,6 +91,8 @@ public interface UIDFolder {
      * @see FetchProfile
      */
     public static class FetchProfileItem extends FetchProfile.Item {
+	@SideEffectFree
+	@Impure
 	protected FetchProfileItem(String name) {
 	    super(name);
 	}
@@ -130,6 +134,7 @@ public interface UIDFolder {
      *
      * @return UIDValidity
      */
+    @Impure
     public long getUIDValidity() throws MessagingException;
 
     /**
@@ -141,6 +146,7 @@ public interface UIDFolder {
      *			if no message corresponding to this UID is obtained.
      * @exception	MessagingException
      */
+    @Impure
     public Message getMessageByUID(long uid) throws MessagingException;
 
     /**
@@ -160,6 +166,7 @@ public interface UIDFolder {
      * @exception	MessagingException
      * @see 		#LASTUID
      */
+    @Impure
     public Message[] getMessagesByUID(long start, long end)
 				throws MessagingException;
 
@@ -175,6 +182,7 @@ public interface UIDFolder {
      * @return		array of Message objects
      * @exception	MessagingException
      */
+    @Impure
     public Message[] getMessagesByUID(long[] uids) 
 				throws MessagingException;
 
@@ -188,5 +196,6 @@ public interface UIDFolder {
      * @exception	NoSuchElementException if the given Message
      *			is not in this Folder.
      */
+    @Impure
     public long getUID(Message message) throws MessagingException;
 }

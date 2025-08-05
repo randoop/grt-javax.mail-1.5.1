@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Deterministic;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import javax1.mail.*;
 import javax1.mail.internet.*;
 import com.sun1.mail.util.*;
@@ -54,25 +57,30 @@ import com.sun1.mail.imap.protocol.*;
 
 public class DefaultFolder extends IMAPFolder {
     
+    @Impure
     protected DefaultFolder(IMAPStore store) {
 	super("", UNKNOWN_SEPARATOR, store, null);
 	exists = true; // of course
 	type = HOLDS_FOLDERS; // obviously
     }
 
+    @Pure
     public synchronized String getName() {
 	return fullName;
     }
 
+    @Pure
     public Folder getParent() {
 	return null;
     }
 
+    @Impure
     public synchronized Folder[] list(final String pattern)
 				throws MessagingException {
 	ListInfo[] li = null;
 
 	li = (ListInfo[])doCommand(new ProtocolCommand() {
+	    @Impure
 	    public Object doCommand(IMAPProtocol p) throws ProtocolException {
 		return p.list("", pattern);
 	    }
@@ -87,11 +95,13 @@ public class DefaultFolder extends IMAPFolder {
 	return folders;
     }
 
+    @Impure
     public synchronized Folder[] listSubscribed(final String pattern)
 				throws MessagingException {
 	ListInfo[] li = null;
 
 	li = (ListInfo[])doCommand(new ProtocolCommand() {
+	    @Impure
 	    public Object doCommand(IMAPProtocol p) throws ProtocolException {
 		return p.lsub("", pattern);
 	    }
@@ -106,30 +116,36 @@ public class DefaultFolder extends IMAPFolder {
 	return folders;
     }
 
+    @Pure
     public boolean hasNewMessages() throws MessagingException {
 	// Not applicable on DefaultFolder
 	return false;
     }
 
+    @Impure
     public Folder getFolder(String name) throws MessagingException {
 	return ((IMAPStore)store).newIMAPFolder(name, UNKNOWN_SEPARATOR);
     }
 
+    @Deterministic
     public boolean delete(boolean recurse) throws MessagingException {  
 	// Not applicable on DefaultFolder
 	throw new MethodNotSupportedException("Cannot delete Default Folder");
     }
 
+    @Deterministic
     public boolean renameTo(Folder f) throws MessagingException {
 	// Not applicable on DefaultFolder
 	throw new MethodNotSupportedException("Cannot rename Default Folder");
     }
 
+    @Impure
     public void appendMessages(Message[] msgs) throws MessagingException {
 	// Not applicable on DefaultFolder
 	throw new MethodNotSupportedException("Cannot append to Default Folder");
     }
 
+    @Deterministic
     public Message[] expunge() throws MessagingException {
 	// Not applicable on DefaultFolder
 	throw new MethodNotSupportedException("Cannot expunge Default Folder");

@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 
 /**
@@ -57,6 +58,7 @@ public class DecodingException extends IOException {
     /**
      * Constructor
      */
+    @Impure
     public DecodingException(String s) {
 	super(s);
     }

@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 
 /**
@@ -58,6 +60,7 @@ public final class SizeTerm extends IntegerComparisonTerm {
      * @param comparison	the Comparison type
      * @param size		the size
      */
+    @Impure
     public SizeTerm(int comparison, int size) {
 	super(comparison, size);
     }
@@ -68,6 +71,7 @@ public final class SizeTerm extends IntegerComparisonTerm {
      * @param msg	the size comparator is applied to this Message's size
      * @return		true if the size is equal, otherwise false 
      */
+    @Impure
     public boolean match(Message msg) {
 	int size;
 
@@ -86,6 +90,7 @@ public final class SizeTerm extends IntegerComparisonTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof SizeTerm))
 	    return false;

@@ -40,6 +40,9 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Locale;
 import javax1.mail.Message;
 
@@ -66,6 +69,7 @@ public final class HeaderTerm extends StringTerm {
      * @param headerName The name of the header
      * @param pattern    The pattern to search for
      */
+    @Impure
     public HeaderTerm(String headerName, String pattern) {
 	super(pattern);
 	this.headerName = headerName;
@@ -74,6 +78,7 @@ public final class HeaderTerm extends StringTerm {
     /**
      * Return the name of the header to compare with.
      */
+    @Pure
     public String getHeaderName() {
 	return headerName;
     }
@@ -84,6 +89,7 @@ public final class HeaderTerm extends StringTerm {
      * @param msg	The match is applied to this Message's header
      * @return		true if the match succeeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	String[] headers;
 
@@ -105,6 +111,7 @@ public final class HeaderTerm extends StringTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof HeaderTerm))
 	    return false;
@@ -116,6 +123,7 @@ public final class HeaderTerm extends StringTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @SideEffectFree
     public int hashCode() {
 	// XXX - depends on header comparisons being case independent
 	return headerName.toLowerCase(Locale.ENGLISH).hashCode() +

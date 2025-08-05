@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Date;
 import javax1.mail.Message;
 import javax1.mail.search.SearchTerm;
@@ -63,6 +65,7 @@ public final class OlderTerm extends SearchTerm {
      *
      * @param interval	number of seconds older
      */
+    @Impure
     public OlderTerm(int interval) {
 	this.interval = interval;
     }
@@ -72,6 +75,7 @@ public final class OlderTerm extends SearchTerm {
      *
      * @return	the interval
      */
+    @Pure
     public int getInterval() {
 	return interval;
     }
@@ -83,6 +87,7 @@ public final class OlderTerm extends SearchTerm {
      *			received date
      * @return		true if the comparison succeeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	Date d;
 
@@ -102,6 +107,7 @@ public final class OlderTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof OlderTerm))
 	    return false;
@@ -111,6 +117,7 @@ public final class OlderTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return interval + super.hashCode();
     }

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.pop3;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import java.net.*;
 import java.io.*;
@@ -88,6 +91,7 @@ class Protocol {
     /** 
      * Open a connection to the POP3 server.
      */
+    @Impure
     Protocol(String host, int port, MailLogger logger,
 			Properties props, String prefix, boolean isSSL)
 			throws IOException {
@@ -149,6 +153,7 @@ class Protocol {
      * Get the value of a boolean property.
      * Print out the value if logging is enabled.
      */
+    @Impure
     private final synchronized boolean getBoolProp(Properties props,
 				String prop) {
 	boolean val = PropUtil.getBooleanProperty(props, prop, false);
@@ -157,6 +162,7 @@ class Protocol {
 	return val;
     }
 
+    @Impure
     private void initStreams() throws IOException {
 	boolean quote = PropUtil.getBooleanProperty(props,
 					"mail.debug.quote", false);
@@ -175,6 +181,7 @@ class Protocol {
 			    // should be US-ASCII, but not all JDK's support
     }
 
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	if (socket != null) { // Forgot to logout ?!
@@ -185,6 +192,7 @@ class Protocol {
     /**
      * Parse the capabilities from a CAPA response.
      */
+    @Impure
     synchronized void setCapabilities(InputStream in) {
 	if (in == null) {
 	    capabilities = null;
@@ -222,6 +230,7 @@ class Protocol {
      * this server. Returns <code>true</code> if so, otherwise
      * returns false.
      */
+    @SideEffectFree
     synchronized boolean hasCapability(String c) {
 	return capabilities != null &&
 		capabilities.containsKey(c.toUpperCase(Locale.ENGLISH));
@@ -230,6 +239,7 @@ class Protocol {
     /**
      * Return the map of capabilities returned by the server.
      */
+    @Pure
     synchronized Map getCapabilities() {
 	return capabilities;
     }
@@ -237,6 +247,7 @@ class Protocol {
     /**
      * Login to the server, using the USER and PASS commands.
      */
+    @Impure
     synchronized String login(String user, String password)
 					throws IOException {
 	Response r;
@@ -301,6 +312,7 @@ class Protocol {
      * @param	password	The APOP password
      * @return		The APOP digest or an empty string if an error occurs.
      */
+    @Impure
     private String getDigest(String password) {
 	String key = apopChallenge + password;
 	byte[] digest;
@@ -323,6 +335,7 @@ class Protocol {
     /**
      * Convert a byte array to a string of hex digits representing the bytes.
      */
+    @Impure
     private static String toHex(byte[] bytes) {
 	char[] result = new char[bytes.length * 2];
 
@@ -337,6 +350,7 @@ class Protocol {
     /**
      * Close down the connection, sending the QUIT command.
      */
+    @Impure
     synchronized boolean quit() throws IOException {
 	boolean ok = false;
 	try {
@@ -358,6 +372,7 @@ class Protocol {
      * Return the total number of messages and mailbox size,
      * using the STAT command.
      */
+    @Impure
     synchronized Status stat() throws IOException {
 	Response r = simpleCommand("STAT");
 	Status s = new Status();
@@ -387,6 +402,7 @@ class Protocol {
     /**
      * Return the size of the message using the LIST command.
      */
+    @Impure
     synchronized int list(int msg) throws IOException {
 	Response r = simpleCommand("LIST " + msg);
 	int size = -1;
@@ -405,6 +421,7 @@ class Protocol {
     /**
      * Return the size of all messages using the LIST command.
      */
+    @Impure
     synchronized InputStream list() throws IOException {
 	Response r = multilineCommand("LIST", 128); // 128 == output size est
 	return r.bytes;
@@ -416,6 +433,7 @@ class Protocol {
      * preallocating the array and returning a SharedInputStream to allow
      * us to share the array.
      */
+    @Impure
     synchronized InputStream retr(int msg, int size) throws IOException {
 	Response r;
 	String cmd;
@@ -499,6 +517,7 @@ class Protocol {
      * Retrieve the specified message and stream the content to the
      * specified OutputStream.  Return true on success.
      */
+    @Impure
     synchronized boolean retr(int msg, OutputStream os) throws IOException {
 	String cmd = "RETR " + msg;
 	multilineCommandStart(cmd);
@@ -566,6 +585,7 @@ class Protocol {
     /**
      * Return the message header and the first n lines of the message.
      */
+    @Impure
     synchronized InputStream top(int msg, int n) throws IOException {
 	Response r = multilineCommand("TOP " + msg + " " + n, 0);
 	return r.bytes;
@@ -574,6 +594,7 @@ class Protocol {
     /**
      * Delete (permanently) the specified message.
      */
+    @Impure
     synchronized boolean dele(int msg) throws IOException {
 	Response r = simpleCommand("DELE " + msg);
 	return r.ok;
@@ -582,6 +603,7 @@ class Protocol {
     /**
      * Return the UIDL string for the message.
      */
+    @Impure
     synchronized String uidl(int msg) throws IOException {
 	Response r = simpleCommand("UIDL " + msg);
 	if (!r.ok)
@@ -597,6 +619,7 @@ class Protocol {
      * Return the UIDL strings for all messages.
      * The UID for msg #N is returned in uids[N-1].
      */
+    @Impure
     synchronized boolean uidl(String[] uids) throws IOException {
 	Response r = multilineCommand("UIDL", 15 * uids.length);
 	if (!r.ok)
@@ -622,6 +645,7 @@ class Protocol {
     /**
      * Do a NOOP.
      */
+    @Impure
     synchronized boolean noop() throws IOException {
 	Response r = simpleCommand("NOOP");
 	return r.ok;
@@ -630,6 +654,7 @@ class Protocol {
     /**
      * Do an RSET.
      */
+    @Impure
     synchronized boolean rset() throws IOException {
 	Response r = simpleCommand("RSET");
 	return r.ok;
@@ -639,6 +664,7 @@ class Protocol {
      * Start TLS using STLS command specified by RFC 2595.
      * If already using SSL, this is a nop and the STLS command is not issued.
      */
+    @Impure
     synchronized boolean stls() throws IOException {
 	if (socket instanceof SSLSocket)
 	    return true;	// nothing to do
@@ -668,6 +694,7 @@ class Protocol {
     /**
      * Is this connection using SSL?
      */
+    @Pure
     synchronized boolean isSSL() {
 	return socket instanceof SSLSocket;
     }
@@ -676,6 +703,7 @@ class Protocol {
      * Get server capabilities using CAPA command specified by RFC 2449.
      * Returns null if not supported.
      */
+    @Impure
     synchronized InputStream capa() throws IOException {
 	Response r = multilineCommand("CAPA", 128); // 128 == output size est
 	if (!r.ok)
@@ -686,6 +714,7 @@ class Protocol {
     /**
      * Issue a simple POP3 command and return the response.
      */
+    @Impure
     private Response simpleCommand(String cmd) throws IOException {
 	simpleCommandStart(cmd);
 	issueCommand(cmd);
@@ -697,6 +726,7 @@ class Protocol {
     /**
      * Send the specified command.
      */
+    @Impure
     private void issueCommand(String cmd) throws IOException {
 	if (socket == null)
 	    throw new IOException("Folder is closed");	// XXX
@@ -711,6 +741,7 @@ class Protocol {
     /**
      * Read the response to a command.
      */
+    @Impure
     private Response readResponse() throws IOException {
 	String line = null;
 	try {
@@ -760,6 +791,7 @@ class Protocol {
      * Issue a POP3 command that expects a multi-line response.
      * <code>size</code> is an estimate of the response size.
      */
+    @Impure
     private Response multilineCommand(String cmd, int size) throws IOException {
 	multilineCommandStart(cmd);
 	issueCommand(cmd);
@@ -779,6 +811,7 @@ class Protocol {
      * the actual size can be different.  Returns an InputStream to the
      * response bytes.
      */
+    @Impure
     private InputStream readMultilineResponse(int size) throws IOException {
 	SharedByteArrayOutputStream buf = new SharedByteArrayOutputStream(size);
 	int b, lastb = '\n';
@@ -812,6 +845,8 @@ class Protocol {
     /**
      * Is protocol tracing enabled?
      */
+    @Pure
+    @Impure
     protected boolean isTracing() {
 	return traceLogger.isLoggable(Level.FINEST);
     }
@@ -820,6 +855,7 @@ class Protocol {
      * Temporarily turn off protocol tracing, e.g., to prevent
      * tracing the authentication sequence, including the password.
      */
+    @Impure
     private void suspendTracing() {
 	if (traceLogger.isLoggable(Level.FINEST)) {
 	    traceInput.setTrace(false);
@@ -830,6 +866,7 @@ class Protocol {
     /**
      * Resume protocol tracing, if it was enabled to begin with.
      */
+    @Impure
     private void resumeTracing() {
 	if (traceLogger.isLoggable(Level.FINEST)) {
 	    traceInput.setTrace(true);
@@ -840,11 +877,18 @@ class Protocol {
     /*
      * Probe points for GlassFish monitoring.
      */
+    @SideEffectFree
     private void simpleCommandStart(String command) { }
+    @SideEffectFree
     private void simpleCommandEnd() { }
+    @SideEffectFree
     private void multilineCommandStart(String command) { }
+    @SideEffectFree
     private void multilineCommandEnd() { }
+    @SideEffectFree
     private void batchCommandStart(String command) { }
+    @SideEffectFree
     private void batchCommandContinue(String command) { }
+    @SideEffectFree
     private void batchCommandEnd() { }
 }

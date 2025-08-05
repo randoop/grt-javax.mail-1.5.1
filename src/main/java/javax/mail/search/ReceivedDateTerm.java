@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Date;
 import javax1.mail.Message;
 
@@ -59,6 +61,7 @@ public final class ReceivedDateTerm extends DateTerm {
      * @param comparison	the Comparison type
      * @param date		the date to be compared
      */
+    @Impure
     public ReceivedDateTerm(int comparison, Date date) {
 	super(comparison, date);
     }
@@ -70,6 +73,7 @@ public final class ReceivedDateTerm extends DateTerm {
      *			received date
      * @return		true if the comparison succeeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	Date d;
 
@@ -88,6 +92,7 @@ public final class ReceivedDateTerm extends DateTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof ReceivedDateTerm))
 	    return false;

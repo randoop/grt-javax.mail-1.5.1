@@ -40,6 +40,9 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
@@ -80,6 +83,7 @@ public final class MailLogger {
      * @param	debug	if true, write to PrintStream
      * @param	out	the PrintStream to write to
      */
+    @SideEffectFree
     public MailLogger(String name, String prefix, boolean debug,
 				PrintStream out) {
 	logger = Logger.getLogger(name);
@@ -98,6 +102,7 @@ public final class MailLogger {
      * @param	debug	if true, write to PrintStream
      * @param	out	the PrintStream to write to
      */
+    @Impure
     public MailLogger(Class clazz, String prefix, boolean debug,
 				PrintStream out) {
 	String name = packageOf(clazz);
@@ -118,6 +123,7 @@ public final class MailLogger {
      * @param	debug	if true, write to PrintStream
      * @param	out	the PrintStream to write to
      */
+    @Impure
     public MailLogger(Class clazz, String subname, String prefix, boolean debug,
 				PrintStream out) {
 	String name = packageOf(clazz) + "." + subname;
@@ -136,6 +142,8 @@ public final class MailLogger {
      * @param	prefix	the prefix for debug output, or null for none
      * @param	session	where to get the debug flag and PrintStream
      */
+    @SideEffectFree
+    @Impure
     public MailLogger(String name, String prefix, Session session) {
 	this(name, prefix, session.getDebug(), session.getDebugOut());
     }
@@ -150,6 +158,7 @@ public final class MailLogger {
      * @param	prefix	the prefix for debug output, or null for none
      * @param	session	where to get the debug flag and PrintStream
      */
+    @Impure
     public MailLogger(Class clazz, String prefix, Session session) {
 	this(clazz, prefix, session.getDebug(), session.getDebugOut());
     }
@@ -162,6 +171,8 @@ public final class MailLogger {
      * @param	name	the Logger name
      * @param	prefix	the prefix for debug output, or null for none
      */
+    @SideEffectFree
+    @Impure
     public MailLogger getLogger(String name, String prefix) {
 	return new MailLogger(name, prefix, debug, out);
     }
@@ -175,6 +186,7 @@ public final class MailLogger {
      * @param	clazz	the Logger name is the package name of this class
      * @param	prefix	the prefix for debug output, or null for none
      */
+    @Impure
     public MailLogger getLogger(Class clazz, String prefix) {
 	return new MailLogger(clazz, prefix, debug, out);
     }
@@ -189,6 +201,8 @@ public final class MailLogger {
      * @param	subname	the Logger name relative to this Logger name
      * @param	prefix	the prefix for debug output, or null for none
      */
+    @SideEffectFree
+    @Impure
     public MailLogger getSubLogger(String subname, String prefix) {
 	return new MailLogger(logger.getName() + "." + subname, prefix,
 				debug, out);
@@ -205,6 +219,8 @@ public final class MailLogger {
      * @param	prefix	the prefix for debug output, or null for none
      * @param	debug	the debug flag for the sub-logger
      */
+    @SideEffectFree
+    @Impure
     public MailLogger getSubLogger(String subname, String prefix,
 				boolean debug) {
 	return new MailLogger(logger.getName() + "." + subname, prefix,
@@ -214,6 +230,7 @@ public final class MailLogger {
     /**
      * Log the message at the specified level.
      */
+    @Impure
     public void log(Level level, String msg) {
 	ifDebugOut(msg);
 	if (logger.isLoggable(level)) {
@@ -225,6 +242,7 @@ public final class MailLogger {
     /**
      * Log the message at the specified level.
      */
+    @Impure
     public void log(Level level, String msg, Object param1) {
 	if (debug) {
 	    msg = MessageFormat.format(msg, new Object[] { param1 });
@@ -240,6 +258,7 @@ public final class MailLogger {
     /**
      * Log the message at the specified level.
      */
+    @Impure
     public void log(Level level, String msg, Object params[]) {
 	if (debug) {
 	    msg = MessageFormat.format(msg, params);
@@ -265,6 +284,7 @@ public final class MailLogger {
     /**
      * Log the message at the specified level.
      */
+    @Impure
     public void log(Level level, String msg, Throwable thrown) {
 	if (debug) {
 	    if (thrown != null) {
@@ -284,6 +304,7 @@ public final class MailLogger {
     /**
      * Log a message at the CONFIG level.
      */
+    @Impure
     public void config(String msg) {
 	log(Level.CONFIG, msg);
     }
@@ -291,6 +312,7 @@ public final class MailLogger {
     /**
      * Log a message at the FINE level.
      */
+    @Impure
     public void fine(String msg) {
 	log(Level.FINE, msg);
     }
@@ -298,6 +320,7 @@ public final class MailLogger {
     /**
      * Log a message at the FINER level.
      */
+    @Impure
     public void finer(String msg) {
 	log(Level.FINER, msg);
     }
@@ -305,6 +328,7 @@ public final class MailLogger {
     /**
      * Log a message at the FINEST level.
      */
+    @Impure
     public void finest(String msg) {
 	log(Level.FINEST, msg);
     }
@@ -313,15 +337,18 @@ public final class MailLogger {
      * If "debug" is set, or our embedded Logger is loggable at the
      * given level, return true.
      */
+    @Pure
     public boolean isLoggable(Level level) {
 	return debug || logger.isLoggable(level);
     }
 
+    @Impure
     private final void ifDebugOut(String msg) {
 	if (debug)
 	    debugOut(msg);
     }
 
+    @Impure
     private final void debugOut(String msg) {
 	if (prefix != null)
 	    out.println(prefix + ": " + msg);
@@ -334,6 +361,7 @@ public final class MailLogger {
      * Sometimes there will be no Package object for the class,
      * e.g., if the class loader hasn't created one (see Class.getPackage()).
      */
+    @Impure
     private String packageOf(Class clazz) {
 	Package p = clazz.getPackage();
 	if (p != null)
@@ -354,6 +382,7 @@ public final class MailLogger {
      * Logger doesn't have to do it (and get the wrong answer), and because
      * our caller is what's wanted.
      */
+    @Impure
     private String[] inferCaller() {
 	// Get the stack trace.
 	StackTraceElement stack[] = (new Throwable()).getStackTrace();
@@ -382,6 +411,7 @@ public final class MailLogger {
 	return new String[]{null, null};
     }
     
+    @Pure
     private boolean isLoggerImplFrame(String cname) {
 	return MailLogger.class.getName().equals(cname);
     }

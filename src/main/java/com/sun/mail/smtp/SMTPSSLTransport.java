@@ -40,6 +40,7 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.*;
 
 /**
@@ -52,6 +53,7 @@ import javax1.mail.*;
 public class SMTPSSLTransport extends SMTPTransport {
 
     /** Constructor */
+    @Impure
     public SMTPSSLTransport(Session session, URLName urlname) {
 	super(session, urlname, "smtps", true);
     }

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -138,6 +141,7 @@ public class Rights implements Cloneable {
 	/**
 	 * Private constructor used only by getInstance.
 	 */
+	@SideEffectFree
 	private Right(char right) {
 	    if ((int)right >= 128)
 		throw new IllegalArgumentException("Right must be ASCII");
@@ -148,6 +152,7 @@ public class Rights implements Cloneable {
 	 * Get a Right object representing the specified character.
 	 * Characters are assigned per RFC 2086.
 	 */
+	@Impure
 	public static synchronized Right getInstance(char right) {
 	    if ((int)right >= 128)
 		throw new IllegalArgumentException("Right must be ASCII");
@@ -156,6 +161,7 @@ public class Rights implements Cloneable {
 	    return cache[(int)right];
 	}
 
+	@SideEffectFree
 	public String toString() {
 	    return String.valueOf(right);
 	}
@@ -165,6 +171,7 @@ public class Rights implements Cloneable {
     /**
      * Construct an empty Rights object.
      */
+    @SideEffectFree
     public Rights() { }
 
     /**
@@ -172,6 +179,7 @@ public class Rights implements Cloneable {
      *
      * @param rights	the rights for initialization
      */
+    @SideEffectFree
     public Rights(Rights rights) {
 	System.arraycopy(rights.rights, 0, this.rights, 0, this.rights.length);
     }
@@ -181,6 +189,7 @@ public class Rights implements Cloneable {
      *
      * @param rights	the rights for initialization
      */
+    @Impure
     public Rights(String rights) {
 	for (int i = 0; i < rights.length(); i++)
 	    add(Right.getInstance(rights.charAt(i)));
@@ -191,6 +200,7 @@ public class Rights implements Cloneable {
      *
      * @param right	the right for initialization
      */
+    @Impure
     public Rights(Right right) {
 	this.rights[(int)right.right] = true;
     }
@@ -200,6 +210,7 @@ public class Rights implements Cloneable {
      *
      * @param right	the right to add
      */
+    @Impure
     public void add(Right right) {
 	this.rights[(int)right.right] = true;
     }
@@ -210,6 +221,7 @@ public class Rights implements Cloneable {
      *
      * @param rights	Rights object
      */
+    @Impure
     public void add(Rights rights) {
 	for (int i = 0; i < rights.rights.length; i++)
 	    if (rights.rights[i])
@@ -221,6 +233,7 @@ public class Rights implements Cloneable {
      *
      * @param	right 	the right to be removed
      */
+    @Impure
     public void remove(Right right) {
 	this.rights[(int)right.right] = false;
     }
@@ -231,6 +244,7 @@ public class Rights implements Cloneable {
      *
      * @param	rights 	the rights to be removed
      */
+    @Impure
     public void remove(Rights rights) {
 	for (int i = 0; i < rights.rights.length; i++)
 	    if (rights.rights[i])
@@ -242,6 +256,7 @@ public class Rights implements Cloneable {
      *
      * @return 		true of the given right is present, otherwise false.
      */
+    @Pure
     public boolean contains(Right right) {
 	return this.rights[(int)right.right];
     }
@@ -253,6 +268,7 @@ public class Rights implements Cloneable {
      * @return	true if all rights in the given Rights object are present, 
      *		otherwise false.
      */
+    @Pure
     public boolean contains(Rights rights) {
 	for (int i = 0; i < rights.rights.length; i++)
 	    if (rights.rights[i] && !this.rights[i])
@@ -267,6 +283,7 @@ public class Rights implements Cloneable {
      *
      * @return	true if they're equal
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof Rights))
 	    return false;
@@ -285,6 +302,7 @@ public class Rights implements Cloneable {
      *
      * @return	the hash code
      */
+    @Pure
     public int hashCode() {
 	int hash = 0;
 	for (int i = 0; i < this.rights.length; i++)
@@ -299,6 +317,7 @@ public class Rights implements Cloneable {
      *
      * @return	array of Rights.Right objects representing rights
      */
+    @Impure
     public Right[] getRights() {
 	Vector v = new Vector();
 	for (int i = 0; i < this.rights.length; i++)
@@ -312,6 +331,7 @@ public class Rights implements Cloneable {
     /**
      * Returns a clone of this Rights object.
      */
+    @Impure
     public Object clone() {
 	Rights r = null;
 	try {
@@ -324,6 +344,7 @@ public class Rights implements Cloneable {
 	return r;
     }
 
+    @Impure
     public String toString() {
 	StringBuffer sb = new StringBuffer();
 	for (int i = 0; i < this.rights.length; i++)

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -147,6 +150,7 @@ public class SMTPTransport extends Transport {
      * Constructor that takes a Session object and a URLName
      * that represents a specific SMTP server.
      */
+    @Impure
     public SMTPTransport(Session session, URLName urlname) {
 	this(session, urlname, "smtp", false);
     }
@@ -154,6 +158,7 @@ public class SMTPTransport extends Transport {
     /**
      * Constructor used by this class and by SMTPSSLTransport subclass.
      */
+    @Impure
     protected SMTPTransport(Session session, URLName urlname,
 				String name, boolean isSSL) {
 	super(session, urlname);
@@ -225,6 +230,7 @@ public class SMTPTransport extends Transport {
      * The property mail.smtp.localhost overrides mail.smtp.localaddress,
      * which overrides what InetAddress would tell us.
      */
+    @Impure
     public synchronized String getLocalHost() {
 	// get our hostname and cache it for future use
 	if (localHostName == null || localHostName.length() <= 0)
@@ -264,6 +270,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.1
      */
+    @Impure
     public synchronized void setLocalHost(String localhost) {
 	localHostName = localhost;
     }
@@ -276,6 +283,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.3
      */
+    @Impure
     public synchronized void connect(Socket socket) throws MessagingException {
 	serverSocket = socket;
 	super.connect();
@@ -288,6 +296,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.4
      */
+    @Impure
     public synchronized String getAuthorizationId() {
 	if (authorizationID == UNKNOWN) {
 	    authorizationID =
@@ -304,6 +313,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.4
      */
+    @Impure
     public synchronized void setAuthorizationID(String authzid) {
 	this.authorizationID = authzid;
     }
@@ -315,6 +325,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.4
      */
+    @Pure
     public synchronized boolean getSASLEnabled() {
 	return enableSASL;
     }
@@ -326,6 +337,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.4
      */
+    @Impure
     public synchronized void setSASLEnabled(boolean enableSASL) {
 	this.enableSASL = enableSASL;
     }
@@ -337,6 +349,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.1
      */
+    @Impure
     public synchronized String getSASLRealm() {
 	if (saslRealm == UNKNOWN) {
 	    saslRealm = session.getProperty("mail." + name + ".sasl.realm");
@@ -354,6 +367,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.1
      */
+    @Impure
     public synchronized void setSASLRealm(String saslRealm) {
 	this.saslRealm = saslRealm;
     }
@@ -367,6 +381,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.4
      */
+    @Impure
     public synchronized String[] getSASLMechanisms() {
 	if (saslMechanisms == UNKNOWN_SA) {
 	    List v = new ArrayList(5);
@@ -398,6 +413,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.4
      */
+    @Impure
     public synchronized void setSASLMechanisms(String[] mechanisms) {
 	if (mechanisms != null)
 	    mechanisms = (String[])mechanisms.clone();
@@ -411,6 +427,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.3
      */
+    @Impure
     public synchronized String getNTLMDomain() {
 	if (ntlmDomain == UNKNOWN) {
 	    ntlmDomain =
@@ -427,6 +444,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.3
      */
+    @Impure
     public synchronized void setNTLMDomain(String ntlmDomain) {
 	this.ntlmDomain = ntlmDomain;
     }
@@ -444,6 +462,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.2
      */
+    @Pure
     public synchronized boolean getReportSuccess() {
 	return reportSuccess;
     }
@@ -456,6 +475,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.2
      */
+    @Impure
     public synchronized void setReportSuccess(boolean reportSuccess) {
 	this.reportSuccess = reportSuccess;
     }
@@ -468,6 +488,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.2
      */
+    @Pure
     public synchronized boolean getStartTLS() {
 	return useStartTLS;
     }
@@ -479,6 +500,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.2
      */
+    @Impure
     public synchronized void setStartTLS(boolean useStartTLS) {
 	this.useStartTLS = useStartTLS;
     }
@@ -490,6 +512,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.2
      */
+    @Pure
     public synchronized boolean getRequireStartTLS() {
 	return requireStartTLS;
     }
@@ -501,6 +524,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.2
      */
+    @Impure
     public synchronized void setRequireStartTLS(boolean requireStartTLS) {
 	this.requireStartTLS = requireStartTLS;
     }
@@ -511,6 +535,7 @@ public class SMTPTransport extends Transport {
      * @return	true if using SSL
      * @since	JavaMail 1.4.6
      */
+    @Pure
     public synchronized boolean isSSL() {
 	return serverSocket instanceof SSLSocket;
     }
@@ -523,6 +548,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4
      */
+    @Pure
     public synchronized boolean getUseRset() {
 	return useRset;
     }
@@ -535,6 +561,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4
      */
+    @Impure
     public synchronized void setUseRset(boolean useRset) {
 	this.useRset = useRset;
     }
@@ -547,6 +574,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.3
      */
+    @Pure
     public synchronized boolean getNoopStrict() {
 	return noopStrict;
     }
@@ -559,6 +587,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.3
      */
+    @Impure
     public synchronized void setNoopStrict(boolean noopStrict) {
 	this.noopStrict = noopStrict;
     }
@@ -574,6 +603,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.2
      */
+    @Pure
     public synchronized String getLastServerResponse() {
 	return lastServerResponse;
     }
@@ -585,6 +615,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Pure
     public synchronized int getLastReturnCode() {
 	return lastReturnCode;
     }
@@ -607,6 +638,7 @@ public class SMTPTransport extends Transport {
      * @return	true if connection successful, false if authentication failed
      * @exception MessagingException	for non-authentication failures
      */
+    @Impure
     protected synchronized boolean protocolConnect(String host, int port,
 			String user, String passwd) throws MessagingException {
 	// setting mail.smtp.auth to true enables attempts to use AUTH
@@ -708,6 +740,7 @@ public class SMTPTransport extends Transport {
     /**
      * Authenticate to the server.
      */
+    @Impure
     private boolean authenticate(String user, String passwd)
 				throws MessagingException {
 	// setting mail.smtp.auth.mechanisms controls which mechanisms will
@@ -777,10 +810,12 @@ public class SMTPTransport extends Transport {
 	protected int resp;	// the response code, used by subclasses
 	private String mech;	// the mechanism name, set in the constructor
 
+	@SideEffectFree
 	Authenticator(String mech) {
 	    this.mech = mech.toUpperCase(Locale.ENGLISH);
 	}
 
+	@Pure
 	String getMechanism() {
 	    return mech;
 	}
@@ -790,6 +825,7 @@ public class SMTPTransport extends Transport {
 	 * Delegate to the doAuth method to do the mechanism-specific
 	 * part of the handshake.
 	 */
+	@Impure
 	boolean authenticate(String host, String authzid,
 			String user, String passwd) throws MessagingException {
 	    Throwable thrown = null;
@@ -852,11 +888,13 @@ public class SMTPTransport extends Transport {
 	 * or null if not supported.  Subclasses that support the
 	 * initial response capability will override this method.
 	 */
+	@Impure
 	String getInitialResponse(String host, String authzid, String user,
 		    String passwd) throws MessagingException, IOException {
 	    return null;
 	}
 
+	@Impure
 	abstract void doAuth(String host, String authzid, String user,
 		    String passwd) throws MessagingException, IOException;
     }
@@ -865,10 +903,13 @@ public class SMTPTransport extends Transport {
      * Perform the authentication handshake for LOGIN authentication.
      */
     private class LoginAuthenticator extends Authenticator {
+	@SideEffectFree
+	@Impure
 	LoginAuthenticator() {
 	    super("LOGIN");
 	}
 
+	@Impure
 	void doAuth(String host, String authzid, String user, String passwd)
 				    throws MessagingException, IOException {
 	    // send username
@@ -886,10 +927,13 @@ public class SMTPTransport extends Transport {
      * Perform the authentication handshake for PLAIN authentication.
      */
     private class PlainAuthenticator extends Authenticator {
+	@SideEffectFree
+	@Impure
 	PlainAuthenticator() {
 	    super("PLAIN");
 	}
 
+	@Impure
 	String getInitialResponse(String host, String authzid, String user,
 			String passwd) throws MessagingException, IOException {
 	    // return "authzid<NUL>user<NUL>passwd"
@@ -907,6 +951,7 @@ public class SMTPTransport extends Transport {
 	    return ASCIIUtility.toString(bos.toByteArray());
 	}
 
+	@Impure
 	void doAuth(String host, String authzid, String user, String passwd)
 				    throws MessagingException, IOException {
 	    // should never get here
@@ -920,16 +965,20 @@ public class SMTPTransport extends Transport {
     private class DigestMD5Authenticator extends Authenticator {
 	private DigestMD5 md5support;	// only create if needed
 
+	@SideEffectFree
+	@Impure
 	DigestMD5Authenticator() {
 	    super("DIGEST-MD5");
 	}
 
+	@Impure
 	private synchronized DigestMD5 getMD5() {
 	    if (md5support == null)
 		md5support = new DigestMD5(logger);
 	    return md5support;
 	}
 
+	@Impure
 	void doAuth(String host, String authzid, String user, String passwd)
 				    throws MessagingException, IOException {
 	    DigestMD5 md5 = getMD5();
@@ -957,10 +1006,13 @@ public class SMTPTransport extends Transport {
 	private Ntlm ntlm;
 	private int flags;
 
+	@SideEffectFree
+	@Impure
 	NtlmAuthenticator() {
 	    super("NTLM");
 	}
 
+	@Impure
 	String getInitialResponse(String host, String authzid, String user,
 		String passwd) throws MessagingException, IOException {
 	    ntlm = new Ntlm(getNTLMDomain(), getLocalHost(),
@@ -974,6 +1026,7 @@ public class SMTPTransport extends Transport {
 	    return type1;
 	}
 
+	@Impure
 	void doAuth(String host, String authzid, String user, String passwd)
 		throws MessagingException, IOException {
 	    assert ntlm != null;
@@ -987,6 +1040,7 @@ public class SMTPTransport extends Transport {
     /**
      * SASL-based login.
      */
+    @Impure
     public boolean sasllogin(String[] allowed, String realm, String authzid,
 				String u, String p) throws MessagingException {
 	if (saslAuthenticator == null) {
@@ -1082,6 +1136,7 @@ public class SMTPTransport extends Transport {
      *                  or not in the connected state or if the message is
      *                  not a MimeMessage.
      */
+    @Impure
     public synchronized void sendMessage(Message message, Address[] addresses)
 		    throws MessagingException, SendFailedException {
 
@@ -1196,6 +1251,7 @@ public class SMTPTransport extends Transport {
     /**
      * The send failed, fix the address arrays to report the failure correctly.
      */
+    @Impure
     private void addressesFailed() {
 	if (validSentAddr != null) {
 	    if (validUnsentAddr != null) {
@@ -1217,6 +1273,7 @@ public class SMTPTransport extends Transport {
     /**
      * Close the Transport and terminate the connection to the server.
      */
+    @Impure
     public synchronized void close() throws MessagingException {
 	if (!super.isConnected()) // Already closed.
 	    return;
@@ -1235,6 +1292,7 @@ public class SMTPTransport extends Transport {
 	}
     }
 
+    @Impure
     private void closeConnection() throws MessagingException {
 	try {
 	    if (serverSocket != null)
@@ -1255,6 +1313,7 @@ public class SMTPTransport extends Transport {
      * Check whether the transport is connected. Override superclass
      * method, to actually ping our server connection.
      */
+    @Impure
     public synchronized boolean isConnected() {
 	if (!super.isConnected())
 	    // if we haven't been connected at all, don't bother with NOOP
@@ -1312,6 +1371,7 @@ public class SMTPTransport extends Transport {
      *
      * @since	JavaMail 1.4.2
      */
+    @Impure
     protected void notifyTransportListeners(int type, Address[] validSent,
 					    Address[] validUnsent,
 					    Address[] invalid, Message msg) {
@@ -1326,6 +1386,7 @@ public class SMTPTransport extends Transport {
     /**
      * Expand any group addresses.
      */
+    @Impure
     private void expandGroups() {
 	Vector groups = null;
 	for (int i = 0; i < addresses.length; i++) {
@@ -1374,6 +1435,7 @@ public class SMTPTransport extends Transport {
      *
      * XXX - This is really quite a hack.
      */
+    @Impure
     private boolean convertTo8Bit(MimePart part) {
 	boolean changed = false;
 	try {
@@ -1432,6 +1494,7 @@ public class SMTPTransport extends Transport {
      * don't check that because we assume this is text and we convert
      * all CR/LF combinations into canonical CRLF later.
      */
+    @Impure
     private boolean is8Bit(InputStream is) {
 	int b;
 	int linelen = 0;
@@ -1459,6 +1522,7 @@ public class SMTPTransport extends Transport {
 	return need8bit;
     }
 
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	try {
@@ -1485,6 +1549,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected void helo(String domain) throws MessagingException {
 	if (domain != null)
 	    issueCommand("HELO " + domain, 250);
@@ -1501,6 +1566,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected boolean ehlo(String domain) throws MessagingException {
 	String cmd;
 	if (domain != null)
@@ -1555,6 +1621,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected void mailFrom() throws MessagingException {
 	String from = null;
 	if (message instanceof SMTPMessage)
@@ -1669,6 +1736,7 @@ public class SMTPTransport extends Transport {
      * invalid addr: 550, 501, 503, 551, 553
      * valid addr: 552 (quota), 450, 451, 452 (quota), 421 (srvr abort)
      */
+    @Impure
     protected void rcptTo() throws MessagingException {
 	Vector valid = new Vector();
 	Vector validUnsent = new Vector();
@@ -1894,6 +1962,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected OutputStream data() throws MessagingException {
 	assert Thread.holdsLock(this);
 	issueSendCommand("DATA", 354);
@@ -1906,6 +1975,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected void finishData() throws IOException, MessagingException {
 	assert Thread.holdsLock(this);
 	dataStream.ensureAtBOL();
@@ -1918,6 +1988,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected void startTLS() throws MessagingException {
 	issueCommand("STARTTLS", 220);
 	// it worked, now switch the socket into TLS mode
@@ -1937,6 +2008,7 @@ public class SMTPTransport extends Transport {
     /**
      * Connect to host on port and start the SMTP protocol.
      */
+    @Impure
     private void openServer(String host, int port)
 				throws MessagingException {
 
@@ -1992,6 +2064,7 @@ public class SMTPTransport extends Transport {
      * Start the protocol to the server on serverSocket,
      * assumed to be provided and connected by the caller.
      */
+    @Impure
     private void openServer() throws MessagingException {
 	int port = -1;
 	host = "UNKNOWN";
@@ -2032,6 +2105,7 @@ public class SMTPTransport extends Transport {
     }
 
 
+    @Impure
     private void initStreams() throws IOException {
 	boolean quote = PropUtil.getBooleanSessionProperty(session,
 					"mail.debug.quote", false);
@@ -2054,6 +2128,8 @@ public class SMTPTransport extends Transport {
     /**
      * Is protocol tracing enabled?
      */
+    @Pure
+    @Impure
     private boolean isTracing() {
 	return traceLogger.isLoggable(Level.FINEST);
     }
@@ -2062,6 +2138,7 @@ public class SMTPTransport extends Transport {
      * Temporarily turn off protocol tracing, e.g., to prevent
      * tracing the authentication sequence, including the password.
      */
+    @Impure
     private void suspendTracing() {
 	if (traceLogger.isLoggable(Level.FINEST)) {
 	    traceInput.setTrace(false);
@@ -2072,6 +2149,7 @@ public class SMTPTransport extends Transport {
     /**
      * Resume protocol tracing, if it was enabled to begin with.
      */
+    @Impure
     private void resumeTracing() {
 	if (traceLogger.isLoggable(Level.FINEST)) {
 	    traceInput.setTrace(true);
@@ -2088,6 +2166,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     public synchronized void issueCommand(String cmd, int expect)
 				throws MessagingException {
 	sendCommand(cmd);
@@ -2102,6 +2181,7 @@ public class SMTPTransport extends Transport {
     /**
      * Issue a command that's part of sending a message.
      */
+    @Impure
     private void issueSendCommand(String cmd, int expect)
 				throws MessagingException {
 	sendCommand(cmd);
@@ -2141,6 +2221,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     public synchronized int simpleCommand(String cmd)
 				throws MessagingException {
 	sendCommand(cmd);
@@ -2153,6 +2234,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected int simpleCommand(byte[] cmd) throws MessagingException {
 	assert Thread.holdsLock(this);
 	sendCommand(cmd);
@@ -2165,10 +2247,12 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected void sendCommand(String cmd) throws MessagingException {
 	sendCommand(ASCIIUtility.getBytes(cmd));
     }
 
+    @Impure
     private void sendCommand(byte[] cmdBytes) throws MessagingException {
 	assert Thread.holdsLock(this);
 	//if (logger.isLoggable(Level.FINE))
@@ -2192,6 +2276,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected int readServerResponse() throws MessagingException {
 	assert Thread.holdsLock(this);
         String serverResponse = "";
@@ -2272,17 +2357,20 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected void checkConnected() {
 	if (!super.isConnected())
 	    throw new IllegalStateException("Not connected");
     }
 
     // tests if the <code>line</code> is an intermediate line according to SMTP
+    @Pure
     private boolean isNotLastLine(String line) {
         return line != null && line.length() >= 4 && line.charAt(3) == '-';
     }
 
     // wraps an address in "<>"'s if necessary
+    @Pure
     private String normalizeAddress(String addr) {
 	if ((!addr.startsWith("<")) && (!addr.endsWith(">")))
 	    return "<" + addr + ">";
@@ -2302,6 +2390,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.2
      */
+    @SideEffectFree
     public boolean supportsExtension(String ext) {
 	return extMap != null &&
 			extMap.get(ext.toUpperCase(Locale.ENGLISH)) != null;
@@ -2316,6 +2405,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.3.2
      */
+    @SideEffectFree
     public String getExtensionParameter(String ext) {
 	return extMap == null ? null :
 			(String)extMap.get(ext.toUpperCase(Locale.ENGLISH));
@@ -2331,6 +2421,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected boolean supportsAuthentication(String auth) {
 	assert Thread.holdsLock(this);
 	if (extMap == null)
@@ -2375,6 +2466,7 @@ public class SMTPTransport extends Transport {
      *
      * @since JavaMail 1.4.1
      */
+    @Impure
     protected static String xtext(String s) {
 	StringBuffer sb = null;
 	for (int i = 0; i < s.length(); i++) {
@@ -2401,6 +2493,8 @@ public class SMTPTransport extends Transport {
     /*
      * Probe points for GlassFish monitoring.
      */
+    @SideEffectFree
     private void sendMessageStart(String subject) { }
+    @SideEffectFree
     private void sendMessageEnd() { }
 }

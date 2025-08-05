@@ -40,6 +40,7 @@
 
 package com.sun1.mail.pop3;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.util.Enumeration;
 import java.util.logging.Level;
@@ -74,6 +75,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
     // rawData itself is never null
     private SoftReference rawData = new SoftReference(null);
 
+    @Impure
     public POP3Message(Folder folder, int msgno)
 			throws MessagingException {
 	super(folder, msgno);
@@ -87,6 +89,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @param newFlags	the flags to be set
      * @param set	the value to be set
      */
+    @Impure
     public synchronized void setFlags(Flags newFlags, boolean set)
 				throws MessagingException {
 	Flags oldFlags = (Flags)flags.clone();
@@ -107,6 +110,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @return          size of content in bytes
      * @exception	MessagingException
      */  
+    @Impure
     public int getSize() throws MessagingException {
 	try {
 	    synchronized (this) {
@@ -151,6 +155,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * the POP3 RETR command.  If skipHeader is true, just the content
      * is returned.
      */
+    @Impure
     private InputStream getRawStream(boolean skipHeader)
 				throws MessagingException {
 	InputStream rawcontent = null;
@@ -263,6 +268,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *
      * @see #contentStream
      */
+    @Impure
     protected synchronized InputStream getContentStream()
 				throws MessagingException {
 	if (contentStream != null)
@@ -287,6 +293,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @return	the MIME format stream
      * @since	JavaMail 1.4.5
      */
+    @Impure
     public InputStream getMimeStream() throws MessagingException {
 	return getRawStream(false);
     }
@@ -299,6 +306,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *
      * @param	invalidateHeaders	invalidate the headers as well?
      */
+    @Impure
     public synchronized void invalidate(boolean invalidateHeaders) {
 	content = null;
 	InputStream rstream = (InputStream)rawData.get();
@@ -335,6 +343,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @param	n	number of lines of content to fetch
      * @return	InputStream containing the message headers and n content lines
      */
+    @Impure
     public InputStream top(int n) throws MessagingException {
 	try {
 	    synchronized (this) {
@@ -358,6 +367,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @exception       MessagingException
      * @see 	javax1.mail.internet.MimeUtility
      */
+    @Impure
     public String[] getHeader(String name)
 			throws MessagingException {
 	if (headers == null)
@@ -377,6 +387,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *				this name
      * @exception       	MessagingException
      */
+    @Impure
     public String getHeader(String name, String delimiter)
 				throws MessagingException {
 	if (headers == null)
@@ -396,6 +407,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public void setHeader(String name, String value)
                                 throws MessagingException {
 	// XXX - should check for read-only folder?
@@ -414,6 +426,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public void addHeader(String name, String value)
                                 throws MessagingException {
 	// XXX - should check for read-only folder?
@@ -429,6 +442,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public void removeHeader(String name)
                                 throws MessagingException {
 	// XXX - should check for read-only folder?
@@ -447,6 +461,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @exception  MessagingException
      * @see 	javax1.mail.internet.MimeUtility
      */
+    @Impure
     public Enumeration getAllHeaders() throws MessagingException {
 	if (headers == null)
 	    loadHeaders();
@@ -459,6 +474,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *
      * @exception  MessagingException
      */
+    @Impure
     public Enumeration getMatchingHeaders(String[] names)
 			throws MessagingException {
 	if (headers == null)
@@ -472,6 +488,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *
      * @exception  MessagingException
      */
+    @Impure
     public Enumeration getNonMatchingHeaders(String[] names)
 			throws MessagingException {
 	if (headers == null)
@@ -488,6 +505,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public void addHeaderLine(String line) throws MessagingException {
 	// XXX - should check for read-only folder?
 	throw new IllegalWriteException("POP3 messages are read-only");
@@ -500,6 +518,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *
      * @exception  	MessagingException
      */
+    @Impure
     public Enumeration getAllHeaderLines() throws MessagingException {
 	if (headers == null)
 	    loadHeaders();
@@ -513,6 +532,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *
      * @exception  	MessagingException
      */
+    @Impure
     public Enumeration getMatchingHeaderLines(String[] names)
                                         throws MessagingException {
 	if (headers == null)
@@ -527,6 +547,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *
      * @exception  	MessagingException
      */
+    @Impure
     public Enumeration getNonMatchingHeaderLines(String[] names)
                                         throws MessagingException {
 	if (headers == null)
@@ -541,6 +562,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * @exception	IllegalWriteException because the underlying
      *			implementation does not support modification
      */
+    @Impure
     public void saveChanges() throws MessagingException {
 	// POP3 Messages are read-only
 	throw new IllegalWriteException("POP3 messages are read-only");
@@ -560,6 +582,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      *				javax.activation layer.
      * @see javax.activation.DataHandler#writeTo
      */
+    @Impure
     public synchronized void writeTo(OutputStream os, String[] ignoreList)
 				throws IOException, MessagingException {
 	InputStream rawcontent = (InputStream)rawData.get();
@@ -594,6 +617,7 @@ public class POP3Message extends MimeMessage implements ReadableMime {
      * Load the headers for this message into the InternetHeaders object.
      * The headers are fetched using the POP3 TOP command.
      */
+    @Impure
     private void loadHeaders() throws MessagingException {
 	assert !Thread.holdsLock(this);
 	try {

@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.ByteArrayInputStream;
 import com.sun1.mail.iap.*;
 import com.sun1.mail.util.ASCIIUtility;
@@ -62,6 +64,7 @@ public class BODY implements Item {
     /**
      * Constructor
      */
+    @Impure
     public BODY(FetchResponse r) throws ParsingException {
 	msgno = r.getNumber();
 
@@ -83,10 +86,12 @@ public class BODY implements Item {
 	data = r.readByteArray();
     }
 
+    @Pure
     public ByteArray getByteArray() {
 	return data;
     }
 
+    @Impure
     public ByteArrayInputStream getByteArrayInputStream() {
 	if (data != null)
 	    return data.toByteArrayInputStream();

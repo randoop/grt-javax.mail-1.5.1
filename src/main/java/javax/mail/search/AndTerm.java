@@ -40,6 +40,9 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import javax1.mail.Message;
 
 /**
@@ -67,6 +70,7 @@ public final class AndTerm extends SearchTerm {
      * @param t1 first term
      * @param t2 second term
      */
+    @Impure
     public AndTerm(SearchTerm t1, SearchTerm t2) {
 	terms = new SearchTerm[2];
 	terms[0] = t1;
@@ -78,6 +82,7 @@ public final class AndTerm extends SearchTerm {
      * 
      * @param t  array of terms
      */
+    @Impure
     public AndTerm(SearchTerm[] t) {
 	terms = new SearchTerm[t.length]; // clone the array
 	for (int i = 0; i < t.length; i++)
@@ -87,6 +92,7 @@ public final class AndTerm extends SearchTerm {
     /**
      * Return the search terms.
      */
+    @SideEffectFree
     public SearchTerm[] getTerms() {
 	return (SearchTerm[])terms.clone();
     }
@@ -101,6 +107,7 @@ public final class AndTerm extends SearchTerm {
      *			and the AND operator is applied to their results.
      * @return		true if the AND succeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	for (int i=0; i < terms.length; i++)
 	    if (!terms[i].match(msg))
@@ -111,6 +118,7 @@ public final class AndTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof AndTerm))
 	    return false;
@@ -126,6 +134,7 @@ public final class AndTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	int hash = 0;
 	for (int i=0; i < terms.length; i++)

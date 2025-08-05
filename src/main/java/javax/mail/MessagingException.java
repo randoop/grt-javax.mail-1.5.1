@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.lang.*;
 
 /**
@@ -63,6 +66,7 @@ public class MessagingException extends Exception {
     /**
      * Constructs a MessagingException with no detail message.
      */
+    @Impure
     public MessagingException() {
 	super();
 	initCause(null);	// prevent anyone else from setting it
@@ -73,6 +77,7 @@ public class MessagingException extends Exception {
      *
      * @param s		the detail message
      */
+    @Impure
     public MessagingException(String s) {
 	super(s);
 	initCause(null);	// prevent anyone else from setting it
@@ -89,6 +94,7 @@ public class MessagingException extends Exception {
      * @see	#setNextException
      * @see	#getCause
      */
+    @Impure
     public MessagingException(String s, Exception e) {
 	super(s);
 	next = e;
@@ -102,6 +108,7 @@ public class MessagingException extends Exception {
      *
      * @return	next Exception, null if none.
      */
+    @Pure
     public synchronized Exception getNextException() {
 	return next;
     }
@@ -112,6 +119,7 @@ public class MessagingException extends Exception {
      *
      * @return	next Exception, null if none.
      */
+    @Pure
     public synchronized Throwable getCause() {
 	return next;
     }
@@ -125,6 +133,7 @@ public class MessagingException extends Exception {
      * @return		<code>true</code> if this Exception
      *			was added, <code>false</code> otherwise.
      */
+    @Impure
     public synchronized boolean setNextException(Exception ex) {
 	Exception theEnd = this;
 	while (theEnd instanceof MessagingException &&
@@ -144,6 +153,7 @@ public class MessagingException extends Exception {
      * Override toString method to provide information on
      * nested exceptions.
      */
+    @Impure
     public synchronized String toString() {
 	String s = super.toString();
 	Exception n = next;
@@ -168,6 +178,7 @@ public class MessagingException extends Exception {
      * Return the "toString" information for this exception,
      * without any information on nested exceptions.
      */
+    @SideEffectFree
     private final String superToString() {
 	return super.toString();
     }

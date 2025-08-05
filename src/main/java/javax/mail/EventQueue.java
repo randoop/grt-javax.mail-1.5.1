@@ -40,6 +40,8 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.util.Vector;
 import javax1.mail.event.MailEvent;
@@ -61,6 +63,7 @@ class EventQueue implements Runnable {
 	MailEvent event = null;
 	Vector vector = null;
 
+	@SideEffectFree
 	QueueElement(MailEvent event, Vector vector) {
 	    this.event = event;
 	    this.vector = vector;
@@ -71,6 +74,7 @@ class EventQueue implements Runnable {
     private QueueElement tail = null;
     private Thread qThread;
 
+    @Impure
     public EventQueue() {
 	qThread = new Thread(this, "JavaMail-EventQueue");
 	qThread.setDaemon(true);  // not a user thread
@@ -80,6 +84,7 @@ class EventQueue implements Runnable {
     /**
      * Enqueue an event.
      */
+    @Impure
     public synchronized void enqueue(MailEvent event, Vector vector) {
 	QueueElement newElt = new QueueElement(event, vector);
 
@@ -102,6 +107,7 @@ class EventQueue implements Runnable {
      * @exception java.lang.InterruptedException if another thread has
      *              interrupted this thread.
      */
+    @Impure
     private synchronized QueueElement dequeue()
 				throws InterruptedException {
 	while (tail == null)
@@ -120,6 +126,7 @@ class EventQueue implements Runnable {
     /**
      * Pull events off the queue and dispatch them.
      */
+    @Impure
     public void run() {
 	QueueElement qe;
 
@@ -149,6 +156,7 @@ class EventQueue implements Runnable {
     /**
      * Stop the dispatcher so we can be destroyed.
      */
+    @Impure
     void stop() {
 	if (qThread != null) {
 	    qThread.interrupt();	// kill our thread

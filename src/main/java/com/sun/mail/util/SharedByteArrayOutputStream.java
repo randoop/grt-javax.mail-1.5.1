@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 
@@ -54,10 +55,12 @@ import javax1.mail.util.SharedByteArrayInputStream;
  * @since	JavaMail 1.4.5
  */
 public class SharedByteArrayOutputStream extends ByteArrayOutputStream {
+    @Impure
     public SharedByteArrayOutputStream(int size) {
 	super(size);
     }
 
+    @Impure
     public InputStream toStream() {
 	return new SharedByteArrayInputStream(buf, 0, count);
     }

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.handlers;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.awt.datatransfer.DataFlavor;
 import javax.activation.*;
@@ -59,15 +62,18 @@ public class text_plain implements DataContentHandler {
      * An OuputStream wrapper that doesn't close the underlying stream.
      */
     private static class NoCloseOutputStream extends FilterOutputStream {
+	@Impure
 	public NoCloseOutputStream(OutputStream os) {
 	    super(os);
 	}
 
+	@SideEffectFree
 	public void close() {
 	    // do nothing
 	}
     }
 
+    @Pure
     protected ActivationDataFlavor getDF() {
 	return myDF;
     }
@@ -77,6 +83,8 @@ public class text_plain implements DataContentHandler {
      *
      * @return The DataFlavors
      */
+    @SideEffectFree
+    @Impure
     public DataFlavor[] getTransferDataFlavors() {
 	return new DataFlavor[] { getDF() };
     }
@@ -88,6 +96,7 @@ public class text_plain implements DataContentHandler {
      * @param ds The DataSource corresponding to the data
      * @return String object
      */
+    @Impure
     public Object getTransferData(DataFlavor df, DataSource ds) 
 			throws IOException {
 	// use myDF.equals to be sure to get ActivationDataFlavor.equals,
@@ -98,6 +107,7 @@ public class text_plain implements DataContentHandler {
 	    return null;
     }
 
+    @Impure
     public Object getContent(DataSource ds) throws IOException {
 	String enc = null;
 	InputStreamReader is = null;
@@ -148,6 +158,7 @@ public class text_plain implements DataContentHandler {
     /**
      * Write the object to the output stream, using the specified MIME type.
      */
+    @Impure
     public void writeTo(Object obj, String type, OutputStream os) 
 			throws IOException {
 	if (!(obj instanceof String))
@@ -185,6 +196,7 @@ public class text_plain implements DataContentHandler {
 	osw.close();
     }
 
+    @Impure
     private String getCharset(String type) {
 	try {
 	    ContentType ct = new ContentType(type);

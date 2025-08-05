@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.net.InetAddress;
 
 /**
@@ -80,6 +83,7 @@ public abstract class Authenticator {
     private String requestingPrompt;
     private String requestingUserName;
 
+    @Impure
     private void reset() {
 	requestingSite = null;
 	requestingPort = -1;
@@ -101,6 +105,7 @@ public abstract class Authenticator {
      *
      * @return The username/password, or null if one can't be gotten.
      */
+    @Impure
     final PasswordAuthentication requestPasswordAuthentication(
 				InetAddress addr, int port, String protocol,
 				String prompt, String defaultUserName) {
@@ -118,6 +123,7 @@ public abstract class Authenticator {
      * @return the InetAddress of the site requesting authorization, or null
      *		if it's not available.
      */
+    @Pure
     protected final InetAddress getRequestingSite() {
 	return requestingSite;
     }
@@ -125,6 +131,7 @@ public abstract class Authenticator {
     /**
      * @return the port for the requested connection
      */
+    @Pure
     protected final int getRequestingPort() {
 	return requestingPort;
     }
@@ -137,6 +144,7 @@ public abstract class Authenticator {
      *
      * @see javax1.mail.URLName#getProtocol
      */
+    @Pure
     protected final String getRequestingProtocol() {
 	return requestingProtocol;
     }
@@ -144,6 +152,7 @@ public abstract class Authenticator {
     /**
      * @return the prompt string given by the requestor
      */
+    @Pure
     protected final String getRequestingPrompt() {
 	return requestingPrompt;
     }
@@ -151,6 +160,7 @@ public abstract class Authenticator {
     /**
      * @return the default user name given by the requestor
      */
+    @Pure
     protected final String getDefaultUserName() {
 	return requestingUserName;
     }
@@ -166,6 +176,8 @@ public abstract class Authenticator {
      * @return The PasswordAuthentication collected from the
      *		user, or null if none is provided.
      */
+    @SideEffectFree
+    @Impure
     protected PasswordAuthentication getPasswordAuthentication() {
 	return null;
     }

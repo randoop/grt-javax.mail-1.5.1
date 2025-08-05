@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.List;
 import java.util.ArrayList;
 import javax1.mail.internet.ParameterList;
@@ -86,6 +88,7 @@ public class BODYSTRUCTURE implements Item {
 	PropUtil.getBooleanSystemProperty("mail.imap.parse.debug", false);
 
 
+    @Impure
     public BODYSTRUCTURE(FetchResponse r) throws ParsingException {
 	if (parseDebug)
 	    System.out.println("DEBUG IMAP: parsing BODYSTRUCTURE");
@@ -367,18 +370,22 @@ public class BODYSTRUCTURE implements Item {
 	}
     }
 
+    @Pure
     public boolean isMulti() {
 	return processedType == MULTI;
     }
 
+    @Pure
     public boolean isSingle() {
 	return processedType == SINGLE;
     }
 
+    @Pure
     public boolean isNested() {
 	return processedType == NESTED;
     }
 
+    @Impure
     private ParameterList parseParameters(Response r)
 			throws ParsingException {
 	r.skipSpaces();
@@ -412,6 +419,7 @@ public class BODYSTRUCTURE implements Item {
 	return list;
     }
 
+    @Impure
     private void parseBodyExtension(Response r) throws ParsingException {
 	r.skipSpaces();
 

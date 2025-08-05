@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import com.sun1.mail.iap.*;
 
 /**
@@ -58,6 +59,7 @@ public class RFC822SIZE implements Item {
     /**
      * Constructor
      */
+    @Impure
     public RFC822SIZE(FetchResponse r) throws ParsingException {
 	msgno = r.getNumber();
 	r.skipSpaces();

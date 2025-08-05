@@ -40,6 +40,8 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import javax1.mail.*;
 import javax1.mail.internet.*;
@@ -90,6 +92,7 @@ public class SMTPMessage extends MimeMessage {
      * object. The <code>flags</code> field is set to an empty Flags
      * object. The <code>modified</code> flag is set to true.
      */
+    @Impure
     public SMTPMessage(Session session) {
 	super(session);
     }
@@ -104,6 +107,7 @@ public class SMTPMessage extends MimeMessage {
      * @param is	the message input stream
      * @exception	MessagingException
      */
+    @Impure
     public SMTPMessage(Session session, InputStream is) 
 			throws MessagingException {
 	super(session, is);
@@ -120,6 +124,7 @@ public class SMTPMessage extends MimeMessage {
      * @param	source	the message to copy content from
      * @exception	MessagingException
      */
+    @Impure
     public SMTPMessage(MimeMessage source) throws MessagingException {
 	super(source);
     }
@@ -135,6 +140,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @param	from	the envelope From address
      */
+    @Impure
     public void setEnvelopeFrom(String from) {
 	envelopeFrom = from;
     }
@@ -144,6 +150,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @return	the envelope From address, or null if not set
      */
+    @Pure
     public String getEnvelopeFrom() {
 	return envelopeFrom;
     }
@@ -160,6 +167,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @param	options	notification options
      */
+    @Impure
     public void setNotifyOptions(int options) {
 	if (options < -1 || options >= 8)
 	    throw new IllegalArgumentException("Bad return option");
@@ -171,6 +179,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @return	notification options
      */
+    @Pure
     public int getNotifyOptions() {
 	return notifyOptions;
     }
@@ -179,6 +188,7 @@ public class SMTPMessage extends MimeMessage {
      * Return notification options as an RFC 1891 string.
      * Returns null if no options set.
      */
+    @Impure
     String getDSNNotify() {
 	if (notifyOptions == 0)
 	    return null;
@@ -210,6 +220,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @param	option	return option
      */
+    @Impure
     public void setReturnOption(int option) {
 	if (option < 0 || option > RETURN_HDRS)
 	    throw new IllegalArgumentException("Bad return option");
@@ -221,6 +232,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @return	return option
      */
+    @Pure
     public int getReturnOption() {
 	return returnOption;
     }
@@ -229,6 +241,7 @@ public class SMTPMessage extends MimeMessage {
      * Return return option as an RFC 1891 string.
      * Returns null if no option set.
      */
+    @Pure
     String getDSNRet() {
 	return returnOptionString[returnOption];
     }
@@ -243,6 +256,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @param	allow	allow 8-bit flag
      */
+    @Impure
     public void setAllow8bitMIME(boolean allow) {
 	allow8bitMIME = allow;
     }
@@ -252,6 +266,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @return	allow 8-bit flag
      */
+    @Pure
     public boolean getAllow8bitMIME() {
 	return allow8bitMIME;
     }
@@ -267,6 +282,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @param partial	send partial flag
      */
+    @Impure
     public void setSendPartial(boolean partial) {
 	sendPartial = partial;
     }
@@ -276,6 +292,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @return	send partial flag
      */
+    @Pure
     public boolean getSendPartial() {
 	return sendPartial;
     }
@@ -286,6 +303,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @return	the name of the submitter.
      */
+    @Pure
     public String getSubmitter() {
 	return submitter;
     }
@@ -300,6 +318,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @param	submitter	the name of the submitter
      */
+    @Impure
     public void setSubmitter(String submitter) {
 	this.submitter = submitter;
     }
@@ -311,6 +330,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @since	JavaMail 1.3.2
      */
+    @Pure
     public String getMailExtension() {
 	return extension;
     }
@@ -336,6 +356,7 @@ public class SMTPMessage extends MimeMessage {
      *
      * @since	JavaMail 1.3.2
      */
+    @Impure
     public void setMailExtension(String extension) {
 	this.extension = extension;
     }

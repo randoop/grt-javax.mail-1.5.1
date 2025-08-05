@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.text.StringCharacterIterator;
 import java.text.CharacterIterator;
 
@@ -53,6 +54,7 @@ import java.text.CharacterIterator;
 
 public class BASE64MailboxDecoder {
     
+    @Impure
     public static String decode(String original) {
 	if (original == null || original.length() == 0)
 	    return original;
@@ -83,6 +85,7 @@ public class BASE64MailboxDecoder {
     }
 
 
+    @Impure
     protected static int base64decode(char[] buffer, int offset,
 				      CharacterIterator iter) {
 	boolean firsttime = true;

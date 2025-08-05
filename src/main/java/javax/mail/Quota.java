@@ -40,6 +40,8 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Vector;
 
 /**
@@ -76,6 +78,7 @@ public class Quota {
 	 * @param	usage	the current usage of the resource
 	 * @param	limit	the usage limit for the resource
 	 */
+	@SideEffectFree
 	public Resource(String name, long usage, long limit) {
 	    this.name = name;
 	    this.usage = usage;
@@ -99,6 +102,7 @@ public class Quota {
      *
      * @param	quotaRoot	the name of the quota root
      */
+    @SideEffectFree
     public Quota(String quotaRoot) {
 	this.quotaRoot = quotaRoot;
     }
@@ -109,6 +113,7 @@ public class Quota {
      * @param	name	the name of the resource
      * @param	limit	the resource limit
      */
+    @Impure
     public void setResourceLimit(String name, long limit) {
 	if (resources == null) {
 	    resources = new Quota.Resource[1];

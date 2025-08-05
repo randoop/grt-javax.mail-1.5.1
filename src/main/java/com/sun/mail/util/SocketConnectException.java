@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 
 /**
@@ -68,6 +70,7 @@ public class SocketConnectException extends IOException {
      * @param	port	the port we were trying to connect to
      * @param	cto	the timeout for the connection attempt
      */
+    @Impure
     public SocketConnectException(String msg, Exception cause,
 				    String host, int port, int cto) {
 	super(msg);
@@ -82,6 +85,7 @@ public class SocketConnectException extends IOException {
      *
      * @return	the exception
      */
+    @Pure
     public Exception getException() {
 	// the "cause" is always an Exception; see constructor above
 	Throwable t = getCause();
@@ -94,6 +98,7 @@ public class SocketConnectException extends IOException {
      *
      * @return	the host
      */
+    @Pure
     public String getHost() {
 	return host;
     }
@@ -103,6 +108,7 @@ public class SocketConnectException extends IOException {
      *
      * @return	the port
      */
+    @Pure
     public int getPort() {
 	return port;
     }
@@ -112,6 +118,7 @@ public class SocketConnectException extends IOException {
      *
      * @return	the connection timeout
      */
+    @Pure
     public int getConnectionTimeout() {
 	return cto;
     }

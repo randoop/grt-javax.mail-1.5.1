@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 
 /**
@@ -60,6 +62,7 @@ public class QPDecoderStream extends FilterInputStream {
      * input stream.
      * @param in        the input stream
      */
+    @Impure
     public QPDecoderStream(InputStream in) {
 	super(new PushbackInputStream(in, 2)); // pushback of size=2
     }
@@ -76,6 +79,7 @@ public class QPDecoderStream extends FilterInputStream {
      *             stream is reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public int read() throws IOException {
 	if (spaces > 0) {
 	    // We have cached space characters, return one
@@ -159,6 +163,7 @@ public class QPDecoderStream extends FilterInputStream {
      *             the stream has been reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public int read(byte[] buf, int off, int len) throws IOException {
 	int i, c;
 	for (i = 0; i < len; i++) {
@@ -175,6 +180,7 @@ public class QPDecoderStream extends FilterInputStream {
     /**
      * Skips over and discards n bytes of data from this stream.
      */
+    @Impure
     public long skip(long n) throws IOException {
 	long skipped = 0;
 	while (n-- > 0 && read() >= 0)
@@ -186,6 +192,7 @@ public class QPDecoderStream extends FilterInputStream {
      * Tests if this input stream supports marks. Currently this class
      * does not support marks
      */
+    @Pure
     public boolean markSupported() {
 	return false;
     }
@@ -197,6 +204,7 @@ public class QPDecoderStream extends FilterInputStream {
      * this method just invokes the <code>available</code> method
      * of the original input stream.
      */
+    @Impure
     public int available() throws IOException {
 	// This is bogus ! We don't really know how much
 	// bytes are available *after* decoding

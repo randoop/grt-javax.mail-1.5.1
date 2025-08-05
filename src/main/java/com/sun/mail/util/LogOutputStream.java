@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
@@ -58,11 +59,13 @@ public class LogOutputStream extends OutputStream {
     /**
      * Log to the specified logger.
      */
+    @Impure
     public LogOutputStream(MailLogger logger) {
 	this.logger = logger;
 	this.level = Level.FINEST;
     }
 
+    @Impure
     public void write(int b) throws IOException {
 	if (!logger.isLoggable(level))
 	    return;
@@ -79,10 +82,12 @@ public class LogOutputStream extends OutputStream {
 	lastb = b;
     }
 
+    @Impure
     public void write(byte b[]) throws IOException {
 	write(b, 0, b.length);
     }
 
+    @Impure
     public void write(byte b[], int off, int len) throws IOException {
 	int start = off;
 	
@@ -118,6 +123,7 @@ public class LogOutputStream extends OutputStream {
      * Log the specified message.
      * Can be overridden by subclass to do different logging.
      */
+    @Impure
     protected void log(String msg) {
 	logger.log(level, msg);
     }
@@ -125,6 +131,7 @@ public class LogOutputStream extends OutputStream {
     /**
      * Convert the buffer to a string and log it.
      */
+    @Impure
     private void logBuf() {
 	String msg = new String(buf, 0, pos);
 	pos = 0;
@@ -135,6 +142,7 @@ public class LogOutputStream extends OutputStream {
      * Ensure that the buffer can hold at least len bytes
      * beyond the current position.
      */
+    @Impure
     private void expandCapacity(int len) {
 	while (pos + len > buf.length) {
 	    byte[] nb = new byte[buf.length * 2];

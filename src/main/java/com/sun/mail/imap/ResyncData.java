@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.sun1.mail.imap.protocol.UIDSet;
 
 /**
@@ -75,6 +78,7 @@ public class ResyncData {
      * UIDVALIDITY of the folder after open to make sure it's
      * the expected folder.
      */
+    @SideEffectFree
     public ResyncData(long uidvalidity, long modseq) {
 	this.uidvalidity = uidvalidity;
 	this.modseq = modseq;
@@ -85,6 +89,8 @@ public class ResyncData {
      * Used to limit the reported message changes to those with UIDs
      * in the specified range.
      */
+    @SideEffectFree
+    @Impure
     public ResyncData(long uidvalidity, long modseq,
 				long uidFirst, long uidLast) {
 	this.uidvalidity = uidvalidity;
@@ -96,6 +102,7 @@ public class ResyncData {
      * Used to limit the reported message changes to those with the
      * specified UIDs.
      */
+    @Impure
     public ResyncData(long uidvalidity, long modseq, long[] uids) {
 	this.uidvalidity = uidvalidity;
 	this.modseq = modseq;
@@ -105,6 +112,7 @@ public class ResyncData {
     /**
      * Get the UIDVALIDITY value specified when this instance was created.
      */
+    @Pure
     public long getUIDValidity() {
 	return uidvalidity;
     }
@@ -112,6 +120,7 @@ public class ResyncData {
     /**
      * Get the MODSEQ value specified when this instance was created.
      */
+    @Pure
     public long getModSeq() {
 	return modseq;
     }
@@ -120,6 +129,7 @@ public class ResyncData {
      * Package private.  IMAPProtocol gets this data indirectly
      * using Utility.getResyncUIDSet().
      */
+    @Pure
     UIDSet[] getUIDSet() {
 	return uids;
     }

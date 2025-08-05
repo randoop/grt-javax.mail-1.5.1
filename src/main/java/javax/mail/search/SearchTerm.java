@@ -40,6 +40,7 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.Serializable;
 
 import javax1.mail.Message;
@@ -74,5 +75,6 @@ public abstract class SearchTerm implements Serializable {
      * @return		true, it the match succeeds, false if the match fails
      */
 
+    @Impure
     public abstract boolean match(Message msg);
 }

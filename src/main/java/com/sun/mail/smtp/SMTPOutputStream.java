@@ -40,6 +40,8 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import com.sun1.mail.util.CRLFOutputStream;
 
@@ -53,10 +55,12 @@ import com.sun1.mail.util.CRLFOutputStream;
  * @see CRLFOutputStream
  */
 public class SMTPOutputStream extends CRLFOutputStream {
+    @Impure
     public SMTPOutputStream(OutputStream os) {
 	super(os);
     }
 
+    @Impure
     public void write(int b) throws IOException {
 	// if that last character was a newline, and the current
 	// character is ".", we always write out an extra ".".
@@ -70,6 +74,7 @@ public class SMTPOutputStream extends CRLFOutputStream {
     /* 
      * This method has been added to improve performance.
      */
+    @Impure
     public void write(byte b[], int off, int len) throws IOException {
 	int lastc = (lastb == -1) ? '\n' : lastb;
 	int start = off;
@@ -99,6 +104,7 @@ public class SMTPOutputStream extends CRLFOutputStream {
      * SMTPTransport will manually flush the socket before reading
      * the response.
      */
+    @SideEffectFree
     public void flush() {
 	// do nothing
     }
@@ -107,6 +113,7 @@ public class SMTPOutputStream extends CRLFOutputStream {
      * Ensure we're at the beginning of a line.
      * Write CRLF if not.
      */
+    @Impure
     public void ensureAtBOL() throws IOException {
 	if (!atBOL)
 	    super.writeln();

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.iap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.ByteArrayInputStream;
 
 /**
@@ -57,6 +60,7 @@ public class ByteArray {
     /**
      * Constructor
      */
+    @SideEffectFree
     public ByteArray(byte[] b, int start, int count) {
 	bytes = b;
 	this.start = start;
@@ -68,6 +72,8 @@ public class ByteArray {
      *
      * @since	JavaMail 1.4.1
      */
+    @SideEffectFree
+    @Impure
     public ByteArray(int size) {
 	this(new byte[size], 0, size);
     }
@@ -76,6 +82,7 @@ public class ByteArray {
      * Returns the internal byte array. Note that this is a live
      * reference to the actual data, not a copy.
      */
+    @Pure
     public byte[] getBytes() {
 	return bytes;
     }
@@ -83,6 +90,7 @@ public class ByteArray {
     /**
      * Returns a new byte array that is a copy of the data.
      */
+    @SideEffectFree
     public byte[] getNewBytes() {
 	byte[] b = new byte[count];
 	System.arraycopy(bytes, start, b, 0, count);
@@ -92,6 +100,7 @@ public class ByteArray {
     /**
      * Returns the start position
      */
+    @Pure
     public int getStart() {
 	return start;
     }
@@ -99,6 +108,7 @@ public class ByteArray {
     /**
      * Returns the count of bytes
      */
+    @Pure
     public int getCount() {
 	return count;
     }
@@ -108,6 +118,7 @@ public class ByteArray {
      *
      * @since	JavaMail 1.4.1
      */
+    @Impure
     public void setCount(int count) {
 	this.count = count;
     }
@@ -115,6 +126,7 @@ public class ByteArray {
     /**
      * Returns a ByteArrayInputStream.
      */
+    @Impure
     public ByteArrayInputStream toByteArrayInputStream() {
 	return new ByteArrayInputStream(bytes, start, count);
     }
@@ -124,6 +136,7 @@ public class ByteArray {
      *
      * @since	JavaMail 1.4.1
      */
+    @Impure
     public void grow(int incr) {
 	byte[] nbuf = new byte[bytes.length + incr];
 	System.arraycopy(bytes, 0, nbuf, 0, bytes.length);

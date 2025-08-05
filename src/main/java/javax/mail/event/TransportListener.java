@@ -40,6 +40,7 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -58,6 +59,7 @@ public interface TransportListener extends java.util.EventListener {
      * Invoked when a Message is succesfully delivered.
      * @param	e TransportEvent
      */
+    @SideEffectFree
     public void messageDelivered(TransportEvent e);
 
     /**
@@ -65,6 +67,7 @@ public interface TransportListener extends java.util.EventListener {
      * @param	e TransportEvent
      * @see TransportEvent
      */
+    @SideEffectFree
     public void messageNotDelivered(TransportEvent e);
 
     /**
@@ -72,5 +75,6 @@ public interface TransportListener extends java.util.EventListener {
      * @param	e TransportEvent
      * @see TransportEvent
      */
+    @SideEffectFree
     public void messagePartiallyDelivered(TransportEvent e);
 }

@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.*;
 
 /**
@@ -52,6 +53,7 @@ public class IMAPSSLStore extends IMAPStore {
      * Constructor that takes a Session object and a URLName that
      * represents a specific IMAP server.
      */
+    @Impure
     public IMAPSSLStore(Session session, URLName url) {
 	super(session, url, "imaps", true); // call super constructor
     }

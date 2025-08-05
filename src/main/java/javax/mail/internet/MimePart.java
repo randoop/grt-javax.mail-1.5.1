@@ -40,6 +40,7 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.*;
 import java.io.*;
 import java.util.Enumeration;
@@ -85,6 +86,7 @@ public interface MimePart extends Part {
      *				this name
      * @exception       	MessagingException
      */
+    @Impure
     public String getHeader(String name, String delimiter)
 				throws MessagingException;
 
@@ -95,6 +97,7 @@ public interface MimePart extends Part {
      * @exception	IllegalStateException if this Part is
      *			obtained from a READ_ONLY folder
      */
+    @Impure
     public void addHeaderLine(String line) throws MessagingException;
 
     /**
@@ -102,6 +105,7 @@ public interface MimePart extends Part {
      * line is a raw RFC822 header-line, containing both the "name" 
      * and "value" field. 
      */
+    @Impure
     public Enumeration getAllHeaderLines() throws MessagingException;
 
     /**
@@ -109,6 +113,7 @@ public interface MimePart extends Part {
      * A Header line is a raw RFC822 header-line, containing both 
      * the "name" and "value" field.
      */
+    @Impure
     public Enumeration getMatchingHeaderLines(String[] names)
 			throws MessagingException;
 
@@ -117,6 +122,7 @@ public interface MimePart extends Part {
      * A Header line is a raw RFC822 header-line, containing both 
      * the "name"  and "value" field.
      */
+    @Impure
     public Enumeration getNonMatchingHeaderLines(String[] names)
 			throws MessagingException;
 
@@ -126,6 +132,7 @@ public interface MimePart extends Part {
      * @return		content-transfer-encoding
      * @exception	MessagingException
      */
+    @Impure
     public String getEncoding() throws MessagingException;
 
     /**
@@ -133,6 +140,7 @@ public interface MimePart extends Part {
      *
      * @return		content-ID
      */
+    @Impure
     public String getContentID() throws MessagingException;
 
     /**
@@ -141,6 +149,7 @@ public interface MimePart extends Part {
      *
      * @return		content-MD5
      */
+    @Impure
     public String getContentMD5() throws MessagingException;
 
     /**
@@ -152,6 +161,7 @@ public interface MimePart extends Part {
      * @exception	IllegalStateException if this Part is
      *			obtained from a READ_ONLY folder
      */
+    @Impure
     public void setContentMD5(String md5) throws MessagingException;
 
     /**
@@ -160,6 +170,7 @@ public interface MimePart extends Part {
      * RFC 1766. Returns <code>null</code> if this header is not
      * available.
      */
+    @Impure
     public String[] getContentLanguage() throws MessagingException;
 
     /**
@@ -172,6 +183,7 @@ public interface MimePart extends Part {
      * @exception	IllegalStateException if this Part is
      *			obtained from a READ_ONLY folder
      */
+    @Impure
     public void setContentLanguage(String[] languages)
 			throws MessagingException;
     
@@ -194,6 +206,7 @@ public interface MimePart extends Part {
      * @exception	MessagingException	if an error occurs
      * @see	#setText(String text, String charset)
      */
+    @Impure
     public void setText(String text) throws MessagingException;
 
     /**
@@ -207,6 +220,7 @@ public interface MimePart extends Part {
      * @param	charset	the charset to use for the text
      * @exception	MessagingException	if an error occurs
      */
+    @Impure
     public void setText(String text, String charset)
 			throws MessagingException;
 
@@ -223,6 +237,7 @@ public interface MimePart extends Part {
      * @exception	MessagingException	if an error occurs
      * @since	JavaMail 1.4
      */
+    @Impure
     public void setText(String text, String charset, String subtype)
                         throws MessagingException;
 }

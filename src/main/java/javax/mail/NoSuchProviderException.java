@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This exception is thrown when Session attempts to instantiate a  
@@ -54,6 +55,7 @@ public class NoSuchProviderException extends MessagingException {
     /**
      * Constructs a NoSuchProviderException with no detail message.
      */
+    @Impure
     public NoSuchProviderException() {
 	super();
     }
@@ -64,6 +66,7 @@ public class NoSuchProviderException extends MessagingException {
      *
      * @param message	The detailed error message
      */
+    @Impure
     public NoSuchProviderException(String message) {
 	super(message);
     }
@@ -77,6 +80,7 @@ public class NoSuchProviderException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public NoSuchProviderException(String message, Exception e) {
 	super(message, e);
     }

@@ -39,6 +39,7 @@
  */
 
 package com.sun1.mail.iap;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This class 
@@ -47,5 +48,6 @@ package com.sun1.mail.iap;
  */
 
 public interface ResponseHandler { 
+    @Impure
     public void handleResponse(Response r);
 }

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Date;
 import java.io.*;
 import java.util.*;
@@ -129,6 +132,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Constructor.
      */
+    @Impure
     protected IMAPMessage(IMAPFolder folder, int msgnum) {
 	super(folder, msgnum);
 	flags = null;
@@ -137,6 +141,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Constructor, for use by IMAPNestedMessage.
      */
+    @Impure
     protected IMAPMessage(Session session) {
 	super(session);
     }
@@ -148,6 +153,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * ASSERT: Must hold the messageCacheLock.
      */
+    @Impure
     protected IMAPProtocol getProtocol()
 			    throws ProtocolException, FolderClosedException {
 	((IMAPFolder)folder).waitIfIdle();
@@ -161,6 +167,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Is this an IMAP4 REV1 server?
      */
+    @Impure
     protected boolean isREV1() throws FolderClosedException {
 	// access the folder's protocol object without waiting
 	// for IDLE to complete
@@ -175,6 +182,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Get the messageCacheLock, associated with this Message's
      * Folder.
      */
+    @Impure
     protected Object getMessageCacheLock() {
 	return ((IMAPFolder)folder).messageCacheLock;
     }
@@ -185,6 +193,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * ASSERT: This method must be called only when holding the
      * 	messageCacheLock.
      */
+    @Impure
     protected int getSequenceNumber() {
 	return ((IMAPFolder)folder).messageCache.seqnumOf(getMessageNumber());
     }
@@ -193,6 +202,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Wrapper around the protected method Message.setMessageNumber() to 
      * make that method accessible to IMAPFolder.
      */
+    @Impure
     protected void setMessageNumber(int msgnum) {
 	super.setMessageNumber(msgnum);
     }
@@ -204,10 +214,12 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * @return	the UID
      * @see	javax1.mail.UIDFolder#getUID
      */
+    @Pure
     protected long getUID() {
 	return uid;
     }
 
+    @Impure
     protected void setUID(long uid) {
 	this.uid = uid;
     }
@@ -220,6 +232,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * @see	"RFC 4551"
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public synchronized long getModSeq() throws MessagingException {
 	if (modseq != -1)
 	    return modseq;
@@ -241,20 +254,24 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return modseq;
     }
 
+    @Pure
     long _getModSeq() {
 	return modseq;
     }
 
+    @Impure
     void setModSeq(long modseq) {
 	this.modseq = modseq;
     }
 
     // expose to MessageCache
+    @Impure
     protected void setExpunged(boolean set) {
 	super.setExpunged(set);
     }
 
     // Convenience routine
+    @Impure
     protected void checkExpunged() throws MessageRemovedException {
 	if (expunged)
 	    throw new MessageRemovedException();
@@ -264,6 +281,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Do a NOOP to force any untagged EXPUNGE responses
      * and then check if this message is expunged.
      */
+    @Impure
     protected void forceCheckExpunged()
 			throws MessageRemovedException, FolderClosedException {
 	synchronized (getMessageCacheLock()) {
@@ -281,12 +299,14 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 
     // Return the block size for FETCH requests
     // MUST be overridden by IMAPNestedMessage
+    @Impure
     protected int getFetchBlockSize() {
 	return ((IMAPStore)folder.getStore()).getFetchBlockSize();
     }
 
     // Return the block size for FETCH requests
     // MUST be overridden by IMAPNestedMessage
+    @Impure
     protected boolean ignoreBodyStructureSize() {
 	return ((IMAPStore)folder.getStore()).ignoreBodyStructureSize();
     }
@@ -294,6 +314,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the "From" attribute.
      */
+    @Impure
     public Address[] getFrom() throws MessagingException {
 	checkExpunged();
 	loadEnvelope();
@@ -311,10 +332,12 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return aaclone(a);
     }
 
+    @Impure
     public void setFrom(Address address) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
 
+    @Impure
     public void addFrom(Address[] addresses) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -322,6 +345,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the "Sender" attribute.
      */
+    @Impure
     public Address getSender() throws MessagingException {
 	checkExpunged();
 	loadEnvelope();
@@ -332,6 +356,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     }
 	
 
+    @Impure
     public void setSender(Address address) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }    
@@ -339,6 +364,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the desired Recipient type.
      */
+    @Impure
     public Address[] getRecipients(Message.RecipientType type)
 				throws MessagingException {
 	checkExpunged();
@@ -354,11 +380,13 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	    return super.getRecipients(type);
     }
 
+    @Impure
     public void setRecipients(Message.RecipientType type, Address[] addresses)
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
 
+    @Impure
     public void addRecipients(Message.RecipientType type, Address[] addresses)
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
@@ -367,6 +395,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the ReplyTo addresses.
      */
+    @Impure
     public Address[] getReplyTo() throws MessagingException {
 	checkExpunged();
 	loadEnvelope();
@@ -381,6 +410,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return aaclone(envelope.replyTo);
     }
 
+    @Impure
     public void setReplyTo(Address[] addresses) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -388,6 +418,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the decoded subject.
      */
+    @Impure
     public String getSubject() throws MessagingException {
 	checkExpunged();
 
@@ -411,6 +442,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return subject;
     }
 
+    @Impure
     public void setSubject(String subject, String charset) 
 		throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
@@ -419,6 +451,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the SentDate.
      */
+    @Impure
     public Date getSentDate() throws MessagingException {
 	checkExpunged();
 	loadEnvelope();
@@ -428,6 +461,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	    return new Date(envelope.date.getTime());
     }
 
+    @Impure
     public void setSentDate(Date d) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -435,6 +469,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the recieved date (INTERNALDATE)
      */
+    @Impure
     public Date getReceivedDate() throws MessagingException {
 	checkExpunged();
 	loadEnvelope();
@@ -450,6 +485,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Note that this returns RFC822.SIZE.  That is, it's the
      * size of the whole message, header and body included.
      */
+    @Impure
     public int getSize() throws MessagingException {
 	checkExpunged();
 	if (size == -1)
@@ -464,6 +500,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * BODYSTRUCTURE. Note that this field is available
      * only for text/plain and message/rfc822 types
      */
+    @Impure
     public int getLineCount() throws MessagingException {
 	checkExpunged();
 	loadBODYSTRUCTURE();
@@ -473,6 +510,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /** 
      * Get the content language.
      */
+    @Impure
     public String[] getContentLanguage() throws MessagingException {
     	checkExpunged();
     	loadBODYSTRUCTURE();
@@ -482,6 +520,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	    return null;
     }
  
+    @Impure
     public void setContentLanguage(String[] languages)
 				throws MessagingException {
     	throw new IllegalWriteException("IMAPMessage is read-only");
@@ -492,6 +531,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since	JavaMail 1.3.3
      */
+    @Impure
     public String getInReplyTo() throws MessagingException {
     	checkExpunged();
     	loadEnvelope();
@@ -504,6 +544,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Generate this header from the BODYSTRUCTURE. Append parameters
      * as well.
      */
+    @Impure
     public synchronized String getContentType() throws MessagingException {
 	checkExpunged();
 
@@ -520,12 +561,14 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the Content-Disposition.
      */
+    @Impure
     public String getDisposition() throws MessagingException {
 	checkExpunged();
 	loadBODYSTRUCTURE();
 	return bs.disposition;
     }
 
+    @Impure
     public void setDisposition(String disposition) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -533,6 +576,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the Content-Transfer-Encoding.
      */
+    @Impure
     public String getEncoding() throws MessagingException {
 	checkExpunged();
 	loadBODYSTRUCTURE();
@@ -542,12 +586,14 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the Content-ID.
      */
+    @Impure
     public String getContentID() throws MessagingException {
 	checkExpunged();
 	loadBODYSTRUCTURE();
 	return bs.id;
     }
 
+    @Impure
     public void setContentID(String cid) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -555,12 +601,14 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the Content-MD5.
      */
+    @Impure
     public String getContentMD5() throws MessagingException {
 	checkExpunged();
 	loadBODYSTRUCTURE();
 	return bs.md5;
     }
 
+    @Impure
     public void setContentMD5(String md5) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -568,6 +616,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the decoded Content-Description.
      */
+    @Impure
     public String getDescription() throws MessagingException {
 	checkExpunged();
 
@@ -587,6 +636,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return description;
     }
 
+    @Impure
     public void setDescription(String description, String charset) 
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
@@ -595,6 +645,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the Message-ID.
      */
+    @Impure
     public String getMessageID() throws MessagingException {
 	checkExpunged();
 	loadEnvelope();
@@ -606,6 +657,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * IMAP4rev1). If thats not available, get the "name" ContentType
      * parameter.
      */
+    @Impure
     public String getFileName() throws MessagingException {
 	checkExpunged();
 
@@ -619,6 +671,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return filename;
     }
 
+    @Impure
     public void setFileName(String filename) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -630,6 +683,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @see javax1.mail.internet.MimeMessage#getContentStream
      */
+    @Impure
     protected InputStream getContentStream() throws MessagingException {
 	InputStream is = null;
 	boolean pk = getPeek();	// get before acquiring message cache lock
@@ -678,6 +732,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the DataHandler object for this message.
      */
+    @Impure
     public synchronized DataHandler getDataHandler()
 		throws MessagingException {
 	checkExpunged();
@@ -716,6 +771,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return super.getDataHandler();
     }
 
+    @Impure
     public void setDataHandler(DataHandler content) 
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
@@ -727,6 +783,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * @return	the MIME format stream
      * @since	JavaMail 1.4.5
      */
+    @Impure
     public InputStream getMimeStream() throws MessagingException {
 	InputStream is = null;
 	boolean pk = getPeek();	// get before acquiring message cache lock
@@ -774,6 +831,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Write out the bytes into the given OutputStream.
      */
+    @Impure
     public void writeTo(OutputStream os)
 				throws IOException, MessagingException {
 	InputStream is = getMimeStream();
@@ -791,6 +849,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the named header.
      */
+    @Impure
     public String[] getHeader(String name) throws MessagingException {
 	checkExpunged();
 
@@ -845,6 +904,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the named header.
      */
+    @Impure
     public String getHeader(String name, String delimiter)
 			throws MessagingException {
 	checkExpunged();
@@ -855,16 +915,19 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return headers.getHeader(name, delimiter);
     }
 
+    @Impure
     public void setHeader(String name, String value)
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
 
+    @Impure
     public void addHeader(String name, String value)
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
 	    
+    @Impure
     public void removeHeader(String name)
 			throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
@@ -873,6 +936,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get all headers.
      */
+    @Impure
     public Enumeration getAllHeaders() throws MessagingException {
 	checkExpunged();
 	loadHeaders();
@@ -882,6 +946,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get matching headers.
      */
+    @Impure
     public Enumeration getMatchingHeaders(String[] names)
 			throws MessagingException {
 	checkExpunged();
@@ -892,6 +957,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get non-matching headers.
      */
+    @Impure
     public Enumeration getNonMatchingHeaders(String[] names)
 			throws MessagingException {
 	checkExpunged();
@@ -899,6 +965,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	return super.getNonMatchingHeaders(names);
     }
 
+    @Impure
     public void addHeaderLine(String line) throws MessagingException {
 	throw new IllegalWriteException("IMAPMessage is read-only");
     }
@@ -906,6 +973,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get all header-lines.
      */
+    @Impure
     public Enumeration getAllHeaderLines() throws MessagingException {
 	checkExpunged();
 	loadHeaders();
@@ -915,6 +983,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get all matching header-lines.
      */
+    @Impure
     public Enumeration getMatchingHeaderLines(String[] names)
 			throws MessagingException {
 	checkExpunged();
@@ -925,6 +994,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get all non-matching headerlines.
      */
+    @Impure
     public Enumeration getNonMatchingHeaderLines(String[] names)
 			throws MessagingException {
 	checkExpunged();
@@ -935,6 +1005,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Get the Flags for this message.
      */
+    @Impure
     public synchronized Flags getFlags() throws MessagingException {
 	checkExpunged();
 	loadFlags();
@@ -944,6 +1015,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Test if the given Flags are set in this message.
      */
+    @Impure
     public synchronized boolean isSet(Flags.Flag flag)
 				throws MessagingException {
 	checkExpunged();
@@ -954,6 +1026,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /**
      * Set/Unset the given flags in this message.
      */
+    @Impure
     public synchronized void setFlags(Flags flag, boolean set)
 			throws MessagingException {
         // Acquire MessageCacheLock, to freeze seqnum.
@@ -976,6 +1049,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since	JavaMail 1.3.3
      */
+    @Impure
     public synchronized void setPeek(boolean peek) {
 	this.peek = peek;
     }
@@ -986,6 +1060,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since	JavaMail 1.3.3
      */
+    @Pure
     public synchronized boolean getPeek() {
 	return peek;
     }
@@ -997,6 +1072,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since	JavaMail 1.3.3
      */
+    @Impure
     public synchronized void invalidateHeaders() {
 	headersLoaded = false;
 	loadedHeaders.clear();
@@ -1032,6 +1108,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	 * Create a FetchProfileCondition to determine if we need to fetch
 	 * any of the information specified in the FetchProfile.
 	 */
+	@Impure
 	public FetchProfileCondition(FetchProfile fp, FetchItem[] fitems) {
 	    if (fp.contains(FetchProfile.Item.ENVELOPE))
 		needEnvelope = true;
@@ -1058,6 +1135,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	 * Return true if we NEED to fetch the requested information
 	 * for the specified message.
 	 */
+	@Impure
 	public boolean test(IMAPMessage m) {
 	    if (needEnvelope && m._getEnvelope() == null)
 		return true; // no envelope
@@ -1095,6 +1173,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since JavaMail 1.4.6
      */
+    @Impure
     protected boolean handleFetchItem(Item item,
 				String[] hdrs, boolean allHeaders)
 				throws MessagingException {
@@ -1189,6 +1268,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since JavaMail 1.4.6
      */
+    @Impure
     protected void handleExtensionFetchItems(Map extensionItems)
 				throws MessagingException {
 	if (items == null)
@@ -1205,6 +1285,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since JavaMail 1.4.6
      */
+    @Impure
     protected Object fetchItem(FetchItem fitem)
 				throws MessagingException {
 
@@ -1256,6 +1337,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      *
      * @since JavaMail 1.4.6
      */
+    @Impure
     public synchronized Object getItem(FetchItem fitem)
 				throws MessagingException {
 	Object item = items == null ? null : items.get(fitem.getName());
@@ -1267,6 +1349,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Load the Envelope for this message.
      */
+    @Impure
     private synchronized void loadEnvelope() throws MessagingException {
 	if (envelope != null) // already loaded
 	    return;
@@ -1326,6 +1409,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Load the BODYSTRUCTURE
      */
+    @Impure
     private synchronized void loadBODYSTRUCTURE() 
 		throws MessagingException {
 	if (bs != null) // already loaded
@@ -1360,6 +1444,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Load all headers.
      */
+    @Impure
     private synchronized void loadHeaders() throws MessagingException {
 	if (headersLoaded)
 	    return;
@@ -1403,6 +1488,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Load this message's Flags
      */
+    @Impure
     private synchronized void loadFlags() throws MessagingException {
 	if (flags != null)
 	    return;
@@ -1432,6 +1518,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Are all headers loaded?
      */
+    @Pure
     private boolean areHeadersLoaded() {
 	return headersLoaded;
     }
@@ -1439,6 +1526,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Set whether all headers are loaded.
      */
+    @Impure
     private void setHeadersLoaded(boolean loaded) {
 	headersLoaded = loaded;
     }
@@ -1446,6 +1534,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /* 
      * Check if the given header was ever loaded from the server
      */
+    @SideEffectFree
     private boolean isHeaderLoaded(String name) {
 	if (headersLoaded) // All headers for this message have been loaded
 	    return true;
@@ -1456,6 +1545,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Mark that the given headers have been loaded from the server.
      */
+    @Impure
     private void setHeaderLoaded(String name) {
 	loadedHeaders.put(name.toUpperCase(Locale.ENGLISH), name);
     }
@@ -1464,6 +1554,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Convert the given FETCH item identifier to the approriate 
      * section-string for this message.
      */
+    @Pure
     private String toSection(String what) {
 	if (sectionId == null)
 	    return what;
@@ -1474,6 +1565,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Clone an array of InternetAddresses.
      */
+    @SideEffectFree
     private InternetAddress[] aaclone(InternetAddress[] aa) {
 	if (aa == null)
 	    return null;
@@ -1481,14 +1573,17 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
 	    return (InternetAddress[])aa.clone();
     }
 
+    @Pure
     private Flags _getFlags() {
 	return flags;
     }
 
+    @Pure
     private ENVELOPE _getEnvelope() {
 	return envelope;
     }
 
+    @Pure
     private BODYSTRUCTURE _getBodyStructure() {
 	return bs;
     }
@@ -1502,6 +1597,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
      * Called by IMAPFolder.
      * Must not be synchronized.
      */
+    @Impure
     void _setFlags(Flags flags) {
 	this.flags = flags;
     }
@@ -1509,6 +1605,7 @@ public class IMAPMessage extends MimeMessage implements ReadableMime {
     /*
      * Called by IMAPNestedMessage.
      */
+    @Pure
     Session _getSession() {
 	return session;
     }

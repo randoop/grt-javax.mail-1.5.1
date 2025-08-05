@@ -40,6 +40,9 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import javax1.mail.*;
 
@@ -103,6 +106,7 @@ public class MessageCountEvent extends MailEvent {
      *
      * @param msgs	The messages added/removed
      */
+    @Impure
     public MessageCountEvent(Folder folder, int type, 
 			     boolean removed, Message[] msgs) {
 	super(folder);
@@ -115,6 +119,7 @@ public class MessageCountEvent extends MailEvent {
      * Return the type of this event.
      * @return  type
      */
+    @Pure
     public int getType() {
 	return type;
     }
@@ -130,6 +135,7 @@ public class MessageCountEvent extends MailEvent {
      * Note that this method is valid only if the type of this event
      * is <code>REMOVED</code>
      */
+    @Pure
     public boolean isRemoved() {
 	return removed;
     }
@@ -138,6 +144,7 @@ public class MessageCountEvent extends MailEvent {
      * Return the array of messages added or removed.
      * @return array of messages
      */
+    @Pure
     public Message[] getMessages() {
 	return msgs;
     }
@@ -145,6 +152,8 @@ public class MessageCountEvent extends MailEvent {
     /**
      * Invokes the appropriate MessageCountListener method.
      */
+    @SideEffectFree
+    @Impure
     public void dispatch(Object listener) {
 	if (type == ADDED)
 	    ((MessageCountListener)listener).messagesAdded(this);

@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 
 
 /**
@@ -69,6 +71,7 @@ public class Header {
      * @param name	name of the header
      * @param value	value of the header
      */
+    @SideEffectFree
     public Header(String name, String value) {
 	this.name = name;
 	this.value = value;
@@ -79,6 +82,7 @@ public class Header {
      *
      * @return 		name of the header
      */
+    @Pure
     public String getName() {
 	return name;
     }
@@ -88,6 +92,7 @@ public class Header {
      *
      * @return 		value of the header
      */
+    @SideEffectFree
     public String getValue() {
 	return value;
     }

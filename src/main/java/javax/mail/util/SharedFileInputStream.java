@@ -40,6 +40,8 @@
 
 package javax1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import javax1.mail.internet.SharedInputStream;
 
@@ -112,24 +114,29 @@ public class SharedFileInputStream extends BufferedInputStream
 	private int cnt;
 	private RandomAccessFile in;
 
+	@Impure
 	SharedFile(String file) throws IOException {
 	    this.in = new RandomAccessFile(file, "r");
 	}
 
+	@Impure
 	SharedFile(File file) throws IOException {
 	    this.in = new RandomAccessFile(file, "r");
 	}
 
+	@Impure
 	public synchronized RandomAccessFile open() {
 	    cnt++;
 	    return in;
 	}
 
+	@Impure
 	public synchronized void close() throws IOException {
 	    if (cnt > 0 && --cnt <= 0)
 		in.close();
 	}
 
+	@Impure
 	public synchronized void forceClose() throws IOException {
 	    if (cnt > 0) {
 		// normal case, close exceptions propagated
@@ -143,6 +150,7 @@ public class SharedFileInputStream extends BufferedInputStream
 	    }
 	}
 
+	@Impure
 	protected void finalize() throws Throwable {
 	    super.finalize();
 	    in.close();
@@ -154,6 +162,7 @@ public class SharedFileInputStream extends BufferedInputStream
     /**
      * Check to make sure that this stream has not been closed
      */
+    @Impure
     private void ensureOpen() throws IOException {
 	if (in == null)
 	    throw new IOException("Stream closed");
@@ -165,6 +174,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *
      * @param   file   the file
      */
+    @Impure
     public SharedFileInputStream(File file) throws IOException {
 	this(file, defaultBufferSize);
     }
@@ -175,6 +185,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *
      * @param   file   the file
      */
+    @Impure
     public SharedFileInputStream(String file) throws IOException {
 	this(file, defaultBufferSize);
     }
@@ -187,6 +198,7 @@ public class SharedFileInputStream extends BufferedInputStream
      * @param   size   the buffer size.
      * @exception IllegalArgumentException if size <= 0.
      */
+    @Impure
     public SharedFileInputStream(File file, int size) throws IOException {
 	super(null);	// XXX - will it NPE?
         if (size <= 0)
@@ -202,6 +214,7 @@ public class SharedFileInputStream extends BufferedInputStream
      * @param   size   the buffer size.
      * @exception IllegalArgumentException if size <= 0.
      */
+    @Impure
     public SharedFileInputStream(String file, int size) throws IOException {
 	super(null);	// XXX - will it NPE?
         if (size <= 0)
@@ -209,6 +222,7 @@ public class SharedFileInputStream extends BufferedInputStream
 	init(new SharedFile(file), size);
     }
 
+    @Impure
     private void init(SharedFile sf, int size) throws IOException {
 	this.sf = sf;
 	this.in = sf.open();
@@ -221,6 +235,7 @@ public class SharedFileInputStream extends BufferedInputStream
     /**
      * Used internally by the <code>newStream</code> method.
      */
+    @Impure
     private SharedFileInputStream(SharedFile sf, long start, long len,
 				int bufsize) {
 	super(null);
@@ -241,6 +256,7 @@ public class SharedFileInputStream extends BufferedInputStream
      * This method also assumes that all data has already been read in,
      * hence pos > count.
      */
+    @Impure
     private void fill() throws IOException {
 	if (markpos < 0) {
 	    pos = 0;		/* no mark: throw away the buffer */
@@ -285,6 +301,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *             stream is reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public synchronized int read() throws IOException {
         ensureOpen();
 	if (pos >= count) {
@@ -299,6 +316,7 @@ public class SharedFileInputStream extends BufferedInputStream
      * Read characters into a portion of an array, reading from the underlying
      * stream at most once if necessary.
      */
+    @Impure
     private int read1(byte[] b, int off, int len) throws IOException {
 	int avail = count - pos;
 	if (avail <= 0) {
@@ -337,6 +355,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *             the stream has been reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public synchronized int read(byte b[], int off, int len)
 	throws IOException
     {
@@ -365,6 +384,7 @@ public class SharedFileInputStream extends BufferedInputStream
      * @return     the actual number of bytes skipped.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public synchronized long skip(long n) throws IOException {
         ensureOpen();
 	if (n <= 0) {
@@ -399,11 +419,13 @@ public class SharedFileInputStream extends BufferedInputStream
      *             stream without blocking.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public synchronized int available() throws IOException {
         ensureOpen();
 	return (count - pos) + in_available();
     }
 
+    @Pure
     private int in_available() throws IOException {
 	// XXX - overflow
 	return (int)((start + datalen) - (bufpos + count));
@@ -417,6 +439,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *                      the mark position becomes invalid.
      * @see     #reset()
      */
+    @Impure
     public synchronized void mark(int readlimit) {
 	marklimit = readlimit;
 	markpos = pos;
@@ -436,6 +459,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *               if the mark has been invalidated.
      * @see        #mark(int)
      */
+    @Impure
     public synchronized void reset() throws IOException {
         ensureOpen();
 	if (markpos < 0)
@@ -454,6 +478,7 @@ public class SharedFileInputStream extends BufferedInputStream
      * @see     java.io.InputStream#mark(int)
      * @see     java.io.InputStream#reset()
      */
+    @Pure
     public boolean markSupported() {
 	return true;
     }
@@ -464,6 +489,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public void close() throws IOException {
         if (in == null)
             return;
@@ -485,6 +511,7 @@ public class SharedFileInputStream extends BufferedInputStream
      *
      * @return  the current position
      */
+    @Pure
     public long getPosition() {
 //System.out.println("getPosition: start " + start + " pos " + pos + " bufpos " + bufpos + " = " + (bufpos + pos - start));
 	if (in == null)
@@ -504,6 +531,7 @@ public class SharedFileInputStream extends BufferedInputStream
      * @param	end	the ending position + 1
      * @return		the new stream
      */
+    @Impure
     public synchronized InputStream newStream(long start, long end) {
 	if (in == null)
 	    throw new RuntimeException("Stream closed");
@@ -536,6 +564,7 @@ public class SharedFileInputStream extends BufferedInputStream
     /**
      * Force this stream to close.
      */
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	close();

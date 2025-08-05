@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Address;
 
 /**
@@ -59,6 +61,7 @@ public abstract class AddressTerm extends SearchTerm {
 
     private static final long serialVersionUID = 2005405551929769980L;
 
+    @Impure
     protected AddressTerm(Address address) {
 	this.address = address;
     }
@@ -66,6 +69,7 @@ public abstract class AddressTerm extends SearchTerm {
     /**
      * Return the address to match with.
      */
+    @Pure
     public Address getAddress() {
 	return address;
     }
@@ -73,6 +77,7 @@ public abstract class AddressTerm extends SearchTerm {
     /**
      * Match against the argument Address.
      */
+    @Pure
     protected boolean match(Address a) {
 	return (a.equals(address));
     }
@@ -80,6 +85,7 @@ public abstract class AddressTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof AddressTerm))
 	    return false;
@@ -90,6 +96,7 @@ public abstract class AddressTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return address.hashCode();
     }

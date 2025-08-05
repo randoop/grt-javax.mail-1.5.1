@@ -39,6 +39,9 @@
  */
 
 package com.sun1.mail.iap;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * @author John Mani
@@ -52,6 +55,8 @@ public class ConnectionException extends ProtocolException {
     /**
      * Constructs an ConnectionException with no detail message.
      */
+    @SideEffectFree
+    @Impure
     public ConnectionException() {
 	super();
     }
@@ -60,6 +65,8 @@ public class ConnectionException extends ProtocolException {
      * Constructs an ConnectionException with the specified detail message.
      * @param s		the detail message
      */
+    @SideEffectFree
+    @Impure
     public ConnectionException(String s) {
 	super(s);
     }
@@ -68,11 +75,14 @@ public class ConnectionException extends ProtocolException {
      * Constructs an ConnectionException with the specified Response.
      * @param r		the Response
      */
+    @SideEffectFree
+    @Impure
     public ConnectionException(Protocol p, Response r) {
 	super(r);
 	this.p = p;
     }
 
+    @Pure
     public Protocol getProtocol() {
 	return p;
     }

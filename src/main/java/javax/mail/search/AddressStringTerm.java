@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 import javax1.mail.Address;
 import javax1.mail.internet.InternetAddress;
@@ -64,6 +66,7 @@ public abstract class AddressStringTerm extends StringTerm {
      *
      * @param pattern   the address pattern to be compared.
      */
+    @Impure
     protected AddressStringTerm(String pattern) {
 	super(pattern, true); // we need case-insensitive comparison.
     }
@@ -80,6 +83,7 @@ public abstract class AddressStringTerm extends StringTerm {
      * @param   a 	The comparison is applied to this Address object.
      * @return          true if the match succeeds, otherwise false.
      */
+    @Impure
     protected boolean match(Address a) {
 	if (a instanceof InternetAddress) {
 	    InternetAddress ia = (InternetAddress)a;
@@ -95,6 +99,7 @@ public abstract class AddressStringTerm extends StringTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof AddressStringTerm))
 	    return false;

@@ -40,6 +40,8 @@
 
 package com.sun1.mail.handlers;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import java.util.Properties;
 import java.awt.datatransfer.DataFlavor;
@@ -64,6 +66,7 @@ public class message_rfc822 implements DataContentHandler {
      * return the DataFlavors for this <code>DataContentHandler</code>
      * @return The DataFlavors.
      */
+    @Pure
     public DataFlavor[] getTransferDataFlavors() {
 	return new DataFlavor[] { ourDataFlavor };
     }
@@ -74,6 +77,7 @@ public class message_rfc822 implements DataContentHandler {
      * @param ds The DataSource corresponding to the data
      * @return a Message object
      */
+    @Impure
     public Object getTransferData(DataFlavor df, DataSource ds)
 				throws IOException {
 	// make sure we can handle this DataFlavor
@@ -86,6 +90,7 @@ public class message_rfc822 implements DataContentHandler {
     /**
      * Return the content.
      */
+    @Impure
     public Object getContent(DataSource ds) throws IOException {
 	// create a new MimeMessage
 	try {
@@ -112,6 +117,7 @@ public class message_rfc822 implements DataContentHandler {
      * (similar semantically to previous method, we are deciding
      *  which one to support)
      */
+    @Impure
     public void writeTo(Object obj, String mimeType, OutputStream os) 
 			throws IOException {
 	// if the object is a message, we know how to write that out

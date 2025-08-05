@@ -39,6 +39,9 @@
  */
 
 package javax1.mail.search;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This class implements the match method for Strings. The current
@@ -65,11 +68,13 @@ public abstract class StringTerm extends SearchTerm {
 
     private static final long serialVersionUID = 1274042129007696269L;
 
+    @Impure
     protected StringTerm(String pattern) {
 	this.pattern = pattern;
 	ignoreCase = true;
     }
 
+    @Impure
     protected StringTerm(String pattern, boolean ignoreCase) {
 	this.pattern = pattern;
 	this.ignoreCase = ignoreCase;
@@ -78,6 +83,7 @@ public abstract class StringTerm extends SearchTerm {
     /**
      * Return the string to match with.
      */
+    @Pure
     public String getPattern() {
 	return pattern;
     }
@@ -85,10 +91,12 @@ public abstract class StringTerm extends SearchTerm {
     /**
      * Return true if we should ignore case when matching.
      */
+    @Pure
     public boolean getIgnoreCase() {
 	return ignoreCase;
     }
 
+    @Pure
     protected boolean match(String s) {
 	int len = s.length() - pattern.length();
 	for (int i=0; i <= len; i++) {
@@ -102,6 +110,7 @@ public abstract class StringTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof StringTerm))
 	    return false;
@@ -117,6 +126,7 @@ public abstract class StringTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @SideEffectFree
     public int hashCode() {
 	return ignoreCase ? pattern.hashCode() : ~pattern.hashCode();
     }

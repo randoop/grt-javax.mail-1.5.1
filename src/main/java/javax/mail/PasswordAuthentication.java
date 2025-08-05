@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 
 /**
@@ -62,6 +64,7 @@ public final class PasswordAuthentication {
      * @param userName the user name
      * @param password The user's password
      */
+    @SideEffectFree
     public PasswordAuthentication(String userName, String password) {
 	this.userName = userName;
 	this.password = password;
@@ -70,6 +73,7 @@ public final class PasswordAuthentication {
     /**
      * @return the user name
      */
+    @Pure
     public String getUserName() {
 	return userName;
     }
@@ -77,6 +81,7 @@ public final class PasswordAuthentication {
     /**
      * @return the password
      */
+    @Pure
     public String getPassword() {
 	return password;
     }

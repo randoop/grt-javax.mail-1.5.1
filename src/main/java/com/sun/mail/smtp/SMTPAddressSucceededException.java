@@ -40,6 +40,8 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.MessagingException;
 import javax1.mail.internet.InternetAddress;
 
@@ -69,6 +71,7 @@ public class SMTPAddressSucceededException extends MessagingException {
      * @param rc	the SMTP return code indicating the success
      * @param err	the error string from the SMTP server
      */
+    @Impure
     public SMTPAddressSucceededException(InternetAddress addr,
 				String cmd, int rc, String err) {
 	super(err);
@@ -80,6 +83,7 @@ public class SMTPAddressSucceededException extends MessagingException {
     /**
      * Return the address that succeeded.
      */
+    @Pure
     public InternetAddress getAddress() {
 	return addr;
     }
@@ -87,6 +91,7 @@ public class SMTPAddressSucceededException extends MessagingException {
     /**
      * Return the command that succeeded.
      */
+    @Pure
     public String getCommand() {
 	return cmd;
     }
@@ -98,6 +103,7 @@ public class SMTPAddressSucceededException extends MessagingException {
      * <A HREF="http://www.ietf.org/rfc/rfc821.txt">RFC 821</A>
      * for interpretation of the return code.
      */
+    @Pure
     public int getReturnCode() {
 	return rc;
     }

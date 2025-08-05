@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -61,6 +64,8 @@ public class ACL implements Cloneable {
      *
      * @param	name	the identifier name
      */
+    @SideEffectFree
+    @Impure
     public ACL(String name) {
 	this.name = name;
 	this.rights = new Rights();
@@ -72,6 +77,7 @@ public class ACL implements Cloneable {
      * @param	name	the identifier name
      * @param	rights	the rights
      */
+    @SideEffectFree
     public ACL(String name, Rights rights) {
 	this.name = name;
 	this.rights = rights;
@@ -82,6 +88,7 @@ public class ACL implements Cloneable {
      *
      * @return	the identifier name
      */
+    @Pure
     public String getName() {
 	return name;
     }
@@ -91,6 +98,7 @@ public class ACL implements Cloneable {
      *
      * @param	rights	the rights
      */
+    @Impure
     public void setRights(Rights rights) {
 	this.rights = rights;
     }
@@ -102,6 +110,7 @@ public class ACL implements Cloneable {
      *
      * @return	the rights
      */
+    @Pure
     public Rights getRights() {
 	return rights;
     }
@@ -109,6 +118,7 @@ public class ACL implements Cloneable {
     /**
      * Clone this ACL entry.
      */
+    @Impure
     public Object clone() throws CloneNotSupportedException {
 	ACL acl = (ACL)super.clone();
 	acl.rights = (Rights)this.rights.clone();

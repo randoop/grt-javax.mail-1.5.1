@@ -40,6 +40,8 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.util.*;
 import javax1.mail.*;
@@ -114,6 +116,7 @@ public class InternetHeaders {
 	 * Constructor that takes a line and splits out
 	 * the header name.
 	 */
+	@Impure
 	public InternetHeader(String l) {
 	    super("", "");	// XXX - we'll change it later
 	    int i = l.indexOf(':');
@@ -129,6 +132,8 @@ public class InternetHeaders {
 	/**
 	 * Constructor that takes a header name and value.
 	 */
+	@SideEffectFree
+	@Impure
 	public InternetHeader(String n, String v) {
 	    super(n, "");
 	    if (v != null)
@@ -140,6 +145,7 @@ public class InternetHeaders {
 	/**
 	 * Return the "value" part of the header line.
 	 */
+	@SideEffectFree
 	public String getValue() {
 	    int i = line.indexOf(':');
 	    if (i < 0)
@@ -175,6 +181,7 @@ public class InternetHeaders {
 	 * matching or non-matching headers, and whether to return
 	 * header lines or Header objects.
 	 */
+	@SideEffectFree
 	MatchEnum(List v, String n[], boolean m, boolean l) {
 	    e = v.iterator();
 	    names = n;
@@ -186,6 +193,7 @@ public class InternetHeaders {
 	/*
 	 * Any more elements in this enumeration?
 	 */
+	@Impure
 	public boolean hasMoreElements() {
 	    // if necessary, prefetch the next matching header,
 	    // and remember it.
@@ -197,6 +205,7 @@ public class InternetHeaders {
 	/*
 	 * Return the next element.
 	 */
+	@Impure
 	public Object nextElement() {
 	    if (next_header == null)
 		next_header = nextMatch();
@@ -216,6 +225,7 @@ public class InternetHeaders {
 	 * Return the next Header object according to the match
 	 * criteria, or null if none left.
 	 */
+	@Impure
 	private InternetHeader nextMatch() {
 	    next:
 	    while (e.hasNext()) {
@@ -271,6 +281,7 @@ public class InternetHeaders {
      * Create an empty InternetHeaders object.  Placeholder entries
      * are inserted to indicate the preferred order of headers.
      */
+    @Impure
     public InternetHeaders() { 
    	headers = new ArrayList(40); 
 	headers.add(new InternetHeader("Return-Path", null));
@@ -319,6 +330,7 @@ public class InternetHeaders {
      *
      * @param	is 	RFC822 input stream
      */
+    @Impure
     public InternetHeaders(InputStream is) throws MessagingException {
    	headers = new ArrayList(40); 
 	load(is);
@@ -337,6 +349,7 @@ public class InternetHeaders {
      *
      * @param	is 	RFC822 input stream
      */
+    @Impure
     public void load(InputStream is) throws MessagingException {
 	// Read header lines until a blank line. It is valid
 	// to have BodyParts with no header lines.
@@ -379,6 +392,7 @@ public class InternetHeaders {
     /**
      * Is this line an empty (blank) line?
      */
+    @SideEffectFree
     private static final boolean isEmpty(String line) {
 	return line.length() == 0 ||
 	    (ignoreWhitespaceLines && line.trim().length() == 0);
@@ -392,6 +406,7 @@ public class InternetHeaders {
      * @param	name 	header name
      * @return		array of header values, or null if none
      */
+    @Impure
     public String[] getHeader(String name) {
 	Iterator e = headers.iterator();
 	// XXX - should we just step through in index order?
@@ -423,6 +438,7 @@ public class InternetHeaders {
      * @return                  the value fields for all headers with
      *				this name, or null if none
      */
+    @Impure
     public String getHeader(String name, String delimiter) {
 	String s[] = getHeader(name);
 
@@ -450,6 +466,7 @@ public class InternetHeaders {
      * @param	name	header name
      * @param	value	header value
      */
+    @Impure
     public void setHeader(String name, String value) {
 	boolean found = false;
 
@@ -492,6 +509,7 @@ public class InternetHeaders {
      * @param	name	header name
      * @param	value	header value
      */ 
+    @Impure
     public void addHeader(String name, String value) {
 	int pos = headers.size();
 	boolean addReverse =
@@ -520,6 +538,7 @@ public class InternetHeaders {
      * Remove all header entries that match the given name
      * @param	name 	header name
      */
+    @Impure
     public void removeHeader(String name) { 
 	for (int i = 0; i < headers.size(); i++) {
 	    InternetHeader h = (InternetHeader)headers.get(i);
@@ -537,6 +556,8 @@ public class InternetHeaders {
      *
      * @return	Header objects	
      */
+    @SideEffectFree
+    @Impure
     public Enumeration getAllHeaders() {
 	return (new MatchEnum(headers, null, false, false));
     }
@@ -546,6 +567,8 @@ public class InternetHeaders {
      *
      * @return	matching Header objects	
      */
+    @SideEffectFree
+    @Impure
     public Enumeration getMatchingHeaders(String[] names) {
 	return (new MatchEnum(headers, names, true, false));
     }
@@ -555,6 +578,8 @@ public class InternetHeaders {
      *
      * @return	non-matching Header objects	
      */
+    @SideEffectFree
+    @Impure
     public Enumeration getNonMatchingHeaders(String[] names) {
 	return (new MatchEnum(headers, names, false, false));
     }
@@ -569,6 +594,7 @@ public class InternetHeaders {
      *
      * @param	line	raw RFC822 header line
      */
+    @Impure
     public void addHeaderLine(String line) {
 	try {
 	    char c = line.charAt(0);
@@ -589,6 +615,8 @@ public class InternetHeaders {
     /**
      * Return all the header lines as an Enumeration of Strings.
      */
+    @SideEffectFree
+    @Impure
     public Enumeration getAllHeaderLines() { 
 	return (getNonMatchingHeaderLines(null));
     }
@@ -596,6 +624,8 @@ public class InternetHeaders {
     /**
      * Return all matching header lines as an Enumeration of Strings.
      */
+    @SideEffectFree
+    @Impure
     public Enumeration getMatchingHeaderLines(String[] names) {
 	return (new MatchEnum(headers, names, true, true));	
     }
@@ -603,6 +633,8 @@ public class InternetHeaders {
     /**
      * Return all non-matching header lines
      */
+    @SideEffectFree
+    @Impure
     public Enumeration getNonMatchingHeaderLines(String[] names) {
 	return (new MatchEnum(headers, names, false, true));
     }

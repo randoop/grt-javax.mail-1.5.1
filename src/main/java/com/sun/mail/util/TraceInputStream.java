@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.util.logging.Level;
 
@@ -64,6 +65,7 @@ public class TraceInputStream extends FilterInputStream {
      * @param   in   the underlying input stream.
      * @param   logger	log trace here
      */
+    @Impure
     public TraceInputStream(InputStream in, MailLogger logger) {
 	super(in);
 	this.trace = logger.isLoggable(Level.FINEST);
@@ -77,6 +79,7 @@ public class TraceInputStream extends FilterInputStream {
      * @param   in   the underlying input stream.
      * @param	traceOut	the trace stream.
      */
+    @Impure
     public TraceInputStream(InputStream in, OutputStream traceOut) {
 	super(in);
 	this.traceOut = traceOut;
@@ -86,6 +89,7 @@ public class TraceInputStream extends FilterInputStream {
      * Set trace mode.
      * @param	trace	the trace mode
      */
+    @Impure
     public void setTrace(boolean trace) {
 	this.trace = trace;
     }
@@ -94,6 +98,7 @@ public class TraceInputStream extends FilterInputStream {
      * Set quote mode.
      * @param	quote	the quote mode
      */
+    @Impure
     public void setQuote(boolean quote) {
 	this.quote = quote;
     }
@@ -103,6 +108,7 @@ public class TraceInputStream extends FilterInputStream {
      * <code>-1</code> if no data is available. Writes out the read
      * byte into the trace stream, if trace mode is <code>true</code>
      */
+    @Impure
     public int read() throws IOException {
 	int b = in.read();
 	if (trace && b != -1) {
@@ -120,6 +126,7 @@ public class TraceInputStream extends FilterInputStream {
      * is available. Writes out the read bytes into the trace stream, if 
      * trace mode is <code>true</code>
      */
+    @Impure
     public int read(byte b[], int off, int len) throws IOException {
 	int count = in.read(b, off, len);
 	if (trace && count != -1) {
@@ -135,6 +142,7 @@ public class TraceInputStream extends FilterInputStream {
     /**
      * Write a byte in a way that every byte value is printable ASCII.
      */
+    @Impure
     private final void writeByte(int b) throws IOException {
 	b &= 0xff;
 	if (b > 0x7f) {

@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import javax1.mail.*;
 import java.util.*;
 import java.io.*;
@@ -60,6 +63,7 @@ public class ContentDisposition {
     /**
      * No-arg Constructor.
      */
+    @SideEffectFree
     public ContentDisposition() { }
 
     /**
@@ -69,6 +73,7 @@ public class ContentDisposition {
      * @param	list	ParameterList
      * @since		JavaMail 1.2
      */
+    @SideEffectFree
     public ContentDisposition(String disposition, ParameterList list) {
 	this.disposition = disposition;
 	this.list = list;
@@ -83,6 +88,7 @@ public class ContentDisposition {
      * @exception	ParseException if the parse fails.
      * @since		JavaMail 1.2
      */
+    @Impure
     public ContentDisposition(String s) throws ParseException {
 	HeaderTokenizer h = new HeaderTokenizer(s, HeaderTokenizer.MIME);
 	HeaderTokenizer.Token tk;
@@ -105,6 +111,7 @@ public class ContentDisposition {
      * @return the disposition
      * @since		JavaMail 1.2
      */
+    @Pure
     public String getDisposition() {
 	return disposition;
     }
@@ -115,6 +122,8 @@ public class ContentDisposition {
      * @return	parameter value
      * @since		JavaMail 1.2
      */
+    @SideEffectFree
+    @Impure
     public String getParameter(String name) {
 	if (list == null)
 	    return null;
@@ -129,6 +138,7 @@ public class ContentDisposition {
      * @return	ParameterList
      * @since		JavaMail 1.2
      */
+    @Pure
     public ParameterList getParameterList() {
 	return list;
     }
@@ -138,6 +148,7 @@ public class ContentDisposition {
      * @param	disposition	the disposition
      * @since		JavaMail 1.2
      */
+    @Impure
     public void setDisposition(String disposition) {
 	this.disposition = disposition;
     }
@@ -150,6 +161,7 @@ public class ContentDisposition {
      * @param	value	parameter value
      * @since		JavaMail 1.2
      */
+    @Impure
     public void setParameter(String name, String value) {
 	if (list == null)
 	    list = new ParameterList();
@@ -162,6 +174,7 @@ public class ContentDisposition {
      * @param	list	ParameterList
      * @since		JavaMail 1.2
      */
+    @Impure
     public void setParameterList(ParameterList list) {
 	this.list = list;
     }
@@ -174,6 +187,7 @@ public class ContentDisposition {
      * @return	RFC2045 style string
      * @since		JavaMail 1.2
      */
+    @Impure
     public String toString() {
 	if (disposition == null)
 	    return "";

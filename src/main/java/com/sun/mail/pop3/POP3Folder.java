@@ -40,6 +40,10 @@
 
 package com.sun1.mail.pop3;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Deterministic;
 import javax1.mail.*;
 import javax1.mail.internet.*;
 import javax1.mail.event.*;
@@ -80,6 +84,7 @@ public class POP3Folder extends Folder {
 
     MailLogger logger;	// package private, for POP3Message
 
+    @Impure
     POP3Folder(POP3Store store, String name) {
 	super(store);
 	this.name = name;
@@ -90,14 +95,18 @@ public class POP3Folder extends Folder {
 				"DEBUG POP3", store.getSession());
     }
 
+    @Pure
     public String getName() {
 	return name;
     }
 
+    @Pure
     public String getFullName() {
 	return name;
     }
 
+    @SideEffectFree
+    @Impure
     public Folder getParent() {
 	return new DefaultFolder(store);
     }
@@ -108,6 +117,7 @@ public class POP3Folder extends Folder {
      *
      * @return	true for INBOX, false otherwise
      */
+    @Pure
     public boolean exists() {
 	return exists;
     }
@@ -118,6 +128,7 @@ public class POP3Folder extends Folder {
      *
      * @exception	MessagingException	always
      */
+    @Deterministic
     public Folder[] list(String pattern) throws MessagingException {
 	throw new MessagingException("not a directory");
     }
@@ -127,6 +138,7 @@ public class POP3Folder extends Folder {
      *
      * @return	NUL
      */
+    @Pure
     public char getSeparator() {
 	return '\0';
     }
@@ -136,6 +148,7 @@ public class POP3Folder extends Folder {
      *
      * @return	Folder.HOLDS_MESSAGES
      */
+    @Pure
     public int getType() {
 	return HOLDS_MESSAGES;
     }
@@ -146,6 +159,7 @@ public class POP3Folder extends Folder {
      *
      * @return	false
      */
+    @Pure
     public boolean create(int type) throws MessagingException {
 	return false;
     }
@@ -156,6 +170,7 @@ public class POP3Folder extends Folder {
      *
      * @return	false
      */
+    @Pure
     public boolean hasNewMessages() throws MessagingException {
 	return false;    // no way to know
     }
@@ -166,6 +181,7 @@ public class POP3Folder extends Folder {
      *
      * @exception	MessagingException	always
      */
+    @Deterministic
     public Folder getFolder(String name) throws MessagingException {
 	throw new MessagingException("not a directory");
     }
@@ -177,6 +193,7 @@ public class POP3Folder extends Folder {
      *
      * @exception	MethodNotSupportedException	always
      */
+    @Deterministic
     public boolean delete(boolean recurse) throws MessagingException {
 	throw new MethodNotSupportedException("delete");
     }
@@ -187,6 +204,7 @@ public class POP3Folder extends Folder {
      *
      * @exception	MethodNotSupportedException	always
      */
+    @Deterministic
     public boolean renameTo(Folder f) throws MessagingException {
 	throw new MethodNotSupportedException("renameTo");
     }
@@ -199,6 +217,7 @@ public class POP3Folder extends Folder {
      * @exception	AuthenticationException	authentication failures
      * @exception	MessagingException	other open failures
      */
+    @Impure
     public synchronized void open(int mode) throws MessagingException {
 	checkClosed();
 	if (!exists)
@@ -240,6 +259,7 @@ public class POP3Folder extends Folder {
 	notifyConnectionListeners(ConnectionEvent.OPENED);
     }
 
+    @Impure
     public synchronized void close(boolean expunge) throws MessagingException {
 	checkOpen();
 
@@ -296,6 +316,7 @@ public class POP3Folder extends Folder {
 	}
     }
 
+    @Impure
     public synchronized boolean isOpen() {
 	if (!opened)
 	    return false;
@@ -320,6 +341,8 @@ public class POP3Folder extends Folder {
      *
      * @return	empty Flags object
      */
+    @SideEffectFree
+    @Impure
     public Flags getPermanentFlags() {
 	return new Flags(); // empty flags object
     }
@@ -329,6 +352,8 @@ public class POP3Folder extends Folder {
      * protocol doesn't support notification of new messages
      * arriving in open folders.
      */
+    @SideEffectFree
+    @Impure
     public synchronized int getMessageCount() throws MessagingException {
 	if (!opened)
 	    return -1;
@@ -336,6 +361,7 @@ public class POP3Folder extends Folder {
 	return total;
     }
 
+    @Impure
     public synchronized Message getMessage(int msgno)
 					throws MessagingException {
 	checkOpen();
@@ -350,6 +376,7 @@ public class POP3Folder extends Folder {
 	return m;
     }
 
+    @Impure
     protected POP3Message createMessage(Folder f, int msgno)
 				throws MessagingException {
 	POP3Message m = null;
@@ -373,6 +400,7 @@ public class POP3Folder extends Folder {
      *
      * @exception	MethodNotSupportedException	always
      */
+    @Impure
     public void appendMessages(Message[] msgs) throws MessagingException {
 	throw new MethodNotSupportedException("Append not supported");	
     }
@@ -386,6 +414,7 @@ public class POP3Folder extends Folder {
      *
      * @exception	MethodNotSupportedException	always
      */
+    @Deterministic
     public Message[] expunge() throws MessagingException {
 	throw new MethodNotSupportedException("Expunge not supported");
     }
@@ -399,6 +428,7 @@ public class POP3Folder extends Folder {
      * the headers and size of all messages are fetched using the POP3 TOP
      * and LIST commands.
      */
+    @Impure
     public synchronized void fetch(Message[] msgs, FetchProfile fp)
 				throws MessagingException {
 	checkReadable();
@@ -452,6 +482,7 @@ public class POP3Folder extends Folder {
      * @return          unique ID string
      * @exception	MessagingException
      */
+    @Impure
     public synchronized String getUID(Message msg) throws MessagingException {
 	checkOpen();
 	if (!(msg instanceof POP3Message))
@@ -478,6 +509,8 @@ public class POP3Folder extends Folder {
      * @return		folder size
      * @exception	IllegalStateException	if the folder isn't open
      */
+    @SideEffectFree
+    @Impure
     public synchronized int getSize() throws MessagingException {
 	checkOpen();
 	return size;
@@ -492,6 +525,7 @@ public class POP3Folder extends Folder {
      * @exception	IllegalStateException	if the folder isn't open
      * @since		JavaMail 1.3.3
      */
+    @Impure
     public synchronized int[] getSizes() throws MessagingException {
 	checkOpen();
 	int sizes[] = new int[total];
@@ -533,6 +567,7 @@ public class POP3Folder extends Folder {
      * @exception	IllegalStateException	if the folder isn't open
      * @since		JavaMail 1.3.3
      */
+    @Impure
     public synchronized InputStream listCommand()
 				throws MessagingException, IOException {
 	checkOpen();
@@ -542,24 +577,28 @@ public class POP3Folder extends Folder {
     /**
      * Close the folder when we're finalized.
      */
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	close(false);
     }
 
     /* Ensure the folder is open */
+    @SideEffectFree
     private void checkOpen() throws IllegalStateException {
 	if (!opened) 
 	    throw new IllegalStateException("Folder is not Open");
     }
 
     /* Ensure the folder is not open */
+    @SideEffectFree
     private void checkClosed() throws IllegalStateException {
 	if (opened) 
 	    throw new IllegalStateException("Folder is Open");
     }
 
     /* Ensure the folder is open & readable */
+    @SideEffectFree
     private void checkReadable() throws IllegalStateException {
 	if (!opened || (mode != READ_ONLY && mode != READ_WRITE))
 	    throw new IllegalStateException("Folder is not Readable");
@@ -578,6 +617,8 @@ public class POP3Folder extends Folder {
      * objects so that they will fail appropriately when the folder
      * is closed.
      */
+    @SideEffectFree
+    @Impure
     Protocol getProtocol() throws MessagingException {
 	Protocol p = port;	// read it before close() can set it to null
 	checkOpen();
@@ -588,6 +629,7 @@ public class POP3Folder extends Folder {
     /*
      * Only here to make accessible to POP3Message.
      */
+    @Impure
     protected void notifyMessageChangedListeners(int type, Message m) {
 	super.notifyMessageChangedListeners(type, m);
     }
@@ -595,6 +637,7 @@ public class POP3Folder extends Folder {
     /**
      * Used by POP3Message.
      */
+    @Pure
     TempFile getFileCache() {
 	return fileCache;
     }

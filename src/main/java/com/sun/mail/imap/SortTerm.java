@@ -39,6 +39,8 @@
  */
 
 package com.sun1.mail.imap;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * A particular sort criteria, as defined by
@@ -94,10 +96,12 @@ public final class SortTerm {
     public static final SortTerm TO = new SortTerm("TO");
 
     private String term;
+    @SideEffectFree
     private SortTerm(String term) {
 	this.term = term;
     }
 
+    @Pure
     public String toString() {
 	return term;
     }

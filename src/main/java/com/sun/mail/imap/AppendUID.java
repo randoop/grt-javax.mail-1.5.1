@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.sun1.mail.iap.*;
 
 /**
@@ -54,6 +55,7 @@ public class AppendUID {
     public long uidvalidity = -1;
     public long uid = -1;
 
+    @SideEffectFree
     public AppendUID(long uidvalidity, long uid) {
 	this.uidvalidity = uidvalidity;
 	this.uid = uid;

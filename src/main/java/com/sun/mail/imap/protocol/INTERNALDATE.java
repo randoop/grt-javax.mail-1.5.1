@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.Locale;
@@ -77,6 +79,7 @@ public class INTERNALDATE implements Item {
     /**
      * Constructor
      */
+    @Impure
     public INTERNALDATE(FetchResponse r) throws ParsingException {
 	msgno = r.getNumber();
 	r.skipSpaces();
@@ -90,6 +93,7 @@ public class INTERNALDATE implements Item {
 	}
     }
 
+    @Pure
     public Date getDate() {
 	return date;
     }
@@ -104,6 +108,7 @@ public class INTERNALDATE implements Item {
     /**
      * Format given Date object into INTERNALDATE string
      */
+    @Impure
     public static String format(Date d) {
 	/*
 	 * SimpleDateFormat objects aren't thread safe, so rather

@@ -40,6 +40,7 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -70,6 +71,7 @@ public abstract class Store extends Service {
      * @param	session Session object for this Store.
      * @param	urlname	URLName object to be used for this Store
      */
+    @Impure
     protected Store(Session session, URLName urlname) {
 	super(session, urlname);
     }
@@ -81,6 +83,7 @@ public abstract class Store extends Service {
      * @return the root Folder
      * @exception IllegalStateException if this Store is not connected.
      */
+    @Impure
     public abstract Folder getDefaultFolder() throws MessagingException;
 
     /**
@@ -103,6 +106,7 @@ public abstract class Store extends Service {
      * @see 		Folder#exists
      * @see		Folder#create
      */
+    @Impure
     public abstract Folder getFolder(String name)
 			throws MessagingException;
 
@@ -120,6 +124,7 @@ public abstract class Store extends Service {
      * @exception 	IllegalStateException if this Store is not connected.
      * @return		Folder object
      */
+    @Impure
     public abstract Folder getFolder(URLName url)
 			throws MessagingException;
 
@@ -141,6 +146,7 @@ public abstract class Store extends Service {
      * @return		array of Folder objects
      * @since		JavaMail 1.2
      */
+    @Impure
     public Folder[] getPersonalNamespaces() throws MessagingException {
 	return new Folder[] { getDefaultFolder() };
     }
@@ -161,6 +167,7 @@ public abstract class Store extends Service {
      * @return		array of Folder objects
      * @since		JavaMail 1.2
      */
+    @Impure
     public Folder[] getUserNamespaces(String user)
 				throws MessagingException {
 	return new Folder[0];
@@ -179,6 +186,7 @@ public abstract class Store extends Service {
      * @return		array of Folder objects
      * @since		JavaMail 1.2
      */
+    @Impure
     public Folder[] getSharedNamespaces() throws MessagingException {
 	return new Folder[0];
     }
@@ -195,6 +203,7 @@ public abstract class Store extends Service {
      * @param l         the Listener for Store events
      * @see             javax1.mail.event.StoreEvent
      */
+    @Impure
     public synchronized void addStoreListener(StoreListener l) {
 	if (storeListeners == null)
 	    storeListeners = new Vector();
@@ -210,6 +219,7 @@ public abstract class Store extends Service {
      * @param l         the listener
      * @see             #addStoreListener
      */
+    @Impure
     public synchronized void removeStoreListener(StoreListener l) {
 	if (storeListeners != null)
 	    storeListeners.removeElement(l);
@@ -225,6 +235,7 @@ public abstract class Store extends Service {
      * StoreListeners. Note that the event dispatching occurs
      * in a separate thread, thus avoiding potential deadlock problems.
      */
+    @Impure
     protected void notifyStoreListeners(int type, String message) {
    	if (storeListeners == null)
 	    return;
@@ -248,6 +259,7 @@ public abstract class Store extends Service {
      * @param l         the Listener for Folder events
      * @see             javax1.mail.event.FolderEvent
      */
+    @Impure
     public synchronized void addFolderListener(FolderListener l) {
    	if (folderListeners == null)
 	    folderListeners = new Vector();
@@ -263,6 +275,7 @@ public abstract class Store extends Service {
      * @param l         the listener
      * @see             #addFolderListener
      */
+    @Impure
     public synchronized void removeFolderListener(FolderListener l) {
    	if (folderListeners != null)
 	    folderListeners.removeElement(l);
@@ -282,6 +295,7 @@ public abstract class Store extends Service {
      * @param	folder	affected Folder
      * @see		#notifyFolderRenamedListeners
      */
+    @Impure
     protected void notifyFolderListeners(int type, Folder folder) {
    	if (folderListeners == null) 
 	    return;
@@ -305,6 +319,7 @@ public abstract class Store extends Service {
      * @param	newF	the folder representing the new name.
      * @since	JavaMail 1.1
      */
+    @Impure
     protected void notifyFolderRenamedListeners(Folder oldF, Folder newF) {
    	if (folderListeners == null) 
 	    return;

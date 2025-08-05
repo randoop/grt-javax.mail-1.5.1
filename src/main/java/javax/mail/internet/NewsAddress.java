@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Vector;
 import java.util.StringTokenizer;
 import java.util.Locale;
@@ -62,6 +65,7 @@ public class NewsAddress extends Address {
     /**
      * Default constructor.
      */
+    @Impure
     public NewsAddress() { }
 
     /**
@@ -69,6 +73,7 @@ public class NewsAddress extends Address {
      *
      * @param newsgroup	the newsgroup
      */
+    @Impure
     public NewsAddress(String newsgroup) {
 	this(newsgroup, null);
     }
@@ -79,6 +84,7 @@ public class NewsAddress extends Address {
      * @param newsgroup	the newsgroup
      * @param host	the host
      */
+    @Impure
     public NewsAddress(String newsgroup, String host) {
 	this.newsgroup = newsgroup;
 	this.host = host;
@@ -88,6 +94,7 @@ public class NewsAddress extends Address {
      * Return the type of this address.  The type of a NewsAddress
      * is "news".
      */
+    @Pure
     public String getType() {
 	return "news";
     }
@@ -97,6 +104,7 @@ public class NewsAddress extends Address {
      *
      * @param	newsgroup	the newsgroup
      */
+    @Impure
     public void setNewsgroup(String newsgroup) {
 	this.newsgroup = newsgroup;
     }
@@ -106,6 +114,7 @@ public class NewsAddress extends Address {
      *
      * @return	newsgroup
      */
+    @Pure
     public String getNewsgroup() {
 	return newsgroup;
     }
@@ -115,6 +124,7 @@ public class NewsAddress extends Address {
      *
      * @param	host	the host
      */
+    @Impure
     public void setHost(String host) {
 	this.host = host;
     }
@@ -124,6 +134,7 @@ public class NewsAddress extends Address {
      *
      * @return	host
      */
+    @Pure
     public String getHost() {
 	return host;
     }
@@ -133,6 +144,7 @@ public class NewsAddress extends Address {
      *
      * @return		newsgroup
      */
+    @Pure
     public String toString() {
 	return newsgroup;
     }
@@ -140,6 +152,7 @@ public class NewsAddress extends Address {
     /**
      * The equality operator.
      */
+    @Pure
     public boolean equals(Object a) {
 	if (!(a instanceof NewsAddress))
 	    return false;
@@ -153,6 +166,7 @@ public class NewsAddress extends Address {
     /**
      * Compute a hash code for the address.
      */
+    @SideEffectFree
     public int hashCode() {
 	int hash = 0;
 	if (newsgroup != null)
@@ -174,6 +188,7 @@ public class NewsAddress extends Address {
      *              	that this is a RuntimeException.
      * @return	    	comma separated address strings
      */
+    @Impure
     public static String toString(Address[] addresses) {
 	if (addresses == null || addresses.length == 0)
 	    return null;
@@ -194,6 +209,7 @@ public class NewsAddress extends Address {
      * @return			array of NewsAddress objects
      * @exception		AddressException if the parse failed
      */
+    @Impure
     public static NewsAddress[] parse(String newsgroups) 
 				throws AddressException {
 	// XXX - verify format of newsgroup name?

@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -64,6 +65,7 @@ public class ListInfo {
     public static final int UNCHANGED		= 2;
     public static final int INDETERMINATE	= 3;
 
+    @Impure
     public ListInfo(IMAPResponse r) throws ParsingException {
 	String[] s = r.readSimpleList();
 

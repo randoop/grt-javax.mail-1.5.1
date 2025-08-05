@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 import javax1.mail.Address;
 
@@ -63,6 +65,7 @@ public final class FromStringTerm extends AddressStringTerm {
      *
      * @param pattern   the address pattern to be compared.
      */
+    @Impure
     public FromStringTerm(String pattern) {
 	super(pattern);
     }
@@ -75,6 +78,7 @@ public final class FromStringTerm extends AddressStringTerm {
      *		    	address.
      * @return          true if the match succeeds, otherwise false.
      */
+    @Impure
     public boolean match(Message msg) {
 	Address[] from;
 
@@ -96,6 +100,7 @@ public final class FromStringTerm extends AddressStringTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof FromStringTerm))
 	    return false;

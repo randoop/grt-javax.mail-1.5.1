@@ -39,6 +39,7 @@
  */
 
 package javax1.mail.event;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * The adapter which receives MessageCount events.
@@ -49,6 +50,8 @@ package javax1.mail.event;
  * @author John Mani
  */
 public abstract class MessageCountAdapter implements MessageCountListener {
+    @SideEffectFree
     public void messagesAdded(MessageCountEvent e) {}
+    @SideEffectFree
     public void messagesRemoved(MessageCountEvent e) {}
 }

@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 
 /**
@@ -59,6 +61,7 @@ public final class SubjectTerm extends StringTerm {
      *
      * @param pattern  the pattern to search for
      */
+    @Impure
     public SubjectTerm(String pattern) {
 	// Note: comparison is case-insensitive
 	super(pattern);
@@ -71,6 +74,7 @@ public final class SubjectTerm extends StringTerm {
      *			subject header
      * @return		true if the pattern match succeeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	String subj;
 
@@ -89,6 +93,7 @@ public final class SubjectTerm extends StringTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof SubjectTerm))
 	    return false;

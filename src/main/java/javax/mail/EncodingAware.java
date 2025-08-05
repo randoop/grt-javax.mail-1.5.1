@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * A {@link javax.activation.DataSource DataSource} that also implements
@@ -75,5 +76,6 @@ public interface EncodingAware {
      *
      * @return		the Content-Transfer-Encoding value, or null
      */
+    @Pure
     public String getEncoding();
 }

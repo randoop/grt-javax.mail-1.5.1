@@ -40,6 +40,9 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import javax1.mail.*;
 
@@ -76,6 +79,7 @@ public class MessageChangedEvent extends MailEvent {
      * @param type	The change type
      * @param msg	The changed message 
      */
+    @Impure
     public MessageChangedEvent(Object source, int type, Message msg) {
 	super(source);
 	this.msg = msg;
@@ -86,6 +90,7 @@ public class MessageChangedEvent extends MailEvent {
      * Return the type of this event.
      * @return  type
      */
+    @Pure
     public int getMessageChangeType() {
 	return type;
     }
@@ -94,6 +99,7 @@ public class MessageChangedEvent extends MailEvent {
      * Return the changed Message.
      * @return  the message
      */
+    @Pure
     public Message getMessage() {
 	return msg;
     }
@@ -101,6 +107,8 @@ public class MessageChangedEvent extends MailEvent {
     /**
      * Invokes the appropriate MessageChangedListener method.
      */
+    @SideEffectFree
+    @Impure
     public void dispatch(Object listener) {
 	((MessageChangedListener)listener).messageChanged(this);
     }

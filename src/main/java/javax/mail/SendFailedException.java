@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This exception is thrown when the message cannot be sent.<p>
@@ -65,6 +67,7 @@ public class SendFailedException extends MessagingException {
     /**
      * Constructs a SendFailedException with no detail message.
      */
+    @Impure
     public SendFailedException() {
 	super();
     }
@@ -73,6 +76,7 @@ public class SendFailedException extends MessagingException {
      * Constructs a SendFailedException with the specified detail message.
      * @param s		the detail message
      */
+    @Impure
     public SendFailedException(String s) {
 	super(s);
     }
@@ -86,6 +90,7 @@ public class SendFailedException extends MessagingException {
      * @see	#getNextException
      * @see	#setNextException
      */
+    @Impure
     public SendFailedException(String s, Exception e) {
 	super(s, e);
     }
@@ -103,6 +108,7 @@ public class SendFailedException extends MessagingException {
      * @see	#getNextException
      * @see	#setNextException
      */
+    @Impure
     public SendFailedException(String msg, Exception ex, Address[] validSent, 
 			       Address[] validUnsent, Address[] invalid) {
 	super(msg, ex);
@@ -115,6 +121,7 @@ public class SendFailedException extends MessagingException {
      * Return the addresses to which this message was sent succesfully.
      * @return Addresses to which the message was sent successfully or null
      */
+    @Pure
     public Address[] getValidSentAddresses() {
 	return validSent;
     }
@@ -125,6 +132,7 @@ public class SendFailedException extends MessagingException {
      * @return Addresses that are valid but to which the message was 
      *         not sent successfully or null
      */
+    @Pure
     public Address[] getValidUnsentAddresses() {
 	return validUnsent;
     }
@@ -134,6 +142,7 @@ public class SendFailedException extends MessagingException {
      *
      * @return Addresses to which the message sending failed or null;
      */
+    @Pure
     public Address[] getInvalidAddresses() {
 	return invalid;
     }

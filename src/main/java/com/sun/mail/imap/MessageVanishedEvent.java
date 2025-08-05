@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Folder;
 import javax1.mail.Message;
 import javax1.mail.event.MessageCountEvent;
@@ -70,6 +72,7 @@ public class MessageVanishedEvent extends MessageCountEvent {
      * @param folder  	the containing folder
      * @param uids	the UIDs for the vanished messages
      */
+    @Impure
     public MessageVanishedEvent(Folder folder, long[] uids) {
 	super(folder, REMOVED, true, noMessages);
 	this.uids = uids;
@@ -80,6 +83,7 @@ public class MessageVanishedEvent extends MessageCountEvent {
      *
      * @return  the UIDs
      */
+    @Pure
     public long[] getUIDs() {
 	return uids;
     }

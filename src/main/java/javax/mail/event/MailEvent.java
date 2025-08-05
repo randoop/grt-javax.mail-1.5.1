@@ -40,6 +40,7 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.EventObject;
 
 /**
@@ -51,6 +52,7 @@ import java.util.EventObject;
 public abstract class MailEvent extends EventObject {
     private static final long serialVersionUID = 1846275636325456631L;
 
+    @Impure
     public MailEvent(Object source) {
         super(source);
     }
@@ -59,5 +61,6 @@ public abstract class MailEvent extends EventObject {
      * This method invokes the appropriate method on a listener for
      * this event. Subclasses provide the implementation.
      */
+    @Impure
     public abstract void dispatch(Object listener);
 }

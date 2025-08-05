@@ -40,6 +40,9 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import javax1.mail.*;
 
@@ -98,6 +101,7 @@ public class FolderEvent extends MailEvent {
      * @param folder	The affected folder
      * @param type	The event type
      */
+    @Impure
     public FolderEvent(Object source, Folder folder, int type) {
 	this(source, folder, folder, type);
     }
@@ -111,6 +115,7 @@ public class FolderEvent extends MailEvent {
      * @param type	The event type
      * @since		JavaMail 1.1
      */
+    @Impure
     public FolderEvent(Object source, Folder oldFolder, 
 		       Folder newFolder, int type) {
 	super(source);
@@ -124,6 +129,7 @@ public class FolderEvent extends MailEvent {
      *
      * @return  type
      */
+    @Pure
     public int getType() {
 	return type;
     }
@@ -134,6 +140,7 @@ public class FolderEvent extends MailEvent {
      * @return 		the affected folder
      * @see 		#getNewFolder
      */
+    @Pure
     public Folder getFolder() {
 	return folder;
     }
@@ -149,6 +156,7 @@ public class FolderEvent extends MailEvent {
      * @see		#getFolder
      * @since		JavaMail 1.1
      */
+    @Pure
     public Folder getNewFolder() {
 	return newFolder;
     }
@@ -156,6 +164,8 @@ public class FolderEvent extends MailEvent {
     /**
      * Invokes the appropriate FolderListener method
      */
+    @SideEffectFree
+    @Impure
     public void dispatch(Object listener) {
 	if (type == CREATED)
 	    ((FolderListener)listener).folderCreated(this);

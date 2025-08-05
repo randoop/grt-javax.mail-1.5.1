@@ -40,6 +40,7 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -53,16 +54,19 @@ public interface ConnectionListener extends java.util.EventListener {
     /**
      * Invoked when a Store/Folder/Transport is opened.
      */
+    @SideEffectFree
     public void opened(ConnectionEvent e);
 
     /**
      * Invoked when a Store is disconnected. Note that a folder
      * cannot be disconnected, so a folder will not fire this event
      */
+    @SideEffectFree
     public void disconnected(ConnectionEvent e);
 
     /**
      * Invoked when a Store/Folder/Transport is closed.
      */
+    @SideEffectFree
     public void closed(ConnectionEvent e);
 }

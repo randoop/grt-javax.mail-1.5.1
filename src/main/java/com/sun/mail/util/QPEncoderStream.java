@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -64,6 +65,7 @@ public class QPEncoderStream extends FilterOutputStream {
      *                   inserts a CRLF sequence after this many number
      *                   of bytes.
      */
+    @Impure
     public QPEncoderStream(OutputStream out, int bytesPerLine) {
 	super(out);
 	// Subtract 1 to account for the '=' in the soft-return 
@@ -76,6 +78,7 @@ public class QPEncoderStream extends FilterOutputStream {
      * Inserts the CRLF sequence after outputting 76 bytes.
      * @param out        the output stream
      */
+    @Impure
     public QPEncoderStream(OutputStream out) {
 	this(out, 76);	
     }
@@ -90,6 +93,7 @@ public class QPEncoderStream extends FilterOutputStream {
      * @param      len   the number of bytes to write.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public void write(byte[] b, int off, int len) throws IOException {
 	for (int i = 0; i < len; i++)
 	    write(b[off + i]);
@@ -100,6 +104,7 @@ public class QPEncoderStream extends FilterOutputStream {
      * @param      b   the data to be written.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public void write(byte[] b) throws IOException {
 	write(b, 0, b.length);
     }
@@ -109,6 +114,7 @@ public class QPEncoderStream extends FilterOutputStream {
      * @param      c   the <code>byte</code>.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public void write(int c) throws IOException {
 	c = c & 0xff; // Turn off the MSB.
 	if (gotSpace) { // previous character was <SPACE>
@@ -148,6 +154,7 @@ public class QPEncoderStream extends FilterOutputStream {
      * to be encoded out to the stream.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public void flush() throws IOException {
 	out.flush();
     }
@@ -156,6 +163,7 @@ public class QPEncoderStream extends FilterOutputStream {
      * Forces any buffered output bytes to be encoded out to the stream
      * and closes this output stream
      */
+    @Impure
     public void close() throws IOException {
 	if (gotSpace) {
 	    output(' ', true);
@@ -164,6 +172,7 @@ public class QPEncoderStream extends FilterOutputStream {
 	out.close();
     }
 
+    @Impure
     private void outputCRLF() throws IOException {
 	out.write('\r');
 	out.write('\n');
@@ -176,6 +185,7 @@ public class QPEncoderStream extends FilterOutputStream {
 	'8','9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
+    @Impure
     protected void output(int c, boolean encode) throws IOException {
 	if (encode) {
 	    if ((count += 3) > bytesPerLine) {

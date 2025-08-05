@@ -44,6 +44,8 @@
 
 package com.sun1.mail.auth;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.PrintStream;
@@ -83,6 +85,7 @@ public class Ntlm {
 
     private MailLogger logger;
 
+    @Impure
     private void init0() {
         type1 = new byte[256];
         type3 = new byte[256];
@@ -118,6 +121,7 @@ public class Ntlm {
      * If this notation is not used, then the domain will be taken
      * from the ntdomain parameter.
      */
+    @Impure
     public Ntlm(String ntdomain, String hostname, String username,
 				String password, MailLogger logger) {
 	int i = hostname.indexOf('.');
@@ -139,6 +143,7 @@ public class Ntlm {
         init0();
     }
 
+    @SideEffectFree
     private void copybytes(byte[] dest, int destpos, String src, String enc) {
         try {
             byte[] x = src.getBytes(enc);
@@ -148,6 +153,7 @@ public class Ntlm {
         }
     }
 
+    @Impure
     public String generateType1Msg(int flags) {
 	// XXX - should set "flags" in generated message
         int dlen = ntdomain.length();
@@ -187,6 +193,7 @@ public class Ntlm {
      * Convert a 7 byte array to an 8 byte array (for a des key with parity).
      * Input starts at offset off.
      */
+    @Impure
     private byte[] makeDesKey(byte[] input, int off) {
         int[] in = new int[input.length];
         for (int i = 0; i < in.length; i++) {
@@ -204,6 +211,7 @@ public class Ntlm {
         return out;
     }
 
+    @Impure
     private byte[] calcLMHash() throws GeneralSecurityException {
         byte[] magic = {0x4b, 0x47, 0x53, 0x21, 0x40, 0x23, 0x24, 0x25};
         byte[] pwb = null;
@@ -235,6 +243,7 @@ public class Ntlm {
         return result;
     }
 
+    @Impure
     private byte[] calcNTHash() throws GeneralSecurityException {
         byte[] pw = null;
         try {
@@ -253,6 +262,7 @@ public class Ntlm {
      * convert each to 8 byte DES keys, encrypt the text arg with
      * each key and return the three results in a sequential [].
      */
+    @Impure
     private byte[] calcResponse(byte[] key, byte[] text)
 				throws GeneralSecurityException {
         assert key.length == 21;
@@ -275,6 +285,7 @@ public class Ntlm {
         return result;
     }
 
+    @Impure
     public String generateType3Msg(String challenge) {
 	try {
         /* First decode the type2 message to get the server nonce */
@@ -352,6 +363,7 @@ public class Ntlm {
     private static char[] hex =
 	{ '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
 
+    @Impure
     private static String toHex(byte[] b) {
 	StringBuffer sb = new StringBuffer(b.length * 3);
 	for (int i = 0; i < b.length; i++)

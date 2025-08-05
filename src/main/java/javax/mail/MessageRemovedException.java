@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * The exception thrown when an invalid method is invoked on an expunged
@@ -57,6 +58,7 @@ public class MessageRemovedException extends MessagingException {
     /**
      * Constructs a MessageRemovedException with no detail message.
      */
+    @Impure
     public MessageRemovedException() {
 	super();
     }
@@ -67,6 +69,7 @@ public class MessageRemovedException extends MessagingException {
      *
      * @param s		The detailed error message
      */
+    @Impure
     public MessageRemovedException(String s) {
 	super(s);
     }
@@ -80,6 +83,7 @@ public class MessageRemovedException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public MessageRemovedException(String s, Exception e) {
 	super(s, e);
     }

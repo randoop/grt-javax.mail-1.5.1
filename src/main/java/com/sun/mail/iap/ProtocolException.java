@@ -39,6 +39,8 @@
  */
 
 package com.sun1.mail.iap;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * @author John Mani
@@ -52,6 +54,7 @@ public class ProtocolException extends Exception {
     /**
      * Constructs a ProtocolException with no detail message.
      */
+    @SideEffectFree
     public ProtocolException() {
 	super();
     }
@@ -60,6 +63,7 @@ public class ProtocolException extends Exception {
      * Constructs a ProtocolException with the specified detail message.
      * @param message		the detail message
      */
+    @SideEffectFree
     public ProtocolException(String message) {
 	super(message);
     }
@@ -70,6 +74,7 @@ public class ProtocolException extends Exception {
      * @param message		the detail message
      * @param cause		the cause
      */
+    @SideEffectFree
     public ProtocolException(String message, Throwable cause) {
 	super(message, cause);
     }
@@ -77,6 +82,7 @@ public class ProtocolException extends Exception {
     /**
      * Constructs a ProtocolException with the specified Response object.
      */
+    @SideEffectFree
     public ProtocolException(Response r) {
 	super(r.toString());
 	response = r;
@@ -85,6 +91,7 @@ public class ProtocolException extends Exception {
     /**
      * Return the offending Response object.
      */
+    @Pure
     public Response getResponse() {
 	return response;
     }

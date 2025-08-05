@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.util.*;
 import com.sun1.mail.util.*;
@@ -56,11 +59,13 @@ public class IMAPResponse extends Response {
     private String key;
     private int number;
 
+    @Impure
     public IMAPResponse(Protocol c) throws IOException, ProtocolException {
 	super(c);
 	init();
     }
 
+    @Impure
     private void init() throws IOException, ProtocolException {
 	// continue parsing if this is an untagged response
 	if (isUnTagged() && !isOK() && !isNO() && !isBAD() && !isBYE()) {
@@ -77,6 +82,8 @@ public class IMAPResponse extends Response {
     /**
      * Copy constructor.
      */
+    @SideEffectFree
+    @Impure
     public IMAPResponse(IMAPResponse r) {
 	super((Response)r);
 	key = r.key;
@@ -86,6 +93,7 @@ public class IMAPResponse extends Response {
     /**
      * For testing.
      */
+    @Impure
     public IMAPResponse(String r) throws IOException, ProtocolException {
 	super(r);
 	init();
@@ -97,6 +105,7 @@ public class IMAPResponse extends Response {
      * as null.  This is an IMAP-ism, and perhaps this method should 
      * moved into the IMAP layer.
      */
+    @Impure
     public String[] readSimpleList() {
 	skipSpaces();
 
@@ -123,10 +132,12 @@ public class IMAPResponse extends Response {
 	    return null;
     }
 
+    @Pure
     public String getKey() {
 	return key;
     }
 
+    @Pure
     public boolean keyEquals(String k) {
 	if (key != null && key.equalsIgnoreCase(k))
 	    return true;
@@ -134,6 +145,7 @@ public class IMAPResponse extends Response {
 	    return false;
     }
 
+    @Pure
     public int getNumber() {
 	return number;
     }

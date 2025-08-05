@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.InputStream;
 
 import javax1.mail.MessagingException;
@@ -59,5 +60,6 @@ public interface ReadableMime {
      *
      * @return	the MIME format stream
      */
+    @Impure
     public InputStream getMimeStream() throws MessagingException;
 }

@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.*;
 import com.sun1.mail.iap.*;
 
@@ -71,6 +72,7 @@ public class Namespaces {
 	/**
 	 * Parse a namespace element out of the response.
 	 */
+	@Impure
 	public Namespace(Response r) throws ProtocolException {
 	    // Namespace_Element = "(" string SP (<"> QUOTED_CHAR <"> / nil)
 	    //		*(Namespace_Response_Extension) ")"
@@ -133,6 +135,7 @@ public class Namespaces {
     /**
      * Parse out all the namespaces.
      */
+    @Impure
     public Namespaces(Response r) throws ProtocolException {
 	personal = getNamespaces(r);
 	otherUsers = getNamespaces(r);
@@ -142,6 +145,7 @@ public class Namespaces {
     /**
      * Parse out one of the three sets of namespaces.
      */
+    @Impure
     private Namespace[] getNamespaces(Response r) throws ProtocolException {
 	r.skipSpaces();
 	//    Namespace = nil / "(" 1*( Namespace_Element) ")"

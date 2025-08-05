@@ -40,6 +40,8 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 
 /**
@@ -66,6 +68,7 @@ public interface SharedInputStream {
      *
      * @return	the current position
      */
+    @Pure
     public long getPosition();
 
     /**
@@ -80,5 +83,6 @@ public interface SharedInputStream {
      * @param	end	the ending position + 1
      * @return		the new stream
      */
+    @Impure
     public InputStream newStream(long start, long end);
 }

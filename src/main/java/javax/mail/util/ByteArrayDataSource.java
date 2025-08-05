@@ -40,6 +40,10 @@
 
 package javax1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Deterministic;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import javax.activation.*;
 import javax1.mail.internet.*;
@@ -61,10 +65,12 @@ public class ByteArrayDataSource implements DataSource {
     private String name = "";
 
     static class DSByteArrayOutputStream extends ByteArrayOutputStream {
+	@Pure
 	public byte[] getBuf() {
 	    return buf;
 	}
 
+	@Pure
 	public int getCount() {
 	    return count;
 	}
@@ -80,6 +86,7 @@ public class ByteArrayDataSource implements DataSource {
      * @param	type	the MIME type
      * @exception	IOException	errors reading the stream
      */
+    @Impure
     public ByteArrayDataSource(InputStream is, String type) throws IOException {
 	DSByteArrayOutputStream os = new DSByteArrayOutputStream();
 	byte[] buf = new byte[8192];
@@ -110,6 +117,7 @@ public class ByteArrayDataSource implements DataSource {
      * @param	data	the data
      * @param	type	the MIME type
      */
+    @SideEffectFree
     public ByteArrayDataSource(byte[] data, String type) {
         this.data = data;
 	this.type = type;
@@ -127,6 +135,7 @@ public class ByteArrayDataSource implements DataSource {
      * @param	type	the MIME type
      * @exception	IOException	errors reading the String
      */
+    @Impure
     public ByteArrayDataSource(String data, String type) throws IOException {
 	String charset = null;
 	try {
@@ -151,6 +160,7 @@ public class ByteArrayDataSource implements DataSource {
      * @return		the InputStream
      * @exception	IOException	if no data has been set
      */
+    @Impure
     public InputStream getInputStream() throws IOException {
 	if (data == null)
 	    throw new IOException("no data");
@@ -166,6 +176,7 @@ public class ByteArrayDataSource implements DataSource {
      *
      * @exception	IOException	always
      */
+    @Deterministic
     public OutputStream getOutputStream() throws IOException {
 	throw new IOException("cannot do this");
     }
@@ -175,6 +186,7 @@ public class ByteArrayDataSource implements DataSource {
      *
      * @return	the MIME type
      */
+    @Pure
     public String getContentType() {
         return type;
     }
@@ -185,6 +197,7 @@ public class ByteArrayDataSource implements DataSource {
      *
      * @return	the name of this data
      */
+    @Pure
     public String getName() {
         return name;
     }
@@ -194,6 +207,7 @@ public class ByteArrayDataSource implements DataSource {
      *
      * @param	name	the name of this data
      */
+    @Impure
     public void setName(String name) {
 	this.name = name;
     }

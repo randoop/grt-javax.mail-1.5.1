@@ -39,6 +39,7 @@
  */
 
 package javax1.mail.event;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * The adapter which receives Folder events.
@@ -49,7 +50,10 @@ package javax1.mail.event;
  * @author John Mani
  */
 public abstract class FolderAdapter implements FolderListener {
+    @SideEffectFree
     public void folderCreated(FolderEvent e) {}
+    @SideEffectFree
     public void folderRenamed(FolderEvent e) {}
+    @SideEffectFree
     public void folderDeleted(FolderEvent e) {}
 }

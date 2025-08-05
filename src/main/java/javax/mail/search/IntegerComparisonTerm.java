@@ -39,6 +39,8 @@
  */
 
 package javax1.mail.search;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This class implements comparisons for integers.
@@ -56,6 +58,7 @@ public abstract class IntegerComparisonTerm extends ComparisonTerm {
 
     private static final long serialVersionUID = -6963571240154302484L;
 
+    @Impure
     protected IntegerComparisonTerm(int comparison, int number) {
 	this.comparison = comparison;
 	this.number = number;
@@ -64,6 +67,7 @@ public abstract class IntegerComparisonTerm extends ComparisonTerm {
     /**
      * Return the number to compare with.
      */
+    @Pure
     public int getNumber() {
 	return number;
     }
@@ -71,10 +75,12 @@ public abstract class IntegerComparisonTerm extends ComparisonTerm {
     /**
      * Return the type of comparison.
      */
+    @Pure
     public int getComparison() {
 	return comparison;
     }
 
+    @Pure
     protected boolean match(int i) {
 	switch (comparison) {
 	    case LE: 
@@ -97,6 +103,7 @@ public abstract class IntegerComparisonTerm extends ComparisonTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof IntegerComparisonTerm))
 	    return false;
@@ -107,6 +114,7 @@ public abstract class IntegerComparisonTerm extends ComparisonTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return number + super.hashCode();
     }

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.iap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.util.*;
 import com.sun1.mail.util.*;
@@ -79,6 +82,7 @@ public class Response {
     // The sixth bit indicates whether a BYE response is synthetic or real
     public final static int SYNTHETIC 	 = 0x20;
 
+    @Impure
     public Response(String s) {
 	buffer = ASCIIUtility.getBytes(s);
 	size = buffer.length;
@@ -89,6 +93,7 @@ public class Response {
     * Read a new Response from the given Protocol
     * @param	p	the Protocol object
     */
+    @Impure
     public Response(Protocol p) throws IOException, ProtocolException {
 	// read one response into 'buffer'
 	ByteArray ba = p.getResponseBuffer();
@@ -102,6 +107,7 @@ public class Response {
     /**
      * Copy constructor.
      */
+    @SideEffectFree
     public Response(Response r) {
 	index = r.index;
 	size = r.size;
@@ -114,6 +120,7 @@ public class Response {
      * Return a Response object that looks like a BYE protocol response.
      * Include the details of the exception in the response string.
      */
+    @Impure
     public static Response byeResponse(Exception ex) {
 	String err = "* BYE JavaMail Exception: " + ex.toString();
 	err = err.replace('\r', ' ').replace('\n', ' ');
@@ -122,6 +129,7 @@ public class Response {
 	return r;
     }
 
+    @Impure
     private void parse() {
 	index = 0; // position internal index at start
 
@@ -160,6 +168,7 @@ public class Response {
 	return;
     }
 
+    @Impure
     public void skipSpaces() {
 	while (index < size && buffer[index] == ' ')
 	    index++;
@@ -168,15 +177,18 @@ public class Response {
     /**
      * Skip to the next space, for use in error recovery while parsing.
      */
+    @Impure
     public void skipToken() {
 	while (index < size && buffer[index] != ' ')
 	    index++;
     }
 
+    @Impure
     public void skip(int count) {
 	index += count;
     }
 
+    @Pure
     public byte peekByte() {
 	if (index < size)
 	    return buffer[index];
@@ -188,6 +200,7 @@ public class Response {
      * Return the next byte from this Statement.
      * @return the next byte.
      */
+    @Impure
     public byte readByte() {
 	if (index < size)
 	    return buffer[index++];
@@ -200,6 +213,7 @@ public class Response {
      * the internal index to beyond the Atom.
      * @return an Atom
      */
+    @Impure
     public String readAtom() {
 	return readAtom('\0');
     }
@@ -208,6 +222,7 @@ public class Response {
      * Extract an ATOM, but stop at the additional delimiter
      * (if not NUL).  Used to parse a response code inside [].
      */
+    @Impure
     public String readAtom(char delim) {
 	skipSpaces();
 
@@ -234,6 +249,7 @@ public class Response {
      * stopping at the delimiter  Used to read part of a
      * response code inside [].
      */
+    @Impure
     public String readString(char delim) {
 	skipSpaces();
 
@@ -247,14 +263,17 @@ public class Response {
 	return ASCIIUtility.toString(buffer, start, index);
     }
 
+    @Impure
     public String[] readStringList() {
 	return readStringList(false);
     }
 
+    @Impure
     public String[] readAtomStringList() {
 	return readStringList(true);
     }
 
+    @Impure
     private String[] readStringList(boolean atom) {
 	skipSpaces();
 
@@ -283,6 +302,7 @@ public class Response {
      *
      * @return  a number
      */
+    @Impure
     public int readNumber() {
 	// Skip leading spaces
 	skipSpaces();
@@ -307,6 +327,7 @@ public class Response {
      *
      * @return  a long
      */
+    @Impure
     public long readLong() {
 	// Skip leading spaces
 	skipSpaces();
@@ -332,6 +353,7 @@ public class Response {
      *
      * @return  a String
      */
+    @Impure
     public String readString() {
 	return (String)parseString(false, true);
     }
@@ -344,6 +366,7 @@ public class Response {
      *
      * @return  a ByteArrayInputStream
      */
+    @Impure
     public ByteArrayInputStream readBytes() {
 	ByteArray ba = readByteArray();
 	if (ba != null)
@@ -360,6 +383,7 @@ public class Response {
      *
      * @return  a ByteArray
      */
+    @Impure
     public ByteArray readByteArray() {
 	/*
 	 * Special case, return the data after the continuation uninterpreted.
@@ -383,6 +407,7 @@ public class Response {
      *
      * @return a String
      */ 
+    @Impure
     public String readAtomString() {
 	return (String)parseString(true, true);
     }
@@ -392,6 +417,7 @@ public class Response {
      * Literal or Atom and return the parsed token as a String
      * or a ByteArray. Errors or NIL data will return null.
      */
+    @Impure
     private Object parseString(boolean parseAtoms, boolean returnString) {
 	byte b;
 
@@ -463,38 +489,47 @@ public class Response {
 	return null; // Error
     }
 
+    @Pure
     public int getType() {
 	return type;
     }
 
+    @Pure
     public boolean isContinuation() {
 	return ((type & TAG_MASK) == CONTINUATION);
     }
 
+    @Pure
     public boolean isTagged() {
 	return ((type & TAG_MASK) == TAGGED);
     }
 
+    @Pure
     public boolean isUnTagged() {
 	return ((type & TAG_MASK) == UNTAGGED);
     }
 
+    @Pure
     public boolean isOK() {
 	return ((type & TYPE_MASK) == OK);
     }
 
+    @Pure
     public boolean isNO() {
 	return ((type & TYPE_MASK) == NO);
     }
 
+    @Pure
     public boolean isBAD() {
 	return ((type & TYPE_MASK) == BAD);
     }
 
+    @Pure
     public boolean isBYE() {
 	return ((type & TYPE_MASK) == BYE);
     }
 
+    @Pure
     public boolean isSynthetic() {
 	return ((type & SYNTHETIC) == SYNTHETIC);
     }
@@ -503,6 +538,7 @@ public class Response {
      * Return the tag, if this is a tagged statement.
      * @return tag of this tagged statement
      */
+    @Pure
     public String getTag() {
 	return tag;
     }
@@ -511,6 +547,7 @@ public class Response {
      * Return the rest of the response as a string, usually used to
      * return the arbitrary message text after a NO response.
      */
+    @Impure
     public String getRest() {
 	skipSpaces();
 	return ASCIIUtility.toString(buffer, index, size);
@@ -519,10 +556,12 @@ public class Response {
     /**
      * Reset pointer to beginning of response.
      */
+    @Impure
     public void reset() {
 	index = pindex;
     }
 
+    @Impure
     public String toString() {
 	return ASCIIUtility.toString(buffer, 0, size);
     }

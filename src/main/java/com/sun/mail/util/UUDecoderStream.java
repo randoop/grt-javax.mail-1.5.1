@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 
 /**
@@ -76,6 +78,7 @@ public class UUDecoderStream extends FilterInputStream {
      * or are ignored.  The default is false (errors cause exception).
      * @param in        the input stream
      */
+    @Impure
     public UUDecoderStream(InputStream in) {
 	super(in);
 	lin = new LineInputStream(in);
@@ -93,6 +96,7 @@ public class UUDecoderStream extends FilterInputStream {
      * @param ignoreErrors	ignore errors?
      * @param ignoreMissingBeginEnd	ignore missing begin or end?
      */
+    @Impure
     public UUDecoderStream(InputStream in, boolean ignoreErrors,
 				boolean ignoreMissingBeginEnd) {
 	super(in);
@@ -114,6 +118,7 @@ public class UUDecoderStream extends FilterInputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterInputStream#in
      */
+    @Impure
     public int read() throws IOException {
 	if (index >= bufsize) {
 	    readPrefix();
@@ -124,6 +129,7 @@ public class UUDecoderStream extends FilterInputStream {
 	return buffer[index++] & 0xff; // return lower byte
     }
 
+    @Impure
     public int read(byte[] buf, int off, int len) throws IOException {
 	int i, c;
 	for (i = 0; i < len; i++) {
@@ -137,10 +143,12 @@ public class UUDecoderStream extends FilterInputStream {
 	return i;
     }
 
+    @Pure
     public boolean markSupported() {
 	return false;
     }
 
+    @Impure
     public int available() throws IOException {
 	 // This is only an estimate, since in.available()
 	 // might include CRLFs too ..
@@ -154,6 +162,7 @@ public class UUDecoderStream extends FilterInputStream {
      * @return     name of decoded file
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public String getName() throws IOException {
 	readPrefix();
 	return name;
@@ -166,6 +175,7 @@ public class UUDecoderStream extends FilterInputStream {
      * @return     permission mode of source file
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public int getMode() throws IOException {
 	readPrefix();
 	return mode;
@@ -176,6 +186,7 @@ public class UUDecoderStream extends FilterInputStream {
      *  "begin <mode> <filename>"
      * Search for this prefix and gobble it up.
      */
+    @Impure
     private void readPrefix() throws IOException {
 	if (gotPrefix) // got the prefix
 	    return;
@@ -230,6 +241,7 @@ public class UUDecoderStream extends FilterInputStream {
 	}
     }
 
+    @Impure
     private boolean decode() throws IOException {
 
 	if (gotEnd)

@@ -39,6 +39,7 @@
  */
 
 package javax1.mail.event;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * The adapter which receives connection events.
@@ -49,7 +50,10 @@ package javax1.mail.event;
  * @author John Mani
  */
 public abstract class ConnectionAdapter implements ConnectionListener {
+    @SideEffectFree
     public void opened(ConnectionEvent e) {}
+    @SideEffectFree
     public void disconnected(ConnectionEvent e) {}
+    @SideEffectFree
     public void closed(ConnectionEvent e) {}
 }

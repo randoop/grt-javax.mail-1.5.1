@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * An interface optionally implemented by <code>DataSources</code> to
@@ -54,5 +55,6 @@ public interface MessageAware {
     /**
      * Return the message context.
      */
+    @Impure
     public MessageContext getMessageContext();
 }

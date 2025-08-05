@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -60,6 +61,7 @@ public class LineInputStream extends FilterInputStream {
     private char[] lineBuffer = null; // reusable byte buffer
     private static int MAX_INCR = 1024*1024;	// 1MB
 
+    @Impure
     public LineInputStream(InputStream in) {
 	super(in);
     }
@@ -75,6 +77,7 @@ public class LineInputStream extends FilterInputStream {
      * This class is similar to the deprecated 
      * <code>DataInputStream.readLine()</code>
      */
+    @Impure
     public String readLine() throws IOException {
 	//InputStream in = this.in;
 	char[] buf = lineBuffer;

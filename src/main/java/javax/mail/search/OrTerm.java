@@ -40,6 +40,9 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import javax1.mail.Message;
 
 /**
@@ -66,6 +69,7 @@ public final class OrTerm extends SearchTerm {
      * @param t1 first term
      * @param t2 second term
      */
+    @Impure
     public OrTerm(SearchTerm t1, SearchTerm t2) {
 	terms = new SearchTerm[2];
 	terms[0] = t1;
@@ -77,6 +81,7 @@ public final class OrTerm extends SearchTerm {
      *
      * @param t array of search terms
      */
+    @Impure
     public OrTerm(SearchTerm[] t) {
 	terms = new SearchTerm[t.length];
 	for (int i = 0; i < t.length; i++)
@@ -86,6 +91,7 @@ public final class OrTerm extends SearchTerm {
     /**
      * Return the search terms.
      */
+    @SideEffectFree
     public SearchTerm[] getTerms() {
 	return (SearchTerm[])terms.clone();
     }
@@ -101,6 +107,7 @@ public final class OrTerm extends SearchTerm {
      * @return		true if the OR succeds, otherwise false
      */
 
+    @Impure
     public boolean match(Message msg) {
 	for (int i=0; i < terms.length; i++)
 	    if (terms[i].match(msg))
@@ -111,6 +118,7 @@ public final class OrTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof OrTerm))
 	    return false;
@@ -126,6 +134,7 @@ public final class OrTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	int hash = 0;
 	for (int i=0; i < terms.length; i++)

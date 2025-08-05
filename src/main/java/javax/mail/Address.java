@@ -40,6 +40,8 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 /**
@@ -63,6 +65,7 @@ public abstract class Address implements Serializable {
      * @return	address type
      * @see	javax1.mail.internet.InternetAddress
      */
+    @Pure
     public abstract String getType();
 
     /**
@@ -70,6 +73,7 @@ public abstract class Address implements Serializable {
      *
      * @return	string representation of this address
      */
+    @Impure
     public abstract String toString();
 
     /**
@@ -84,5 +88,7 @@ public abstract class Address implements Serializable {
      *
      * @param	address	Address object
      */
+    @Pure
+    @Impure
     public abstract boolean equals(Object address);
 }

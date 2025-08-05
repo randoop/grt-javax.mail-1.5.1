@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 
 /**
@@ -93,6 +96,7 @@ public class HeaderTokenizer {
 	 * @param	type	Token type
 	 * @param	value	Token value
 	 */
+	@SideEffectFree
 	public Token(int type, String value) {
 	     this.type = type;
 	     this.value = value;
@@ -114,6 +118,7 @@ public class HeaderTokenizer {
 	 * <li><code>EOF</code> End of header
 	 * </ul>
 	 */
+	@Pure
 	public int getType() {
 	    return type;
 	}
@@ -126,6 +131,7 @@ public class HeaderTokenizer {
 	 *
 	 * @return	token value
 	 */
+	@Pure
 	public String getValue() {
 	    return value;
 	}
@@ -163,6 +169,7 @@ public class HeaderTokenizer {
      * @param   skipComments  If true, comments are skipped and
      *				not returned as tokens
      */
+    @SideEffectFree
     public HeaderTokenizer(String header, String delimiters,
     			   boolean skipComments) {
 	string = (header == null) ? "" : header; // paranoia ?!
@@ -178,6 +185,8 @@ public class HeaderTokenizer {
      * @param	header  The header that is tokenized
      * @param	delimiters  The delimiters to be used
      */
+    @SideEffectFree
+    @Impure
     public HeaderTokenizer(String header, String delimiters) {
 	this(header, delimiters, true);
     }
@@ -187,6 +196,8 @@ public class HeaderTokenizer {
      * used to delimit ATOMS. Also comments are skipped and not
      * returned as tokens
      */
+    @SideEffectFree
+    @Impure
     public HeaderTokenizer(String header)  {
 	this(header, RFC822);
     }
@@ -200,6 +211,7 @@ public class HeaderTokenizer {
      * @return		the next Token
      * @exception	ParseException if the parse fails
      */
+    @Impure
     public Token next() throws ParseException { 
 	return next('\0', false);
     }
@@ -217,6 +229,7 @@ public class HeaderTokenizer {
      * @exception	ParseException if the parse fails
      * @since		JavaMail 1.5
      */
+    @Impure
     public Token next(char endOfAtom) throws ParseException { 
 	return next(endOfAtom, false);
     }
@@ -235,6 +248,7 @@ public class HeaderTokenizer {
      * @exception	ParseException if the parse fails
      * @since		JavaMail 1.5
      */
+    @Impure
     public Token next(char endOfAtom, boolean keepEscapes)
 				throws ParseException { 
 	Token tk;
@@ -254,6 +268,7 @@ public class HeaderTokenizer {
      * @return		the next Token
      * @exception	ParseException if the parse fails
      */
+    @Impure
     public Token peek() throws ParseException {
 	Token tk;
 
@@ -269,6 +284,7 @@ public class HeaderTokenizer {
      * @return String	rest of header. null is returned if we are
      *			already at end of header
      */
+    @SideEffectFree
     public String getRemainder() {
 	if (nextPos >= string.length())
 	    return null;
@@ -280,6 +296,7 @@ public class HeaderTokenizer {
      * parse, 'currentPos' is updated to point to the start of the 
      * next token.
      */
+    @Impure
     private Token getNext(char endOfAtom, boolean keepEscapes)
 				throws ParseException {
 	// If we're already at end of string, return EOF
@@ -375,6 +392,7 @@ public class HeaderTokenizer {
 	return new Token(Token.ATOM, string.substring(start, currentPos));
     }
 
+    @Impure
     private Token collectString(char eos, boolean keepEscapes)
 				throws ParseException {
 	int start;
@@ -421,6 +439,7 @@ public class HeaderTokenizer {
     }
 
     // Skip SPACE, HT, CR and NL
+    @Impure
     private int skipWhiteSpace() {
 	char c;
 	for (; currentPos < maxPos; currentPos++)
@@ -431,6 +450,7 @@ public class HeaderTokenizer {
     }
 
     // Trim SPACE, HT, CR and NL from end of string
+    @SideEffectFree
     private static String trimWhiteSpace(String s) {
 	char c;
 	int i;
@@ -448,6 +468,7 @@ public class HeaderTokenizer {
     /* Process escape sequences and embedded LWSPs from a comment or
      * quoted string.
      */
+    @Impure
     private static String filterToken(String s, int start, int end,
 				boolean keepEscapes) {
 	StringBuffer sb = new StringBuffer();

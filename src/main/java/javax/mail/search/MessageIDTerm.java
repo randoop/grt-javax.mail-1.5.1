@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 
 /**
@@ -62,6 +64,7 @@ public final class MessageIDTerm extends StringTerm {
      *
      * @param msgid  the msgid to search for
      */
+    @Impure
     public MessageIDTerm(String msgid) {
 	// Note: comparison is case-insensitive
 	super(msgid);
@@ -74,6 +77,7 @@ public final class MessageIDTerm extends StringTerm {
      *			Message-ID header
      * @return		true if the match succeeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	String[] s;
 
@@ -95,6 +99,7 @@ public final class MessageIDTerm extends StringTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof MessageIDTerm))
 	    return false;

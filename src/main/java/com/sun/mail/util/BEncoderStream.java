@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -56,6 +58,7 @@ public class BEncoderStream extends BASE64EncoderStream {
      * Create a 'B' encoder that encodes the specified input stream.
      * @param out        the output stream
      */
+    @Impure
     public BEncoderStream(OutputStream out) {
 	super(out, Integer.MAX_VALUE); // MAX_VALUE is 2^31, should
 				       // suffice (!) to indicate that
@@ -65,6 +68,7 @@ public class BEncoderStream extends BASE64EncoderStream {
     /**
      * Returns the length of the encoded version of this byte array.
      */
+    @Pure
     public static int encodedLength(byte[] b) {
         return ((b.length + 2)/3) * 4;
     }

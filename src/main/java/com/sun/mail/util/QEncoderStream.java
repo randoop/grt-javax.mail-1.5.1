@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -61,6 +63,7 @@ public class QEncoderStream extends QPEncoderStream {
      * @param encodingWord true if we are Q-encoding a word within a
      *			phrase.
      */
+    @Impure
     public QEncoderStream(OutputStream out, boolean encodingWord) {
 	super(out, Integer.MAX_VALUE); // MAX_VALUE is 2^31, should
 				       // suffice (!) to indicate that
@@ -77,6 +80,7 @@ public class QEncoderStream extends QPEncoderStream {
      * @param      c   the <code>byte</code>.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public void write(int c) throws IOException {
 	c = c & 0xff; // Turn off the MSB.
 	if (c == ' ')
@@ -91,6 +95,7 @@ public class QEncoderStream extends QPEncoderStream {
     /**
      * Returns the length of the encoded version of this byte array.
      */
+    @Pure
     public static int encodedLength(byte[] b, boolean encodingWord) {
 	int len = 0;
 	String specials = encodingWord ? WORD_SPECIALS: TEXT_SPECIALS;

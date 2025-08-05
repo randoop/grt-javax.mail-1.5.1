@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Vector;
 
 /**
@@ -147,6 +150,7 @@ public class FetchProfile {
 	/**
 	 * Constructor for an item.  The name is used only for debugging.
 	 */
+	@SideEffectFree
 	protected Item(String name) {
 	    this.name = name;
 	}
@@ -154,6 +158,7 @@ public class FetchProfile {
 	/**
 	 * Include the name in the toString return value for debugging.
 	 */
+	@Pure
 	public String toString() {
 	    return getClass().getName() + "[" + name + "]";
 	}
@@ -162,6 +167,7 @@ public class FetchProfile {
     /**
      * Create an empty FetchProfile.
      */
+    @SideEffectFree
     public FetchProfile() { 
 	specials = null;
 	headers = null;
@@ -176,6 +182,7 @@ public class FetchProfile {
      * @see	FetchProfile.Item#CONTENT_INFO
      * @see	FetchProfile.Item#FLAGS
      */
+    @Impure
     public void add(Item item) { 
 	if (specials == null)
 	    specials = new Vector();
@@ -188,6 +195,7 @@ public class FetchProfile {
      *
      * @param	headerName	header to be prefetched
      */
+    @Impure
     public void add(String headerName) { 
    	if (headers == null)
 	    headers = new Vector();
@@ -197,6 +205,7 @@ public class FetchProfile {
     /**
      * Returns true if the fetch profile contains given special item.
      */
+    @Pure
     public boolean contains(Item item) { 
    	return specials != null && specials.contains(item);
     }
@@ -204,6 +213,7 @@ public class FetchProfile {
     /**
      * Returns true if the fetch profile contains given header name.
      */
+    @Pure
     public boolean contains(String headerName) { 
    	return headers != null && headers.contains(headerName);
     }
@@ -213,6 +223,7 @@ public class FetchProfile {
      *
      * @return		items set in this profile
      */
+    @Impure
     public Item[] getItems() { 
 	if (specials == null)
 	    return new Item[0];
@@ -227,6 +238,7 @@ public class FetchProfile {
      *
      * @return		headers set in this profile
      */
+    @Impure
     public String[] getHeaderNames() { 
 	if (headers == null)
 	    return new String[0];

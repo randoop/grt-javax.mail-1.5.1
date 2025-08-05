@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 import javax1.mail.Folder;
 
@@ -60,6 +62,7 @@ public class FolderClosedIOException extends IOException {
      * Constructor
      * @param folder	the Folder
      */
+    @Impure
     public FolderClosedIOException(Folder folder) {
 	this(folder, null);
     }
@@ -69,6 +72,7 @@ public class FolderClosedIOException extends IOException {
      * @param folder 	the Folder
      * @param message	the detailed error message
      */
+    @Impure
     public FolderClosedIOException(Folder folder, String message) {
 	super(message);
 	this.folder = folder;
@@ -77,6 +81,7 @@ public class FolderClosedIOException extends IOException {
     /**
      * Returns the dead Folder object
      */
+    @Pure
     public Folder getFolder() {
 	return folder;
     }

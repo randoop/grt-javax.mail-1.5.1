@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -64,6 +66,7 @@ public class IMAPSaslAuthenticator implements SaslAuthenticator {
     private MailLogger logger;
     private String host;
 
+    @SideEffectFree
     public IMAPSaslAuthenticator(IMAPProtocol pr, String name, Properties props,
 				MailLogger logger, String host) {
 	this.pr = pr;
@@ -73,6 +76,7 @@ public class IMAPSaslAuthenticator implements SaslAuthenticator {
 	this.host = host;
     }
 
+    @Impure
     public boolean authenticate(String[] mechs, final String realm,
 				final String authzid, final String u,
 				final String p) throws ProtocolException {
@@ -91,6 +95,7 @@ public class IMAPSaslAuthenticator implements SaslAuthenticator {
 
 	SaslClient sc;
 	CallbackHandler cbh = new CallbackHandler() {
+	    @Impure
 	    public void handle(Callback[] callbacks) {
 		if (logger.isLoggable(Level.FINE))
 		    logger.fine("SASL callback length: " + callbacks.length);

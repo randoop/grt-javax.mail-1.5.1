@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Vector;
 import java.util.Date;
 import java.util.Properties;
@@ -106,6 +109,7 @@ public abstract class Message implements Part {
     /**
      * No-arg version of the constructor.
      */
+    @SideEffectFree
     protected Message() { }
 
     /**
@@ -115,6 +119,7 @@ public abstract class Message implements Part {
      * @param	folder	containing folder
      * @param	msgnum	this message's sequence number within this folder
      */
+    @SideEffectFree
     protected Message(Folder folder, int msgnum) {
 	this.folder = folder;
 	this.msgnum = msgnum;
@@ -127,6 +132,7 @@ public abstract class Message implements Part {
      *
      * @param	session	A Session object
      */
+    @SideEffectFree
     protected Message(Session session) {
 	this.session = session;
     }
@@ -137,6 +143,7 @@ public abstract class Message implements Part {
      * @return		the message's Session
      * @since		JavaMail 1.5
      */
+    @Pure
     public Session getSession() {
 	return session;
     }
@@ -156,6 +163,7 @@ public abstract class Message implements Part {
      * @return          array of Address objects
      * @exception       MessagingException
      */
+    @Impure
     public abstract Address[] getFrom() throws MessagingException;
 
     /**
@@ -170,6 +178,7 @@ public abstract class Message implements Part {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public abstract void setFrom() throws MessagingException;
 
     /**
@@ -183,6 +192,7 @@ public abstract class Message implements Part {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public abstract void setFrom(Address address) 
 			throws MessagingException;
 
@@ -197,6 +207,7 @@ public abstract class Message implements Part {
      *			obtained from a READ_ONLY folder.
      * @exception       MessagingException
      */
+    @Impure
     public abstract void addFrom(Address[] addresses) 
 			throws MessagingException;
 
@@ -250,6 +261,7 @@ public abstract class Message implements Part {
 	/**
 	 * Constructor for use by subclasses.
 	 */
+	@SideEffectFree
 	protected RecipientType(String type) {
 	    this.type = type;
 	}
@@ -261,6 +273,7 @@ public abstract class Message implements Part {
 	 * <code>readResolve</code> method that checks for their known
 	 * instances before calling this super method.
 	 */
+	@Impure
 	protected Object readResolve() throws ObjectStreamException {
 	    if (type.equals("To"))
 		return TO;
@@ -273,6 +286,7 @@ public abstract class Message implements Part {
 		    "Attempt to resolve unknown RecipientType: " + type);
 	}
 
+	@Pure
 	public String toString() {
 	    return type;
 	}
@@ -292,6 +306,7 @@ public abstract class Message implements Part {
      * @see Message.RecipientType#CC
      * @see Message.RecipientType#BCC
      */
+    @Impure
     public abstract Address[] getRecipients(RecipientType type)
                                 throws MessagingException;
 
@@ -311,6 +326,7 @@ public abstract class Message implements Part {
      * @see Message.RecipientType#BCC
      * @see #getRecipients
      */
+    @Impure
     public Address[] getAllRecipients() throws MessagingException {
 	Address[] to = getRecipients(RecipientType.TO);
 	Address[] cc = getRecipients(RecipientType.CC);
@@ -353,6 +369,7 @@ public abstract class Message implements Part {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public abstract void setRecipients(RecipientType type, Address[] addresses)
                                 throws MessagingException;
 
@@ -369,6 +386,7 @@ public abstract class Message implements Part {
      *			implementation does not support modification 
      *			of existing values
      */
+    @Impure
     public void setRecipient(RecipientType type, Address address)
                                 throws MessagingException {
 	Address[] a = new Address[1];
@@ -388,6 +406,7 @@ public abstract class Message implements Part {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public abstract void addRecipients(RecipientType type, Address[] addresses)
                                 throws MessagingException;
 
@@ -403,6 +422,7 @@ public abstract class Message implements Part {
      *			implementation does not support modification 
      *			of existing values
      */
+    @Impure
     public void addRecipient(RecipientType type, Address address)
                                 throws MessagingException {
 	Address[] a = new Address[1];
@@ -426,6 +446,7 @@ public abstract class Message implements Part {
      * @exception       MessagingException
      * @see		#getFrom
      */
+    @Impure
     public Address[] getReplyTo() throws MessagingException {
         return getFrom();
     }
@@ -450,6 +471,7 @@ public abstract class Message implements Part {
      *			implementation does not support setting this
      *			attribute
      */
+    @Impure
     public void setReplyTo(Address[] addresses) throws MessagingException {
 	throw new MethodNotSupportedException("setReplyTo not supported");
     }
@@ -460,6 +482,7 @@ public abstract class Message implements Part {
      * @return          the subject
      * @exception       MessagingException
      */
+    @Impure
     public abstract String getSubject() throws MessagingException;
 
     /**
@@ -473,6 +496,7 @@ public abstract class Message implements Part {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public abstract void setSubject(String subject) 
 			throws MessagingException;
 
@@ -482,6 +506,7 @@ public abstract class Message implements Part {
      * @return          the date this message was sent
      * @exception       MessagingException
      */
+    @Impure
     public abstract Date getSentDate() throws MessagingException;
 
     /**
@@ -495,6 +520,7 @@ public abstract class Message implements Part {
      * @exception	IllegalStateException if this message is
      *			obtained from a READ_ONLY folder.
      */
+    @Impure
     public abstract void setSentDate(Date date) throws MessagingException;
 
     /**
@@ -503,6 +529,7 @@ public abstract class Message implements Part {
      * @return          the date this message was received
      * @exception       MessagingException
      */
+    @Impure
     public abstract Date getReceivedDate() throws MessagingException;
 
     /**
@@ -518,6 +545,7 @@ public abstract class Message implements Part {
      * @see 		#setFlags
      * @exception       MessagingException
      */
+    @Impure
     public abstract Flags getFlags() throws MessagingException;
 
     /**
@@ -537,6 +565,7 @@ public abstract class Message implements Part {
      * @see		javax1.mail.Flags.Flag#SEEN
      * @exception       MessagingException
      */
+    @Impure
     public boolean isSet(Flags.Flag flag) throws MessagingException {
 	return getFlags().contains(flag);
     }
@@ -560,6 +589,7 @@ public abstract class Message implements Part {
      *			obtained from a READ_ONLY folder.
      * @see		javax1.mail.event.MessageChangedEvent
      */
+    @Impure
     public abstract void setFlags(Flags flag, boolean set)
 				throws MessagingException;
 
@@ -582,6 +612,7 @@ public abstract class Message implements Part {
      *			obtained from a READ_ONLY folder.
      * @see		javax1.mail.event.MessageChangedEvent
      */
+    @Impure
     public void setFlag(Flags.Flag flag, boolean set)
 				throws MessagingException {
 	Flags f = new Flags(flag);
@@ -601,6 +632,7 @@ public abstract class Message implements Part {
      *
      * @return	the message number
      */
+    @Pure
     public int getMessageNumber() {
 	return msgnum;
     }
@@ -609,6 +641,7 @@ public abstract class Message implements Part {
      * Set the Message number for this Message. This method is
      * invoked only by the implementation classes.
      */
+    @Impure
     protected void setMessageNumber(int msgnum) {
 	this.msgnum = msgnum;
     }
@@ -620,6 +653,7 @@ public abstract class Message implements Part {
      *
      * @return	the containing folder
      */
+    @Pure
     public Folder getFolder() {
 	return folder;
     }
@@ -641,6 +675,7 @@ public abstract class Message implements Part {
      *
      * @see	Folder#expunge
      */
+    @Impure
     public boolean isExpunged() {
 	return expunged;
     }
@@ -651,6 +686,7 @@ public abstract class Message implements Part {
      *
      * @param expunged	the expunged flag
      */
+    @Impure
     protected void setExpunged(boolean expunged) {
 	this.expunged = expunged;
     }
@@ -677,6 +713,7 @@ public abstract class Message implements Part {
      * @return		the reply Message
      * @exception	MessagingException
      */
+    @Impure
     public abstract Message reply(boolean replyToAll) throws MessagingException;
 
     /**
@@ -700,6 +737,7 @@ public abstract class Message implements Part {
      *			implementation does not support modification 
      *			of existing values.
      */
+    @Impure
     public abstract void saveChanges() throws MessagingException;
 
     /**
@@ -711,6 +749,7 @@ public abstract class Message implements Part {
      * @exception       MessagingException
      * @see		javax1.mail.search.SearchTerm
      */
+    @Impure
     public boolean match(SearchTerm term) throws MessagingException {
 	return term.match(this);
     }

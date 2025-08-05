@@ -40,6 +40,7 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -61,6 +62,7 @@ public class DigestMD5 {
     private String uri;
     private String clientResponse;
 
+    @Impure
     public DigestMD5(MailLogger logger) {
 	this.logger = logger.getLogger(this.getClass(), "DEBUG DIGEST-MD5");
 	logger.config("DIGEST-MD5 Loaded");
@@ -71,6 +73,7 @@ public class DigestMD5 {
      *
      * @return byte array with client's response
      */
+    @Impure
     public byte[] authClient(String host, String user, String passwd,
 				String realm, String serverChallenge)
 				throws IOException {
@@ -149,6 +152,7 @@ public class DigestMD5 {
      *
      * @return	true if server is authenticated
      */
+    @Impure
     public boolean authServer(String serverResponse) throws IOException {
 	Hashtable map = tokenize(serverResponse);
 	// DIGEST-MD5 computation, server response (order critical)
@@ -168,6 +172,7 @@ public class DigestMD5 {
      *
      * @return	Hashtable containing key/value pairs from server
      */
+    @Impure
     private Hashtable tokenize(String serverResponse) throws IOException {
 	Hashtable map	= new Hashtable();
 	byte[] bytes = serverResponse.getBytes("iso-8859-1");	// really ASCII?
@@ -218,6 +223,7 @@ public class DigestMD5 {
     /**
      * Convert a byte array to a string of hex digits representing the bytes.
      */
+    @Impure
     private static String toHex(byte[] bytes) {
 	char[] result = new char[bytes.length * 2];
 

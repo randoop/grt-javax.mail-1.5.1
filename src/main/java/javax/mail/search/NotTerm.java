@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 
 /**
@@ -58,6 +60,7 @@ public final class NotTerm extends SearchTerm {
 
     private static final long serialVersionUID = 7152293214217310216L;
 
+    @Impure
     public NotTerm(SearchTerm t) {
 	term = t;
     }
@@ -65,11 +68,13 @@ public final class NotTerm extends SearchTerm {
     /**
      * Return the term to negate.
      */
+    @Pure
     public SearchTerm getTerm() {
 	return term;
     }
 
     /* The NOT operation */
+    @Impure
     public boolean match(Message msg) {
 	return !term.match(msg);
     }
@@ -77,6 +82,7 @@ public final class NotTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof NotTerm))
 	    return false;
@@ -87,6 +93,7 @@ public final class NotTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return term.hashCode() << 1;
     }

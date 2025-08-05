@@ -40,6 +40,8 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.SendFailedException;
 import javax1.mail.internet.InternetAddress;
 
@@ -68,6 +70,7 @@ public class SMTPSenderFailedException extends SendFailedException {
      * @param rc	the SMTP return code indicating the failure
      * @param err	the error string from the SMTP server
      */
+    @Impure
     public SMTPSenderFailedException(InternetAddress addr, String cmd, int rc,
 				String err) {
 	super(err);
@@ -79,6 +82,7 @@ public class SMTPSenderFailedException extends SendFailedException {
     /**
      * Return the address that failed.
      */
+    @Pure
     public InternetAddress getAddress() {
 	return addr;
     }
@@ -86,6 +90,7 @@ public class SMTPSenderFailedException extends SendFailedException {
     /**
      * Return the command that failed.
      */
+    @Pure
     public String getCommand() {
 	return cmd;
     }
@@ -97,6 +102,7 @@ public class SMTPSenderFailedException extends SendFailedException {
      * <A HREF="http://www.ietf.org/rfc/rfc821.txt">RFC 821</A>
      * for interpretation of the return code.
      */
+    @Pure
     public int getReturnCode() {
 	return rc;
     }

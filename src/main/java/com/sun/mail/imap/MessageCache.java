@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.logging.Level;
@@ -96,6 +98,7 @@ public class MessageCache {
     /**
      * Construct a new message cache of the indicated size.
      */
+    @Impure
     MessageCache(IMAPFolder folder, IMAPStore store, int size) {
 	this.folder = folder;
 	logger = folder.logger.getSubLogger("messagecache", "DEBUG IMAP MC",
@@ -108,6 +111,7 @@ public class MessageCache {
     /**
      * Constructor for debugging and testing.
      */
+    @Impure
     MessageCache(int size, boolean debug) {
 	this.folder = null;
 	logger = new MailLogger(
@@ -121,6 +125,7 @@ public class MessageCache {
     /**
      * Size of cache.
      */
+    @Pure
     public int size() {
 	return size;
     }
@@ -129,6 +134,7 @@ public class MessageCache {
      * Get the message object for the indicated message number.
      * If the message object hasn't been created, create it.
      */
+    @Impure
     public IMAPMessage getMessage(int msgnum) {
 	// check range
 	if (msgnum < 1 || msgnum > size)
@@ -154,6 +160,7 @@ public class MessageCache {
      * If the message object hasn't been created, create it.
      * Return null if there's no message with that sequence number.
      */
+    @Impure
     public IMAPMessage getMessageBySeqnum(int seqnum) {
 	int msgnum = msgnumOf(seqnum);
 	if (msgnum < 0) {		// XXX - < 1 ?
@@ -167,6 +174,7 @@ public class MessageCache {
     /**
      * Expunge the message with the given sequence number.
      */
+    @Impure
     public void expungeMessage(int seqnum) {
 	int msgnum = msgnumOf(seqnum);
 	if (msgnum < 0) {
@@ -202,6 +210,7 @@ public class MessageCache {
      * Remove all the expunged messages from the array,
      * returning a list of removed message objects.
      */
+    @Impure
     public IMAPMessage[] removeExpungedMessages() {
 	logger.fine("remove expunged messages");
 	List mlist = new ArrayList();	// list of expunged messages
@@ -249,6 +258,7 @@ public class MessageCache {
      * All messages in msgs must be IMAPMessage objects
      * from this folder.
      */
+    @Impure
     public IMAPMessage[] removeExpungedMessages(Message[] msgs) {
 	logger.fine("remove expunged messages");
 	List mlist = new ArrayList();	// list of expunged messages
@@ -331,6 +341,7 @@ public class MessageCache {
      * Shrink the messages and seqnums arrays.  newend is one past last
      * valid element.  oldend is one past the previous last valid element.
      */
+    @Impure
     private void shrink(int newend, int oldend) {
 	size = newend - 1;
 	if (logger.isLoggable(Level.FINE))
@@ -365,6 +376,7 @@ public class MessageCache {
      * Add count messages to the cache.
      * newSeqNum is the sequence number of the first message added.
      */
+    @Impure
     public void addMessages(int count, int newSeqNum) {
 	if (logger.isLoggable(Level.FINE))
 	    logger.fine("add " + count + " messages");
@@ -376,6 +388,7 @@ public class MessageCache {
      * Make sure the arrays are at least big enough to hold
      * "newsize" messages.
      */
+    @Impure
     private void ensureCapacity(int newsize, int newSeqNum) {
 	if (messages == null)
 	    messages = new IMAPMessage[newsize + SLOP];
@@ -411,6 +424,7 @@ public class MessageCache {
     /**
      * Return the sequence number for the given message number.
      */
+    @Impure
     public int seqnumOf(int msgnum) {
 	if (seqnums == null)
 	    return msgnum;
@@ -425,6 +439,7 @@ public class MessageCache {
     /**
      * Return the message number for the given sequence number.
      */
+    @Impure
     private int msgnumOf(int seqnum) {
 	if (seqnums == null)
 	    return seqnum;

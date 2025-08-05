@@ -40,6 +40,8 @@
 
 package com.sun1.mail.handlers;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -66,6 +68,7 @@ public class text_xml extends text_plain {
 
     private final DataFlavor[] flavors;
 
+    @Impure
     public text_xml() {
 	flavors = new DataFlavor[] {
 	    new ActivationDataFlavor(String.class, "text/xml", "XML String"),
@@ -82,6 +85,7 @@ public class text_xml extends text_plain {
      *
      * @return the DataFlavors
      */
+    @SideEffectFree
     public DataFlavor[] getTransferDataFlavors() { // throws Exception;
 	return (DataFlavor[])flavors.clone();
     }
@@ -93,6 +97,7 @@ public class text_xml extends text_plain {
      * @param ds the InputStream corresponding to the data
      * @return the constructed Object
      */
+    @Impure
     public Object getTransferData(DataFlavor df, DataSource ds)
 				throws IOException {
 
@@ -112,6 +117,7 @@ public class text_xml extends text_plain {
 
     /**
      */
+    @Impure
     public void writeTo(Object obj, String mimeType, OutputStream os)
 				    throws IOException {
 	if (!isXmlType(mimeType))
@@ -154,6 +160,7 @@ public class text_xml extends text_plain {
 	}
     }
 
+    @Impure
     private boolean isXmlType(String type) {
 	try {
 	    ContentType ct = new ContentType(type);

@@ -44,6 +44,8 @@
 
 package com.sun1.mail.auth;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.security.*;
 
 //import static sun.security.provider.ByteArrayAccess.*;
@@ -99,6 +101,7 @@ public final class MD4 {
     }
 
     // Standard constructor, creates a new MD4 instance.
+    @Impure
     public MD4() {
         state = new int[4];
         x = new int[16];
@@ -108,6 +111,7 @@ public final class MD4 {
     /**
      * Compute and return the message digest of the input byte array.
      */
+    @Impure
     public byte[] digest(byte[] in) {
 	implReset();
 	engineUpdate(in, 0, in.length);
@@ -119,6 +123,7 @@ public final class MD4 {
     /**
      * Reset the state of this object.
      */
+    @Impure
     private void implReset() {
         // Load magic initialization constants.
         state[0] = 0x67452301;
@@ -134,6 +139,7 @@ public final class MD4 {
      * to the digest, the count is added to the digest, and the resulting
      * digest is stored.
      */
+    @Impure
     private void implDigest(byte[] out, int ofs) {
         long bitsProcessed = bytesProcessed << 3;
 
@@ -163,6 +169,7 @@ public final class MD4 {
 	}
     }
 
+    @Impure
     private void engineUpdate(byte[] b, int ofs, int len) {
         if (len == 0) {
             return;
@@ -200,16 +207,19 @@ public final class MD4 {
         }
     }
 
+    @Pure
     private static int FF(int a, int b, int c, int d, int x, int s) {
         a += ((b & c) | ((~b) & d)) + x;
         return ((a << s) | (a >>> (32 - s)));
     }
 
+    @Pure
     private static int GG(int a, int b, int c, int d, int x, int s) {
         a += ((b & c) | (b & d) | (c & d)) + x + 0x5a827999;
         return ((a << s) | (a >>> (32 - s)));
     }
 
+    @Pure
     private static int HH(int a, int b, int c, int d, int x, int s) {
         a += ((b ^ c) ^ d) + x + 0x6ed9eba1;
         return ((a << s) | (a >>> (32 - s)));
@@ -220,6 +230,7 @@ public final class MD4 {
      * transformation operation. It consumes 64
      * bytes from the buffer, beginning at the specified offset.
      */
+    @Impure
     private void implCompress(byte[] buf, int ofs) {
         //b2iLittle64(buf, ofs, x);
 	for (int xfs = 0; xfs < x.length; xfs++) {

@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Deterministic;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import javax1.mail.*;
 import javax.activation.*;
 import java.io.*;
@@ -69,6 +72,7 @@ public class MimePartDataSource implements DataSource, MessageAware {
     /**
      * Constructor, that constructs a DataSource from a MimePart.
      */
+    @SideEffectFree
     public MimePartDataSource(MimePart part) {
 	this.part = part;
     }
@@ -89,6 +93,7 @@ public class MimePartDataSource implements DataSource, MessageAware {
      * @see	javax1.mail.internet.MimeUtility#decode
      * @return 	decoded input stream
      */
+    @Impure
     public InputStream getInputStream() throws IOException {
 	InputStream is;
 
@@ -119,6 +124,7 @@ public class MimePartDataSource implements DataSource, MessageAware {
      *
      * This implementation throws the UnknownServiceException.
      */
+    @Deterministic
     public OutputStream getOutputStream() throws IOException {
 	throw new UnknownServiceException("Writing not supported");
     }
@@ -129,6 +135,7 @@ public class MimePartDataSource implements DataSource, MessageAware {
      * This implementation just invokes the <code>getContentType</code>
      * method on the MimePart.
      */
+    @Impure
     public String getContentType() {
 	try {
 	    return part.getContentType();
@@ -146,6 +153,7 @@ public class MimePartDataSource implements DataSource, MessageAware {
      *
      * This implementation just returns an empty string.
      */
+    @Impure
     public String getName() {
 	try {
 	    if (part instanceof MimeBodyPart)
@@ -160,6 +168,7 @@ public class MimePartDataSource implements DataSource, MessageAware {
      * Return the <code>MessageContext</code> for the current part.
      * @since JavaMail 1.1
      */
+    @Impure
     public synchronized MessageContext getMessageContext() {
 	if (context == null)
 	    context = new MessageContext(part);

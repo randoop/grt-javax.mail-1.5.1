@@ -40,6 +40,7 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -52,10 +53,12 @@ public interface MessageCountListener extends java.util.EventListener {
     /**
      * Invoked when messages are added into a folder.
      */
+    @SideEffectFree
     public void messagesAdded(MessageCountEvent e);
 
     /**
      * Invoked when messages are removed (expunged) from a folder.
      */
+    @SideEffectFree
     public void messagesRemoved(MessageCountEvent e);
 }

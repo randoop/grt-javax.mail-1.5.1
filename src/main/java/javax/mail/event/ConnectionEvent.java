@@ -40,6 +40,9 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import javax1.mail.*;
 
@@ -71,6 +74,7 @@ public class ConnectionEvent extends MailEvent  {
      * Constructor
      * @param source  The source object
      */
+    @Impure
     public ConnectionEvent(Object source, int type) {
 	super(source);
 	this.type = type;
@@ -80,6 +84,7 @@ public class ConnectionEvent extends MailEvent  {
      * Return the type of this event
      * @return  type
      */
+    @Pure
     public int getType() {
 	return type;
     }
@@ -87,6 +92,8 @@ public class ConnectionEvent extends MailEvent  {
     /**
      * Invokes the appropriate ConnectionListener method
      */
+    @SideEffectFree
+    @Impure
     public void dispatch(Object listener) {
 	if (type == OPENED)
 	    ((ConnectionListener)listener).opened(this);

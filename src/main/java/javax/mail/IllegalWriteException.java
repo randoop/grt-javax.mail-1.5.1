@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
 
 
 /**
@@ -55,6 +56,7 @@ public class IllegalWriteException extends MessagingException {
     /**
      * Constructs an IllegalWriteException with no detail message.
      */
+    @Impure
     public IllegalWriteException() {
 	super();
     }
@@ -65,6 +67,7 @@ public class IllegalWriteException extends MessagingException {
      *
      * @param s		The detailed error message
      */
+    @Impure
     public IllegalWriteException(String s) {
 	super(s);
     }
@@ -78,6 +81,7 @@ public class IllegalWriteException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public IllegalWriteException(String s, Exception e) {
 	super(s, e);
     }

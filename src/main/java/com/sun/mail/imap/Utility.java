@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Vector;
 
 import javax1.mail.*;
@@ -58,6 +61,7 @@ import com.sun1.mail.imap.protocol.UIDSet;
 public final class Utility {
 
     // Cannot be initialized
+    @SideEffectFree
     private Utility() { }
 
     /**
@@ -70,6 +74,7 @@ public final class Utility {
      * numbers, you should use this method only when holding the
      * messageCacheLock.
      */
+    @Impure
     public static 
     MessageSet[] toMessageSet(Message[] msgs, Condition cond) {
 	Vector v = new Vector(1);
@@ -129,6 +134,7 @@ public final class Utility {
      * Return UIDSets for the messages.  Note that the UIDs
      * must have already been fetched for the messages.
      */
+    @Impure
     public static UIDSet[] toUIDSet(Message[] msgs) {
 	Vector v = new Vector(1);
 	long current, next;
@@ -184,6 +190,8 @@ public final class Utility {
      *
      * @since	JavaMail 1.5.1
      */
+    @Pure
+    @Impure
     public static UIDSet[] getResyncUIDSet(ResyncData rd) {
 	return rd.getUIDSet();
     }
@@ -193,6 +201,7 @@ public final class Utility {
      * <code>toMessageSet()</code>. 
      */
     public static interface Condition {
+	@Impure
 	public boolean test(IMAPMessage message);
     }
 }

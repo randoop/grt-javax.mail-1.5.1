@@ -40,6 +40,9 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.*;
 import javax1.mail.Session;
 
@@ -52,12 +55,15 @@ import javax1.mail.Session;
 public class PropUtil {
 
     // No one should instantiate this class.
+    @SideEffectFree
     private PropUtil() {
     }
 
     /**
      * Get an integer valued property.
      */
+    @SideEffectFree
+    @Impure
     public static int getIntProperty(Properties props, String name, int def) {
 	return getInt(getProp(props, name), def);
     }
@@ -65,6 +71,8 @@ public class PropUtil {
     /**
      * Get a boolean valued property.
      */
+    @Pure
+    @Impure
     public static boolean getBooleanProperty(Properties props,
 				String name, boolean def) {
 	return getBoolean(getProp(props, name), def);
@@ -73,6 +81,8 @@ public class PropUtil {
     /**
      * Get an integer valued property.
      */
+    @SideEffectFree
+    @Impure
     public static int getIntSessionProperty(Session session,
 				String name, int def) {
 	return getInt(getProp(session.getProperties(), name), def);
@@ -81,6 +91,8 @@ public class PropUtil {
     /**
      * Get a boolean valued property.
      */
+    @Pure
+    @Impure
     public static boolean getBooleanSessionProperty(Session session,
 				String name, boolean def) {
 	return getBoolean(getProp(session.getProperties(), name), def);
@@ -89,6 +101,7 @@ public class PropUtil {
     /**
      * Get a boolean valued System property.
      */
+    @Impure
     public static boolean getBooleanSystemProperty(String name, boolean def) {
 	try {
 	    return getBoolean(getProp(System.getProperties(), name), def);
@@ -118,6 +131,7 @@ public class PropUtil {
      * If the "get" method returns null, use the getProperty method,
      * which might cascade to a default Properties object.
      */
+    @Pure
     private static Object getProp(Properties props, String name) {
 	Object val = props.get(name);
 	if (val != null)
@@ -130,6 +144,7 @@ public class PropUtil {
      * Interpret the value object as an integer,
      * returning def if unable.
      */
+    @SideEffectFree
     private static int getInt(Object value, int def) {
 	if (value == null)
 	    return def;
@@ -147,6 +162,7 @@ public class PropUtil {
      * Interpret the value object as a boolean,
      * returning def if unable.
      */
+    @Pure
     private static boolean getBoolean(Object value, boolean def) {
 	if (value == null)
 	    return def;

@@ -40,6 +40,8 @@
 
 package com.sun1.mail.smtp;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -63,6 +65,7 @@ public class SMTPSaslAuthenticator implements SaslAuthenticator {
     private MailLogger logger;
     private String host;
 
+    @SideEffectFree
     public SMTPSaslAuthenticator(SMTPTransport pr, String name,
 		Properties props, MailLogger logger, String host) {
 	this.pr = pr;
@@ -72,6 +75,7 @@ public class SMTPSaslAuthenticator implements SaslAuthenticator {
 	this.host = host;
     }
 
+    @Impure
     public boolean authenticate(String[] mechs, final String realm,
 				final String authzid, final String u,
 				final String p) throws MessagingException {
@@ -86,6 +90,7 @@ public class SMTPSaslAuthenticator implements SaslAuthenticator {
 
 	SaslClient sc;
 	CallbackHandler cbh = new CallbackHandler() {
+	    @Impure
 	    public void handle(Callback[] callbacks) {
 		if (logger.isLoggable(Level.FINE))
 		    logger.fine("SASL callback length: " + callbacks.length);
@@ -218,6 +223,8 @@ public class SMTPSaslAuthenticator implements SaslAuthenticator {
 	return true;
     }
 
+    @SideEffectFree
+    @Impure
     private static final String responseText(SMTPTransport pr) {
 	String resp = pr.getLastServerResponse().trim();
 	if (resp.length() > 4)

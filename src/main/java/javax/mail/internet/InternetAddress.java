@@ -40,6 +40,9 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -88,6 +91,7 @@ public class InternetAddress extends Address implements Cloneable {
     /**
      * Default constructor.
      */
+    @Impure
     public InternetAddress() { }
 
     /**
@@ -106,6 +110,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @param address	the address in RFC822 format
      * @exception	AddressException if the parse failed
      */
+    @Impure
     public InternetAddress(String address) throws AddressException {
 	// use our address parsing utility routine to parse the string
 	InternetAddress a[] = parse(address, true);
@@ -134,6 +139,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @exception		AddressException if the parse failed
      * @since			JavaMail 1.3
      */
+    @Impure
     public InternetAddress(String address, boolean strict)
 						throws AddressException {
 	this(address);
@@ -152,6 +158,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @param address	the address in RFC822 format
      * @param personal	the personal name
      */
+    @Impure
     public InternetAddress(String address, String personal)
 				throws UnsupportedEncodingException {
 	this(address, personal, null);
@@ -165,6 +172,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @param personal	the personal name
      * @param charset	the MIME charset for the name
      */
+    @Impure
     public InternetAddress(String address, String personal, String charset)
 				throws UnsupportedEncodingException {
 	this.address = address;
@@ -175,6 +183,7 @@ public class InternetAddress extends Address implements Cloneable {
      * Return a copy of this InternetAddress object.
      * @since		JavaMail 1.2
      */
+    @SideEffectFree
     public Object clone() {
 	InternetAddress a = null;
 	try {
@@ -187,6 +196,7 @@ public class InternetAddress extends Address implements Cloneable {
      * Return the type of this address. The type of an InternetAddress
      * is "rfc822".
      */
+    @Pure
     public String getType() {
 	return "rfc822";
     }
@@ -196,6 +206,7 @@ public class InternetAddress extends Address implements Cloneable {
      *
      * @param	address email address
      */
+    @Impure
     public void setAddress(String address) {
 	this.address = address;
     }
@@ -213,6 +224,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @exception UnsupportedEncodingException if the charset encoding
      *		  fails.
      */
+    @Impure
     public void setPersonal(String name, String charset)
 				throws UnsupportedEncodingException {
 	personal = name;
@@ -233,6 +245,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @exception UnsupportedEncodingException if the charset encoding
      *		  fails.
      */
+    @Impure
     public void setPersonal(String name) 
 		throws UnsupportedEncodingException {
 	personal = name;
@@ -246,6 +259,7 @@ public class InternetAddress extends Address implements Cloneable {
      * Get the email address.
      * @return	email address
      */
+    @Pure
     public String getAddress() {
 	return address;
     }
@@ -257,6 +271,7 @@ public class InternetAddress extends Address implements Cloneable {
      *
      * @return	personal name
      */
+    @Impure
     public String getPersonal() {
 	if (personal != null)
 	    return personal;
@@ -283,6 +298,7 @@ public class InternetAddress extends Address implements Cloneable {
      *
      * @return		possibly encoded address string
      */
+    @Impure
     public String toString() {
 	if (encodedPersonal == null && personal != null)
 	    try {
@@ -304,6 +320,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @return          Unicode address string
      * @since           JavaMail 1.2
      */  
+    @Impure
     public String toUnicodeString() {
 	String p = getPersonal();
         if (p != null)
@@ -333,6 +350,7 @@ public class InternetAddress extends Address implements Cloneable {
     private static final String rfc822phrase =
 	HeaderTokenizer.RFC822.replace(' ', '\0').replace('\t', '\0');
 
+    @Impure
     private static String quotePhrase(String phrase) {
         int len = phrase.length();
         boolean needQuoting = false;
@@ -366,6 +384,7 @@ public class InternetAddress extends Address implements Cloneable {
             return phrase;
     }
 
+    @Impure
     private static String unquote(String s) {
 	if (s.startsWith("\"") && s.endsWith("\"") && s.length() > 1) {
 	    s = s.substring(1, s.length() - 1);
@@ -387,6 +406,8 @@ public class InternetAddress extends Address implements Cloneable {
     /**
      * The equality operator.
      */
+    @Pure
+    @Impure
     public boolean equals(Object a) {
 	if (!(a instanceof InternetAddress))
 	    return false;
@@ -403,6 +424,7 @@ public class InternetAddress extends Address implements Cloneable {
     /**
      * Compute a hash code for the address.
      */
+    @SideEffectFree
     public int hashCode() {
 	if (address == null)
 	    return 0;
@@ -422,6 +444,7 @@ public class InternetAddress extends Address implements Cloneable {
      *			that this is a RuntimeException.
      * @return		comma separated string of addresses
      */
+    @Impure
     public static String toString(Address[] addresses) {
 	return toString(addresses, 0);
     }
@@ -446,6 +469,7 @@ public class InternetAddress extends Address implements Cloneable {
      *			that this is a RuntimeException.
      * @return		comma separated string of addresses
      */
+    @Impure
     public static String toString(Address[] addresses, int used) {
 	if (addresses == null || addresses.length == 0)
 	    return null;
@@ -474,6 +498,7 @@ public class InternetAddress extends Address implements Cloneable {
     /* Return the length of the first segment within this string.
      * If no segments exist, the length of the whole line is returned.
      */
+    @Pure
     private static int lengthOfFirstSegment(String s) {
 	int pos;
 	if ((pos = s.indexOf("\r\n")) != -1)
@@ -487,6 +512,7 @@ public class InternetAddress extends Address implements Cloneable {
      * If no segments exist, the length of the whole line plus
      * <code>used</code> is returned.
      */
+    @Pure
     private static int lengthOfLastSegment(String s, int used) {
 	int pos;
 	if ((pos = s.lastIndexOf("\r\n")) != -1)
@@ -508,6 +534,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @param	session		Session object used for property lookup
      * @return			current user's email address
      */
+    @Impure
     public static InternetAddress getLocalAddress(Session session) {
 	try {
 	    return _getLocalAddress(session);
@@ -523,6 +550,7 @@ public class InternetAddress extends Address implements Cloneable {
      * for the failure.
      */
     // package-private
+    @Impure
     static InternetAddress _getLocalAddress(Session session)
 	    throws SecurityException, AddressException, UnknownHostException {
 	String user = null, host = null, address = null;
@@ -558,6 +586,7 @@ public class InternetAddress extends Address implements Cloneable {
      * Get the local host name from InetAddress and return it in a form
      * suitable for use in an email address.
      */
+    @Impure
     private static String getLocalHostName() throws UnknownHostException {
 	String host = null;
 	InetAddress me = InetAddress.getLocalHost();
@@ -579,6 +608,7 @@ public class InternetAddress extends Address implements Cloneable {
      * for a literal definitely can't be a host name and thus will fail
      * later when used as an address literal.
      */
+    @Pure
     private static boolean isInetAddressLiteral(String addr) {
 	boolean sawHex = false, sawColon = false;
 	for (int i = 0; i < addr.length(); i++) {
@@ -605,6 +635,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @return			array of InternetAddress objects
      * @exception		AddressException if the parse failed
      */
+    @Impure
     public static InternetAddress[] parse(String addresslist) 
 				throws AddressException {
 	return parse(addresslist, true);
@@ -628,6 +659,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @return			array of InternetAddress objects
      * @exception		AddressException if the parse failed
      */
+    @Impure
     public static InternetAddress[] parse(String addresslist, boolean strict)
 					    throws AddressException {
 	return parse(addresslist, strict, false);
@@ -653,6 +685,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @exception		AddressException if the parse failed
      * @since			JavaMail 1.3
      */
+    @Impure
     public static InternetAddress[] parseHeader(String addresslist,
 				boolean strict) throws AddressException {
 	return parse(MimeUtility.unfold(addresslist), strict, true);
@@ -666,6 +699,7 @@ public class InternetAddress extends Address implements Cloneable {
      *
      * XXX - Deal with encoded Headers too.
      */
+    @Impure
     private static InternetAddress[] parse(String s, boolean strict,
 				    boolean parseHdr) throws AddressException {
 	int start, end, index, nesting;
@@ -1122,6 +1156,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @exception	AddressException if the address isn't valid.
      * @since		JavaMail 1.3
      */
+    @Impure
     public void validate() throws AddressException {
 	if (isGroup())
 	    getGroup(true);	// throw away the result
@@ -1139,6 +1174,7 @@ public class InternetAddress extends Address implements Cloneable {
      * XXX - much more to check
      * XXX - doesn't handle domain-literals properly (but no one uses them)
      */
+    @Impure
     private static void checkAddress(String addr,
 				boolean routeAddr, boolean validate)
 				throws AddressException {
@@ -1281,6 +1317,8 @@ public class InternetAddress extends Address implements Cloneable {
      * Is this a "simple" address?  Simple addresses don't contain quotes
      * or any RFC822 special characters other than '@' and '.'.
      */
+    @SideEffectFree
+    @Impure
     private boolean isSimple() {
 	return address == null || indexOfAny(address, specialsNoDotNoAt) < 0;
     }
@@ -1294,6 +1332,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @return		true if this address represents a group
      * @since		JavaMail 1.3
      */
+    @Pure
     public boolean isGroup() {
 	// quick and dirty check
 	return address != null &&
@@ -1311,6 +1350,7 @@ public class InternetAddress extends Address implements Cloneable {
      * @exception	AddressException if the group list can't be parsed
      * @since		JavaMail 1.3
      */
+    @Impure
     public InternetAddress[] getGroup(boolean strict) throws AddressException {
 	String addr = getAddress();
 	// groups are of the form "name:addr,addr,...;"
@@ -1331,10 +1371,13 @@ public class InternetAddress extends Address implements Cloneable {
      *
      * This should be a method on String.
      */
+    @SideEffectFree
+    @Impure
     private static int indexOfAny(String s, String any) {
 	return indexOfAny(s, any, 0);
     }
 
+    @SideEffectFree
     private static int indexOfAny(String s, String any, int start) {
 	try {
 	    int len = s.length();

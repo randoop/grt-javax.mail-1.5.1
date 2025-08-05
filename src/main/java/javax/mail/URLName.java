@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.net.*;
 
 import java.io.ByteArrayOutputStream;
@@ -136,6 +139,7 @@ public class URLName {
      * number of -1 indicates that the URL should use the default port for
      * the protocol.
      */
+    @Impure
     public URLName(
 	String protocol,
 	String host,
@@ -163,6 +167,7 @@ public class URLName {
     /**
      * Construct a URLName from a java.net.URL object.
      */
+    @Impure
     public URLName(URL url) {
 	this(url.toString());
     }
@@ -171,6 +176,7 @@ public class URLName {
      * Construct a URLName from the string.  Parses out all the possible
      * information (protocol, host, port, file, username, password).
      */
+    @Impure
     public URLName(String url) {
 	parseString(url);
     }
@@ -178,6 +184,7 @@ public class URLName {
     /**
      * Constructs a string representation of this URLName.
      */
+    @Impure
     public String toString() {
 	if (fullURL == null) {
 	    // add the "protocol:"
@@ -239,6 +246,7 @@ public class URLName {
     /**
      * Method which does all of the work of parsing the string.
      */
+    @Impure
     protected void parseString(String url) {
 	// initialize everything in case called from subclass
 	// (URLName really should be a final class)
@@ -323,6 +331,7 @@ public class URLName {
      * Returns the port number of this URLName.
      * Returns -1 if the port is not set. 
      */
+    @Pure
     public int getPort() {
 	return port;
     }
@@ -331,6 +340,7 @@ public class URLName {
      * Returns the protocol of this URLName.
      * Returns null if this URLName has no protocol.
      */
+    @Pure
     public String getProtocol() {
 	return protocol;
     }
@@ -339,6 +349,7 @@ public class URLName {
      * Returns the file name of this URLName.
      * Returns null if this URLName has no file name.
      */
+    @Pure
     public String getFile() {
 	return file;
     }
@@ -347,6 +358,7 @@ public class URLName {
      * Returns the reference of this URLName.
      * Returns null if this URLName has no reference.
      */
+    @Pure
     public String getRef() {
 	return ref;
     }
@@ -355,6 +367,7 @@ public class URLName {
      * Returns the host of this URLName.
      * Returns null if this URLName has no host.
      */
+    @Pure
     public String getHost() {
 	return host;
     }
@@ -363,6 +376,7 @@ public class URLName {
      * Returns the user name of this URLName.
      * Returns null if this URLName has no user name.
      */
+    @Impure
     public String getUsername() {
 	return doEncode ? decode(username) : username;
     }
@@ -371,6 +385,7 @@ public class URLName {
      * Returns the password of this URLName.
      * Returns null if this URLName has no password.
      */
+    @Impure
     public String getPassword() {
 	return doEncode ? decode(password) : password;
     }
@@ -378,6 +393,7 @@ public class URLName {
     /**
      * Constructs a URL from the URLName.
      */
+    @Impure
     public URL getURL() throws MalformedURLException {
         return new URL(getProtocol(), getHost(), getPort(), getFile());
     }
@@ -403,6 +419,7 @@ public class URLName {
      * Note also that the password field is not included in the comparison,
      * nor is any reference field appended to the filename.
      */
+    @Impure
     public boolean equals(Object obj) {
         if (!(obj instanceof URLName))
 	    return false;
@@ -454,6 +471,7 @@ public class URLName {
     /**
      * Compute the hash code for this URLName.
      */
+    @Impure
     public int hashCode() {
 	if (hashCode != 0)
 	    return hashCode;
@@ -477,6 +495,7 @@ public class URLName {
      * name the first time and remember that we've done
      * so, whether the lookup fails or not.
      */
+    @Impure
     private synchronized InetAddress getHostAddress() {
 	if (hostAddressKnown)
 	    return hostAddress;
@@ -544,6 +563,7 @@ public class URLName {
      * @param   s   <code>String</code> to be translated.
      * @return  the translated <code>String</code>.
      */
+    @Impure
     static String encode(String s) {
 	if (s == null)
 	    return null;
@@ -556,6 +576,7 @@ public class URLName {
 	return s;
     }
 
+    @Impure
     private static String _encode(String s) {
 	int maxBytesPerChar = 10;
         StringBuffer out = new StringBuffer(s.length());
@@ -631,6 +652,7 @@ public class URLName {
      * @param s the <code>String</code> to decode
      * @return the newly decoded <code>String</code>
      */
+    @Impure
     static String decode(String s) {
 	if (s == null)
 	    return null;
@@ -677,10 +699,13 @@ public class URLName {
      *
      * This should be a method on String.
      */
+    @SideEffectFree
+    @Impure
     private static int indexOfAny(String s, String any) {
 	return indexOfAny(s, any, 0);
     }
 
+    @SideEffectFree
     private static int indexOfAny(String s, String any, int start) {
 	try {
 	    int len = s.length();

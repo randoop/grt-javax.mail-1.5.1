@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.lang.reflect.*;
 import java.security.*;
 
@@ -84,6 +86,7 @@ public class MimeUtil {
     }
 
     // No one should instantiate this class.
+    @SideEffectFree
     private MimeUtil() {
     }
 
@@ -91,6 +94,7 @@ public class MimeUtil {
      * If a Content-Type handler has been specified,
      * call it to clean up the Content-Type value.
      */
+    @Impure
     public static String cleanContentType(MimePart mp, String contentType) {
 	if (cleanContentType != null) {
 	    try {
@@ -108,9 +112,11 @@ public class MimeUtil {
      * Assert any privileges we might have and then call the
      * Thread.getContextClassLoader method.
      */
+    @Impure
     private static ClassLoader getContextClassLoader() {
 	return (ClassLoader)
 		AccessController.doPrivileged(new PrivilegedAction() {
+	    @Impure
 	    public Object run() {
 		ClassLoader cl = null;
 		try {

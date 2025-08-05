@@ -40,6 +40,7 @@
 
 package com.sun1.mail.handlers;
 
+import org.checkerframework.dataflow.qual.Pure;
 import javax.activation.ActivationDataFlavor;
 
 /**
@@ -52,6 +53,7 @@ public class text_html extends text_plain {
 	"text/html",
 	"HTML String");
 
+    @Pure
     protected ActivationDataFlavor getDF() {
 	return myDF;
     }

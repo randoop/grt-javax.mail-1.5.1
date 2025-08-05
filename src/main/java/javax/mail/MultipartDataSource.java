@@ -40,6 +40,8 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Vector;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -70,6 +72,7 @@ public interface MultipartDataSource extends DataSource {
      *
      * @return          number of parts
      */
+    @Pure
     public int getCount();
 
     /**
@@ -81,6 +84,7 @@ public interface MultipartDataSource extends DataSource {
      *			is out of range.
      * @exception       MessagingException
      */
+    @Impure
     public BodyPart getBodyPart(int index) throws MessagingException;
 
 }

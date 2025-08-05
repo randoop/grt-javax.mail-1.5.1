@@ -40,6 +40,7 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Pure;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -66,41 +67,49 @@ public @interface MailSessionDefinition {
     /**
      * Description of this mail session.
      */
+    @Pure
     String description() default "";
 
     /**
      * JNDI name by which the mail session will be registered.
      */
+    @Pure
     String name();
 
     /**
      * Store protocol name.
      */
+    @Pure
     String storeProtocol() default "";
 
     /**
      * Transport protocol name.
      */
+    @Pure
     String transportProtocol() default "";
 
     /**
      * Host name for the mail server.
      */
+    @Pure
     String host() default "";
 
     /**
      * User name to use for authentication.
      */
+    @Pure
     String user() default "";
 
     /**
      * Password to use for authentication.
      */
+    @Pure
     String password() default "";
 
     /**
      * From address for the user.
      */
+    @Pure
     String from() default "";
 
     /**
@@ -108,5 +117,6 @@ public @interface MailSessionDefinition {
      * Properties are specified using the format:
      * <i>propertyName=propertyValue</i> with one property per array element.
      */
+    @Pure
     String[] properties() default {};
 }

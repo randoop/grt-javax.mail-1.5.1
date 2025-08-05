@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * An interface implemented by Stores that support quotas.
@@ -66,6 +67,7 @@ public interface QuotaAwareStore {
      * @exception MessagingException	if the server doesn't support the
      *					QUOTA extension
      */
+    @Impure
     Quota[] getQuota(String folder) throws MessagingException;
 
     /**
@@ -77,5 +79,6 @@ public interface QuotaAwareStore {
      * @exception MessagingException	if the server doesn't support the
      *					QUOTA extension
      */
+    @Impure
     void setQuota(Quota quota) throws MessagingException;
 }

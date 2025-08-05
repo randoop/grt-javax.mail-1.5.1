@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * This class models a Part that is contained within a Multipart.
@@ -64,6 +66,7 @@ public abstract class BodyPart implements Part {
      * Return the containing <code>Multipart</code> object,
      * or <code>null</code> if not known.
      */
+    @Pure
     public Multipart getParent() {
 	return parent;
     }
@@ -76,6 +79,7 @@ public abstract class BodyPart implements Part {
      * from its containing <code>Multipart</code>.
      * @since	JavaMail 1.1
      */
+    @Impure
     void setParent(Multipart parent) {
 	this.parent = parent;
     }

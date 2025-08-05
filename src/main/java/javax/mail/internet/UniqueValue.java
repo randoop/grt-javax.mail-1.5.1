@@ -40,6 +40,7 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.net.*;
 import javax1.mail.Session;
 
@@ -68,6 +69,7 @@ class UniqueValue {
      * part number, a newly created object's <code>hashCode()</code>,
      * and the current time (in milliseconds).
      */
+    @Impure
     public static String getUniqueBoundaryValue() {
 	StringBuffer s = new StringBuffer();
 
@@ -93,6 +95,7 @@ class UniqueValue {
      * @param ssn Session object used to get the local address
      * @see javax1.mail.internet.InternetAddress
      */
+    @Impure
     public static String getUniqueMessageIDValue(Session ssn) {
 	String suffix = null;
 
@@ -117,6 +120,7 @@ class UniqueValue {
      * Ensure ID is unique by synchronizing access.
      * XXX - Could use AtomicInteger.getAndIncrement() in J2SE 5.0.
      */
+    @Impure
     private static synchronized int getUniqueId() {
 	return id++;
     }

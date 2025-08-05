@@ -40,6 +40,10 @@
 
 package com.sun1.mail.pop3;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Deterministic;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import javax1.mail.*;
 
 /**
@@ -49,47 +53,59 @@ import javax1.mail.*;
  */
 public class DefaultFolder extends Folder {
 
+    @SideEffectFree
+    @Impure
     DefaultFolder(POP3Store store) {
 	super(store);
     }
 
+    @Pure
     public String getName() {
 	return "";
     }
 
+    @Pure
     public String getFullName() {
 	return "";
     }
 
+    @Pure
     public Folder getParent() {
 	return null;
     }
 
+    @Pure
     public boolean exists() {
 	return true;
     }
 
+    @Impure
     public Folder[] list(String pattern) throws MessagingException {
 	Folder[] f = { getInbox() };
 	return f;
     }
 
+    @Pure
     public char getSeparator() {
 	return '/';
     }
 
+    @Pure
     public int getType() {
 	return HOLDS_FOLDERS;
     }
 
+    @Pure
     public boolean create(int type) throws MessagingException {
 	return false;
     }
 
+    @Pure
     public boolean hasNewMessages() throws MessagingException {
 	return false;
     }
 
+    @Impure
     public Folder getFolder(String name) throws MessagingException {
 	if (!name.equalsIgnoreCase("INBOX")) {
 	    throw new MessagingException("only INBOX supported");
@@ -98,47 +114,59 @@ public class DefaultFolder extends Folder {
 	}
     }
 
+    @Impure
     protected Folder getInbox() throws MessagingException {
 	return getStore().getFolder("INBOX");
     }
     
 
+    @Deterministic
     public boolean delete(boolean recurse) throws MessagingException {
 	throw new MethodNotSupportedException("delete");
     }
 
+    @Deterministic
     public boolean renameTo(Folder f) throws MessagingException {
 	throw new MethodNotSupportedException("renameTo");
     }
 
+    @Impure
     public void open(int mode) throws MessagingException {
 	throw new MethodNotSupportedException("open");
     }
 
+    @Impure
     public void close(boolean expunge) throws MessagingException {
 	throw new MethodNotSupportedException("close");
     }
 
+    @Pure
     public boolean isOpen() {
 	return false;
     }
 
+    @SideEffectFree
+    @Impure
     public Flags getPermanentFlags() {
 	return new Flags(); // empty flags object
     }
 
+    @Pure
     public int getMessageCount() throws MessagingException {
 	return 0;
     }
 
+    @Deterministic
     public Message getMessage(int msgno) throws MessagingException {
 	throw new MethodNotSupportedException("getMessage");
     }
 
+    @Impure
     public void appendMessages(Message[] msgs) throws MessagingException {
 	throw new MethodNotSupportedException("Append not supported");	
     }
 
+    @Deterministic
     public Message[] expunge() throws MessagingException {
 	throw new MethodNotSupportedException("expunge");	
     }

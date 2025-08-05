@@ -39,6 +39,7 @@
  */
 
 package javax1.mail.event;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * The adapter which receives Transport events.
@@ -49,7 +50,10 @@ package javax1.mail.event;
  * @author John Mani
  */
 public abstract class TransportAdapter implements TransportListener {
+    @SideEffectFree
     public void messageDelivered(TransportEvent e) {}
+    @SideEffectFree
     public void messageNotDelivered(TransportEvent e) {}
+    @SideEffectFree
     public void messagePartiallyDelivered(TransportEvent e) {}
 }

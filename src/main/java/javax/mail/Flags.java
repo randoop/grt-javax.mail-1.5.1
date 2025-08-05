@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 import java.util.*;
 
@@ -175,6 +178,7 @@ public class Flags implements Cloneable, Serializable {
 
 	// flags are stored as bits for efficiency
 	private int bit;
+	@SideEffectFree
 	private Flag(int bit) {
 	    this.bit = bit;
 	}
@@ -184,6 +188,7 @@ public class Flags implements Cloneable, Serializable {
     /**
      * Construct an empty Flags object.
      */
+    @SideEffectFree
     public Flags() { }
 
     /**
@@ -191,6 +196,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param flags	the flags for initialization
      */
+    @SideEffectFree
     public Flags(Flags flags) {
 	this.system_flags = flags.system_flags;
 	if (flags.user_flags != null)
@@ -202,6 +208,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param flag	the flag for initialization
      */
+    @SideEffectFree
     public Flags(Flag flag) {
 	this.system_flags |= flag.bit;
     }
@@ -211,6 +218,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param flag	the flag for initialization
      */
+    @Impure
     public Flags(String flag) {
 	user_flags = new Hashtable(1);
 	user_flags.put(flag.toLowerCase(Locale.ENGLISH), flag);
@@ -221,6 +229,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param flag	the flag to add
      */
+    @Impure
     public void add(Flag flag) {
 	system_flags |= flag.bit;
     }
@@ -230,6 +239,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param flag	the flag to add
      */
+    @Impure
     public void add(String flag) {
 	if (user_flags == null)
 	    user_flags = new Hashtable(1);
@@ -242,6 +252,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param f	Flags object
      */
+    @Impure
     public void add(Flags f) {
 	system_flags |= f.system_flags; // add system flags
 
@@ -263,6 +274,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param	flag 	the flag to be removed
      */
+    @Impure
     public void remove(Flag flag) {
 	system_flags &= ~flag.bit;
     }
@@ -272,6 +284,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param	flag 	the flag to be removed
      */
+    @Impure
     public void remove(String flag) {
 	if (user_flags != null)
 	    user_flags.remove(flag.toLowerCase(Locale.ENGLISH));
@@ -283,6 +296,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @param	f 	the flag to be removed
      */
+    @Impure
     public void remove(Flags f) {
 	system_flags &= ~f.system_flags; // remove system flags
 
@@ -301,6 +315,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @return 		true of the given flag is present, otherwise false.
      */
+    @Pure
     public boolean contains(Flag flag) {
 	return (system_flags & flag.bit) != 0;
     }
@@ -310,6 +325,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @return 		true of the given flag is present, otherwise false.
      */
+    @SideEffectFree
     public boolean contains(String flag) {
 	if (user_flags == null) 
 	    return false;
@@ -324,6 +340,7 @@ public class Flags implements Cloneable, Serializable {
      * @return	true if all flags in the given Flags object are present, 
      *		otherwise false.
      */
+    @Impure
     public boolean contains(Flags f) {
 	// Check system flags
 	if ((f.system_flags & system_flags) != f.system_flags)
@@ -350,6 +367,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @return	true if they're equal
      */
+    @Impure
     public boolean equals(Object obj) {
 	if (!(obj instanceof Flags))
 	    return false;
@@ -382,6 +400,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @return	the hash code
      */
+    @Impure
     public int hashCode() {
 	int hash = system_flags;
 	if (user_flags != null) {
@@ -398,6 +417,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @return	array of Flags.Flag objects representing system flags
      */
+    @Impure
     public Flag[] getSystemFlags() {
 	Vector v = new Vector();
 	if ((system_flags & ANSWERED_BIT) != 0)
@@ -426,6 +446,7 @@ public class Flags implements Cloneable, Serializable {
      *
      * @return	array of Strings, each String represents a flag.
      */
+    @Impure
     public String[] getUserFlags() {
 	Vector v = new Vector();
 	if (user_flags != null) {
@@ -443,6 +464,7 @@ public class Flags implements Cloneable, Serializable {
     /**
      * Returns a clone of this Flags object.
      */
+    @Impure
     public Object clone() {
 	Flags f = null;
 	try {

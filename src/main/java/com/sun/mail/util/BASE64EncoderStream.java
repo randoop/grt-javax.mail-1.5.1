@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -73,6 +75,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      *			case no CRLF is inserted.  bytesPerLine is rounded
      *			down to a multiple of 4.
      */
+    @Impure
     public BASE64EncoderStream(OutputStream out, int bytesPerLine) {
 	super(out);
 	buffer = new byte[3];
@@ -99,6 +102,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      *
      * @param out        the output stream
      */
+    @Impure
     public BASE64EncoderStream(OutputStream out) {
 	this(out, 76);	
     }
@@ -113,6 +117,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      * @param      len   the number of bytes to write.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public synchronized void write(byte[] b, int off, int len)
 				throws IOException {
 	int end = off + len;
@@ -161,6 +166,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      * @param      b   the data to be written.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public void write(byte[] b) throws IOException {
 	write(b, 0, b.length);
     }
@@ -171,6 +177,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      * @param      c   the <code>byte</code>.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public synchronized void write(int c) throws IOException {
 	buffer[bufsize++] = (byte)c;
 	if (bufsize == 3) { // Encoding unit = 3 bytes
@@ -185,6 +192,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public synchronized void flush() throws IOException {
 	if (bufsize > 0) { // If there's unencoded characters in the buffer ..
 	    encode();      // .. encode them
@@ -197,6 +205,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      * Forces any buffered output bytes to be encoded out to the stream
      * and closes this output stream
      */
+    @Impure
     public synchronized void close() throws IOException {
 	flush();
 	if (count > 0 && !noCRLF) {
@@ -225,6 +234,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     private void encode() throws IOException {
 	int osize = encodedSize(bufsize);
 	out.write(encode(buffer, 0, bufsize, outbuf), 0, osize);
@@ -245,6 +255,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      * in the IMAP AUTHENTICATE protocol, but not to encode the
      * entire content of a MIME part.
      */
+    @Impure
     public static byte[] encode(byte[] inbuf) {
 	if (inbuf.length == 0)
 	    return inbuf;
@@ -256,6 +267,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      * part of the input buffer to encode.  If outbuf is non-null,
      * it's used as is.  Otherwise, a new output buffer is allocated.
      */
+    @Impure
     private static byte[] encode(byte[] inbuf, int off, int size,
 				byte[] outbuf) {
 	if (outbuf == null)
@@ -304,6 +316,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
      * Return the corresponding encoded size for the given number
      * of bytes, not including any CRLF.
      */
+    @Pure
     private static int encodedSize(int size) {
 	return ((size + 2) / 3) * 4;
     }

@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,6 +81,7 @@ public class ENVELOPE implements Item {
     // Used to parse dates
     private static MailDateFormat mailDateFormat = new MailDateFormat();
     
+    @Impure
     public ENVELOPE(FetchResponse r) throws ParsingException {
 	msgno = r.getNumber();
 
@@ -113,6 +117,7 @@ public class ENVELOPE implements Item {
 	    throw new ParsingException("ENVELOPE parse error");
     }
 
+    @Impure
     private InternetAddress[] parseAddressList(Response r) 
 		throws ParsingException {
 	r.skipSpaces(); // skip leading spaces
@@ -157,6 +162,7 @@ class IMAPAddress extends InternetAddress {
 
     private static final long serialVersionUID = -3835822029483122232L;
 
+    @Impure
     IMAPAddress(Response r) throws ParsingException {
         r.skipSpaces(); // skip leading spaces
 
@@ -209,14 +215,17 @@ class IMAPAddress extends InternetAddress {
 
     }
 
+    @Pure
     boolean isEndOfGroup() {
 	return group && groupname == null;
     }
 
+    @Pure
     public boolean isGroup() {
 	return group;
     }
 
+    @SideEffectFree
     public InternetAddress[] getGroup(boolean strict) throws AddressException {
 	if (grouplist == null)
 	    return null;

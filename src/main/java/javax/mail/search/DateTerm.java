@@ -40,6 +40,8 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Date;
 
 /**
@@ -63,6 +65,7 @@ public abstract class DateTerm extends ComparisonTerm {
      * @param comparison the comparison type
      * @param date  The Date to be compared against
      */
+    @Impure
     protected DateTerm(int comparison, Date date) {
 	this.comparison = comparison;
 	this.date = date;
@@ -71,6 +74,7 @@ public abstract class DateTerm extends ComparisonTerm {
     /**
      * Return the Date to compare with.
      */
+    @Impure
     public Date getDate() {
 	return new Date(date.getTime());
     }
@@ -78,6 +82,7 @@ public abstract class DateTerm extends ComparisonTerm {
     /**
      * Return the type of comparison.
      */
+    @Pure
     public int getComparison() {
 	return comparison;
     }
@@ -88,6 +93,7 @@ public abstract class DateTerm extends ComparisonTerm {
      * @param d	the date in the constructor is compared with this date
      * @return  true if the dates match, otherwise false
      */
+    @Impure
     protected boolean match(Date d) {
 	switch (comparison) {
 	    case LE: 
@@ -110,6 +116,7 @@ public abstract class DateTerm extends ComparisonTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof DateTerm))
 	    return false;
@@ -120,6 +127,7 @@ public abstract class DateTerm extends ComparisonTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return date.hashCode() + super.hashCode();
     }

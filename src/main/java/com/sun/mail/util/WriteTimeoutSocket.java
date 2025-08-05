@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.*;
@@ -60,6 +62,7 @@ public class WriteTimeoutSocket extends Socket {
     // the timeout, in milliseconds
     private final int timeout;
 
+    @Impure
     public WriteTimeoutSocket(Socket socket, int timeout) throws IOException {
 	this.socket = socket;
 	// XXX - could share executor with all instances?
@@ -67,16 +70,19 @@ public class WriteTimeoutSocket extends Socket {
 	this.timeout = timeout;
     }
 
+    @Impure
     public WriteTimeoutSocket(int timeout) throws IOException {
 	this(new Socket(), timeout);
     }
 
+    @Impure
     public WriteTimeoutSocket(InetAddress address, int port, int timeout)
 				throws IOException {
 	this(timeout);
 	socket.connect(new InetSocketAddress(address, port));
     }
 
+    @Impure
     public WriteTimeoutSocket(InetAddress address, int port,
 			InetAddress localAddress, int localPort, int timeout)
 			throws IOException {
@@ -85,12 +91,14 @@ public class WriteTimeoutSocket extends Socket {
 	socket.connect(new InetSocketAddress(address, port));
     }
 
+    @Impure
     public WriteTimeoutSocket(String host, int port, int timeout)
 				throws IOException {
 	this(timeout);
 	socket.connect(new InetSocketAddress(host, port));
     }
 
+    @Impure
     public WriteTimeoutSocket(String host, int port,
 			InetAddress localAddress, int localPort, int timeout)
 			throws IOException {
@@ -101,147 +109,176 @@ public class WriteTimeoutSocket extends Socket {
 
     // override all Socket methods and delegate to underlying Socket
 
+    @Impure
     @Override
     public void connect(SocketAddress remote) throws IOException {
         socket.connect(remote, 0);
     }
 
+    @Impure
     @Override
     public void connect(SocketAddress remote, int timeout) throws IOException {
 	socket.connect(remote, timeout);
     }
 
+    @Impure
     @Override
     public void bind(SocketAddress local) throws IOException {
 	socket.bind(local);
     }
 
+    @Impure
     @Override
     public InetAddress getInetAddress() {
 	return socket.getInetAddress();
     }
 
+    @Impure
     @Override
     public InetAddress getLocalAddress() {
 	return socket.getLocalAddress();
     }
 
+    @Impure
     @Override
     public int getPort() {
 	return socket.getPort();
     }
 
+    @Impure
     @Override
     public int getLocalPort() {
 	return socket.getLocalPort();
     }
 
+    @Impure
     @Override
     public InputStream getInputStream() throws IOException {
 	return socket.getInputStream();
     }
 
+    @Impure
     @Override
     public synchronized OutputStream getOutputStream() throws IOException {
 	// wrap the returned stream to implement write timeout
         return new TimeoutOutputStream(socket.getOutputStream(), ses, timeout);
     }
 
+    @Impure
     @Override
     public void setTcpNoDelay(boolean on) throws SocketException {
         socket.setTcpNoDelay(on);
     }
 
+    @Impure
     @Override
     public boolean getTcpNoDelay() throws SocketException {
         return socket.getTcpNoDelay();
     }
 
+    @Impure
     @Override
     public void setSoLinger(boolean on, int linger) throws SocketException {
         socket.setSoLinger(on, linger);
     }
 
+    @Impure
     @Override
     public int getSoLinger() throws SocketException {
         return socket.getSoLinger();
     }
 
+    @Impure
     @Override
     public void sendUrgentData(int data) throws IOException {
         socket.sendUrgentData(data);
     }
 
+    @Impure
     @Override
     public void setOOBInline(boolean on) throws SocketException {
         socket.setOOBInline(on);
     }
 
+    @Impure
     @Override
     public boolean getOOBInline() throws SocketException {
         return socket.getOOBInline();
     }
 
+    @Impure
     @Override
     public void setSoTimeout(int timeout) throws SocketException {
 	socket.setSoTimeout(timeout);
     }
 
+    @Impure
     @Override
     public int getSoTimeout() throws SocketException {
         return socket.getSoTimeout();
     }
 
+    @Impure
     @Override
     public void setSendBufferSize(int size) throws SocketException {
         socket.setSendBufferSize(size);
     }
 
+    @Impure
     @Override
     public int getSendBufferSize() throws SocketException {
         return socket.getSendBufferSize();
     }
 
+    @Impure
     @Override
     public void setReceiveBufferSize(int size) throws SocketException {
         socket.setReceiveBufferSize(size);
     }
 
+    @Impure
     @Override
     public int getReceiveBufferSize() throws SocketException {
         return socket.getReceiveBufferSize();
     }
 
+    @Impure
     @Override
     public void setKeepAlive(boolean on) throws SocketException {
         socket.setKeepAlive(on);
     }
 
+    @Impure
     @Override
     public boolean getKeepAlive() throws SocketException {
         return socket.getKeepAlive();
     }
 
+    @Impure
     @Override
     public void setTrafficClass(int tc) throws SocketException {
         socket.setTrafficClass(tc);
     }
 
+    @Impure
     @Override
     public int getTrafficClass() throws SocketException {
         return socket.getTrafficClass();
     }
 
+    @Impure
     @Override
     public void setReuseAddress(boolean on) throws SocketException {
         socket.setReuseAddress(on);
     }
 
+    @Impure
     @Override
     public boolean getReuseAddress() throws SocketException {
         return socket.getReuseAddress();
     }
 
+    @Impure
     @Override
     public void close() throws IOException {
 	try {
@@ -251,41 +288,49 @@ public class WriteTimeoutSocket extends Socket {
 	}
     }
 
+    @Impure
     @Override
     public void shutdownInput() throws IOException {
 	socket.shutdownInput();
     }
 
+    @Impure
     @Override
     public void shutdownOutput() throws IOException {
 	socket.shutdownOutput();
     }
 
+    @SideEffectFree
     @Override
     public String toString() {
 	return socket.toString();
     }
 
+    @Impure
     @Override
     public boolean isConnected() {
         return socket.isConnected();
     }
 
+    @Impure
     @Override
     public boolean isBound() {
         return socket.isBound();
     }
 
+    @Impure
     @Override
     public boolean isClosed() {
         return socket.isClosed();
     }
 
+    @Impure
     @Override
     public boolean isInputShutdown() {
         return socket.isInputShutdown();
     }
 
+    @Impure
     @Override
     public boolean isOutputShutdown() {
         return socket.isOutputShutdown();
@@ -305,12 +350,14 @@ class TimeoutOutputStream extends OutputStream {
     private final int timeout;
     private byte[] b1;
 
+    @Impure
     public TimeoutOutputStream(OutputStream os0, ScheduledExecutorService ses,
 				int timeout) throws IOException {
 	this.os = os0;
 	this.ses = ses;
 	this.timeout = timeout;
 	timeoutTask = new Callable<Object>() {
+	    @Impure
 	    public Object call() throws Exception {
 		os.close();	// close the stream to abort the write
 		return null;
@@ -318,6 +365,7 @@ class TimeoutOutputStream extends OutputStream {
 	};
     }
 
+    @Impure
     @Override
     public synchronized void write(int b) throws IOException {
 	if (b1 == null)
@@ -326,6 +374,7 @@ class TimeoutOutputStream extends OutputStream {
 	this.write(b1);
     }
 
+    @Impure
     @Override
     public synchronized void write(byte[] bs, int off, int len)
 				throws IOException {
@@ -354,6 +403,7 @@ class TimeoutOutputStream extends OutputStream {
 	}
     }
 
+    @Impure
     @Override
     public void close() throws IOException {
 	os.close();

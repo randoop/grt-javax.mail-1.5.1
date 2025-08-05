@@ -40,6 +40,10 @@
 
 package javax1.mail.internet;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Deterministic;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -140,6 +144,7 @@ public class MailDateFormat extends SimpleDateFormat {
 
     private static final long serialVersionUID = -8148227605210628779L;
 
+    @Impure
     public MailDateFormat() {
 	super("EEE, d MMM yyyy HH:mm:ss 'XXXXX' (z)", Locale.US);
     }
@@ -154,6 +159,7 @@ public class MailDateFormat extends SimpleDateFormat {
      * @return	StringBuffer    the formatted String
      * @since			JavaMail 1.2
      */
+    @Impure
     public StringBuffer format(Date date, StringBuffer dateStrBuf,
 			       FieldPosition fieldPosition) {
 
@@ -209,6 +215,7 @@ public class MailDateFormat extends SimpleDateFormat {
      * @return	Date    the parsed date in a Date object
      * @since		JavaMail 1.2
      */
+    @Impure
     public Date parse(String text, ParsePosition pos) {
 	return parseDate(text.toCharArray(), pos, isLenient());
     }
@@ -264,6 +271,7 @@ public class MailDateFormat extends SimpleDateFormat {
     /**
      * create a Date by parsing the char array
      */
+    @Impure
     static private Date parseDate(char[] orig, ParsePosition pos,
 				boolean lenient) {
 	try {
@@ -348,6 +356,7 @@ public class MailDateFormat extends SimpleDateFormat {
 	
     private static final Calendar cal =
 	    new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+    @Impure
     private synchronized static Date ourUTC(int year, int mon, int mday,
 					   int hour, int min, int sec,
 					   int tzoffset, boolean lenient) {
@@ -369,11 +378,13 @@ public class MailDateFormat extends SimpleDateFormat {
     ////////////////////////////////////////////////////////////
     
     /** Don't allow setting the calendar */
+    @SideEffectFree
     public void setCalendar(Calendar newCalendar) {
 	throw new RuntimeException("Method setCalendar() shouldn't be called");
     }
 
     /** Don't allow setting the NumberFormat */
+    @SideEffectFree
     public void setNumberFormat(NumberFormat newNumberFormat) {
 	throw new RuntimeException("Method setNumberFormat() shouldn't be called");
     }
@@ -465,6 +476,7 @@ class MailDateParser {
     int index = 0;
     char[] orig = null;
 
+    @SideEffectFree
     public MailDateParser(char[] orig, int index) {
 	this.orig = orig;
 	this.index = index;
@@ -476,6 +488,7 @@ class MailDateParser {
      * if it does not find a number, it will throw
      * an ArrayIndexOutOfBoundsException
      */	
+    @Impure
     public void skipUntilNumber() throws ParseException {
 	try {
 	    while (true) {
@@ -505,6 +518,7 @@ class MailDateParser {
     /**
      * skips any number of tabs, spaces, CR, and LF - folding whitespace
      */
+    @Impure
     public void skipWhiteSpace() {
 	int len = orig.length;
 	while (index < len) {
@@ -527,6 +541,7 @@ class MailDateParser {
      * used to look at the next character without "parsing" that
      * character.
      */
+    @Deterministic
     public int peekChar() throws ParseException {
 	if (index < orig.length)
 	    return orig[index];
@@ -538,6 +553,7 @@ class MailDateParser {
      * skips the given character.  if the current char does not
      * match a ParseException will be thrown
      */
+    @Impure
     public void skipChar(char c) throws ParseException {
 	if (index < orig.length) {
 	    if (orig[index] == c) {
@@ -554,6 +570,7 @@ class MailDateParser {
      * will only skip the current char if it matches the given
      * char
      */
+    @Impure
     public boolean skipIfChar(char c) throws ParseException {
 	if (index < orig.length) {
 	    if (orig[index] == c) {
@@ -573,6 +590,7 @@ class MailDateParser {
      * parsed and the resulting number will be returned.  if a
      * number is not found, a ParseException will be thrown
      */
+    @Impure
     public int parseNumber() throws ParseException {
 	int length = orig.length;
 	boolean gotNum = false;
@@ -654,6 +672,7 @@ class MailDateParser {
      * and return the numerical version of the month. (0-11).  a ParseException
      * error is thrown if a month cannot be found.
      */
+    @Impure
     public int parseMonth() throws ParseException {
 	char curr;
 		
@@ -778,6 +797,7 @@ class MailDateParser {
      * or the alpha version (e.g. PDT, PST).  the result will be returned in
      * minutes needed to be added to the date to bring it to GMT.
      */
+    @Impure
     public int parseTimeZone() throws ParseException {
 	if (index >= orig.length) 
 	    throw new ParseException("No more characters", index);
@@ -796,6 +816,7 @@ class MailDateParser {
      * the result will be returned in minutes needed to be added
      * to the date to bring it to GMT.
      */
+    @Impure
     public int parseNumericTimeZone() throws ParseException {
 	// we switch the sign if it is a '+'
 	// since the time in the string we are
@@ -827,6 +848,7 @@ class MailDateParser {
      * the result will be returned in minutes needed to be added
      * to the date to bring it to GMT.
      */
+    @Impure
     public int parseAlphaTimeZone() throws ParseException {
 	int result = 0;
 	boolean foundCommon = false;
@@ -907,6 +929,7 @@ class MailDateParser {
 	return result;
     }
 
+    @Pure
     int getIndex() {
 	return index;
     }

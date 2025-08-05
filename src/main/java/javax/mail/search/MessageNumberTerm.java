@@ -40,6 +40,9 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 
 /**
@@ -57,6 +60,7 @@ public final class MessageNumberTerm extends IntegerComparisonTerm {
      *
      * @param number  the Message number
      */
+    @Impure
     public MessageNumberTerm(int number) {
 	super(EQ, number);
     }
@@ -67,6 +71,8 @@ public final class MessageNumberTerm extends IntegerComparisonTerm {
      * @param msg	the Message number is matched with this Message
      * @return		true if the match succeeds, otherwise false
      */
+    @SideEffectFree
+    @Impure
     public boolean match(Message msg) {
 	int msgno;
 
@@ -82,6 +88,7 @@ public final class MessageNumberTerm extends IntegerComparisonTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof MessageNumberTerm))
 	    return false;

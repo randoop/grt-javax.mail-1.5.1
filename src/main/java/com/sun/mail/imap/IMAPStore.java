@@ -40,6 +40,9 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.lang.reflect.*;
 import java.util.Vector;
 import java.util.StringTokenizer;
@@ -328,6 +331,7 @@ public class IMAPStore extends Store
 	private int idleState = RUNNING;
 	private IMAPProtocol idleProtocol;	// protocol object when IDLE
 
+	@Impure
 	ConnectionPool(String name, MailLogger plogger, Session session) {
 	    lastTimePruned = System.currentTimeMillis();
 
@@ -400,6 +404,7 @@ public class IMAPStore extends Store
      * that the connection is dead.
      */
     private ResponseHandler nonStoreResponseHandler = new ResponseHandler() {
+	@Impure
 	public void handleResponse(Response r) {
 	    // Any of these responses may have a response code.
 	    if (r.isOK() || r.isNO() || r.isBAD() || r.isBYE())
@@ -413,6 +418,7 @@ public class IMAPStore extends Store
      * Constructor that takes a Session object and a URLName that
      * represents a specific IMAP server.
      */
+    @Impure
     public IMAPStore(Session session, URLName url) {
 	this(session, url, "imap", false);
     }
@@ -420,6 +426,7 @@ public class IMAPStore extends Store
     /**
      * Constructor used by this class and by IMAPSSLStore subclass.
      */
+    @Impure
     protected IMAPStore(Session session, URLName url,
 				String name, boolean isSSL) {
 	super(session, url); // call super constructor
@@ -617,6 +624,7 @@ public class IMAPStore extends Store
      * being used does not require a password, an empty string or other
      * suitable dummy password should be used.
      */
+    @Impure
     protected synchronized boolean 
     protocolConnect(String host, int pport, String user, String password)
 		throws MessagingException {
@@ -705,6 +713,7 @@ public class IMAPStore extends Store
      *
      * @since JavaMail 1.4.6
      */
+    @Impure
     protected IMAPProtocol newIMAPProtocol(String host, int port)
 				throws IOException, ProtocolException {
 	return new IMAPProtocol(name, host, port, 
@@ -714,6 +723,7 @@ public class IMAPStore extends Store
 					   );
     }
 
+    @Impure
     private void login(IMAPProtocol p, String u, String pw) 
 		throws ProtocolException {
 	// turn on TLS if it's been enabled or required and is supported
@@ -805,6 +815,7 @@ public class IMAPStore extends Store
      *
      * @since JavaMail 1.4.4
      */
+    @SideEffectFree
     protected void preLogin(IMAPProtocol p) throws ProtocolException {
     }
 
@@ -814,6 +825,7 @@ public class IMAPStore extends Store
      * @return	true if using SSL
      * @since	JavaMail 1.4.6
      */
+    @Pure
     public synchronized boolean isSSL() {
         return usingSSL;
     }
@@ -833,6 +845,7 @@ public class IMAPStore extends Store
      *
      * @since	JavaMail 1.3.3
      */
+    @Impure
     public synchronized void setUsername(String user) {
 	this.user = user;
     }
@@ -847,6 +860,7 @@ public class IMAPStore extends Store
      *
      * @since	JavaMail 1.3.3
      */
+    @Impure
     public synchronized void setPassword(String password) {
 	this.password = password;
     }
@@ -856,6 +870,7 @@ public class IMAPStore extends Store
      * Also store a reference to this folder in our list of
      * open folders.
      */
+    @Impure
     IMAPProtocol getProtocol(IMAPFolder folder) 
 		throws MessagingException {
 	IMAPProtocol p = null;
@@ -996,6 +1011,7 @@ public class IMAPStore extends Store
      *         releaseStoreProtocol(p);
      *     }
      */
+    @Impure
     private IMAPProtocol getStoreProtocol() throws ProtocolException {
         IMAPProtocol p = null;
 
@@ -1069,6 +1085,7 @@ public class IMAPStore extends Store
     /**
      * Get a store protocol object for use by a folder.
      */
+    @Impure
     IMAPProtocol getFolderStoreProtocol() throws ProtocolException {
 	IMAPProtocol p = getStoreProtocol();
 	p.removeResponseHandler(this);
@@ -1084,6 +1101,7 @@ public class IMAPStore extends Store
      *
      * XXX - remove this when SASL support is added
      */
+    @Impure
     private void refreshPassword() {
 	if (logger.isLoggable(Level.FINE))
 	    logger.fine("refresh password, user: " + traceUser(user));
@@ -1107,6 +1125,8 @@ public class IMAPStore extends Store
      * READ-ONLY, and the user asked to open the folder READ_WRITE,
      * do we allow the open to succeed?
      */
+    @Pure
+    @Impure
     boolean allowReadOnlySelect() {
 	return PropUtil.getBooleanSessionProperty(session,
 	    "mail." + name + ".allowreadonlyselect", false);
@@ -1115,6 +1135,7 @@ public class IMAPStore extends Store
     /**
      * Report whether the separateStoreConnection is set.
      */
+    @Pure
     boolean hasSeparateStoreConnection() {
         return pool.separateStoreConnection;
     }
@@ -1122,6 +1143,7 @@ public class IMAPStore extends Store
     /** 
      * Return the connection pool logger.
      */ 
+    @Pure
     MailLogger getConnectionPoolLogger() {
         return pool.logger; 
     } 
@@ -1129,6 +1151,7 @@ public class IMAPStore extends Store
     /** 
      * Report whether message cache debugging is enabled. 
      */ 
+    @Pure
     boolean getMessageCacheDebug() {
         return messageCacheDebug; 
     } 
@@ -1136,6 +1159,7 @@ public class IMAPStore extends Store
     /**
      * Report whether the connection pool is full.
      */
+    @Impure
     boolean isConnectionPoolFull() {
 
         synchronized (pool) {
@@ -1152,6 +1176,7 @@ public class IMAPStore extends Store
     /**
      * Release the protocol object back to the connection pool.
      */
+    @Impure
     void releaseProtocol(IMAPFolder folder, IMAPProtocol protocol) {
 
         synchronized (pool) {
@@ -1185,6 +1210,7 @@ public class IMAPStore extends Store
     /**
      * Release the store connection.
      */
+    @Impure
     private void releaseStoreProtocol(IMAPProtocol protocol) {
 
 	// will be called from idle() without the Store lock held,
@@ -1228,6 +1254,7 @@ public class IMAPStore extends Store
     /**
      * Release a store protocol object that was being used by a folder.
      */
+    @Impure
     void releaseFolderStoreProtocol(IMAPProtocol protocol) {
 	if (protocol == null)
 	    return;		// should never happen
@@ -1246,6 +1273,7 @@ public class IMAPStore extends Store
     /**
      * Empty the connection pool.
      */ 
+    @Impure
     private void emptyConnectionPool(boolean force) {
 
         synchronized (pool) {
@@ -1271,6 +1299,7 @@ public class IMAPStore extends Store
     /**  
      * Check to see if it's time to shrink the connection pool.
      */  
+    @Impure
     private void timeoutConnections() {
 
         synchronized (pool) {
@@ -1323,6 +1352,7 @@ public class IMAPStore extends Store
     /**
      * Get the block size to use for fetch requests on this Store.
      */
+    @Pure
     int getFetchBlockSize() {
 	return blksize;
     }
@@ -1330,6 +1360,7 @@ public class IMAPStore extends Store
     /**
      * Ignore the size reported in the BODYSTRUCTURE when fetching data?
      */
+    @Pure
     boolean ignoreBodyStructureSize() {
 	return ignoreSize;
     }
@@ -1337,6 +1368,7 @@ public class IMAPStore extends Store
     /**
      * Get a reference to the session.
      */
+    @Pure
     Session getSession() {
         return session;
     }
@@ -1344,6 +1376,7 @@ public class IMAPStore extends Store
     /**
      * Get the number of milliseconds to cache STATUS response.
      */
+    @Pure
     int getStatusCacheTimeout() {
 	return statusCacheTimeout;
     }
@@ -1351,6 +1384,7 @@ public class IMAPStore extends Store
     /**
      * Get the maximum size of a message to buffer for append.
      */
+    @Pure
     int getAppendBufferSize() {
 	return appendBufferSize;
     }
@@ -1358,6 +1392,7 @@ public class IMAPStore extends Store
     /**
      * Get the minimum amount of time to delay when returning from idle.
      */
+    @Pure
     int getMinIdleTime() {
 	return minIdleTime;
     }
@@ -1368,6 +1403,7 @@ public class IMAPStore extends Store
      *
      * @since	JavaMail 1.3.3
      */
+    @Impure
     public synchronized boolean hasCapability(String capability)
 				throws MessagingException {
         IMAPProtocol p = null;
@@ -1390,6 +1426,7 @@ public class IMAPStore extends Store
      * @param	user	the user name to set
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public void setProxyAuthUser(String user) {
 	proxyAuthUser = user;
     }
@@ -1400,6 +1437,7 @@ public class IMAPStore extends Store
      * @return	the user name
      * @since	JavaMail 1.5.1
      */
+    @Pure
     public String getProxyAuthUser() {
 	return proxyAuthUser;
     }
@@ -1408,6 +1446,7 @@ public class IMAPStore extends Store
      * Check whether this store is connected. Override superclass
      * method, to actually ping our server connection.
      */
+    @Impure
     public synchronized boolean isConnected() {
 	if (!super.isConnected()) {
 	    // if we haven't been connected at all, don't bother with
@@ -1448,6 +1487,7 @@ public class IMAPStore extends Store
     /**
      * Close this Store.
      */
+    @Impure
     public synchronized void close() throws MessagingException {
 	if (!super.isConnected()) // Already closed.
 	    return;
@@ -1510,6 +1550,7 @@ public class IMAPStore extends Store
         }
     }
 
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	close();
@@ -1518,6 +1559,7 @@ public class IMAPStore extends Store
     /**
      * Cleanup before dying.
      */
+    @Impure
     private synchronized void cleanup() {
 	// if we're not connected, someone beat us to it
 	if (!super.isConnected()) {
@@ -1606,6 +1648,7 @@ public class IMAPStore extends Store
      * Get the default folder, representing the root of this user's 
      * namespace. Returns a closed DefaultFolder object.
      */
+    @Impure
     public synchronized Folder getDefaultFolder() throws MessagingException {
 	checkConnected();
 	return new DefaultFolder(this);
@@ -1614,6 +1657,7 @@ public class IMAPStore extends Store
     /**
      * Get named folder. Returns a new, closed IMAPFolder.
      */
+    @Impure
     public synchronized Folder getFolder(String name)
 				throws MessagingException {
 	checkConnected();
@@ -1623,6 +1667,7 @@ public class IMAPStore extends Store
     /**
      * Get named folder. Returns a new, closed IMAPFolder.
      */
+    @Impure
     public synchronized Folder getFolder(URLName url)
 				throws MessagingException {
 	checkConnected();
@@ -1633,6 +1678,7 @@ public class IMAPStore extends Store
      * Create an IMAPFolder object.  If user supplied their own class,
      * use it.  Otherwise, call the constructor.
      */
+    @Impure
     protected IMAPFolder newIMAPFolder(String fullName, char separator,
 				Boolean isNamespace) {
 	IMAPFolder f = null;
@@ -1655,6 +1701,7 @@ public class IMAPStore extends Store
      * Create an IMAPFolder object.  Call the newIMAPFolder method
      * above with a null isNamespace.
      */
+    @Impure
     protected IMAPFolder newIMAPFolder(String fullName, char separator) {
 	return newIMAPFolder(fullName, separator, null);
     }
@@ -1663,6 +1710,7 @@ public class IMAPStore extends Store
      * Create an IMAPFolder object.  If user supplied their own class,
      * use it.  Otherwise, call the constructor.
      */
+    @Impure
     protected IMAPFolder newIMAPFolder(ListInfo li) {
 	IMAPFolder f = null;
 	if (folderConstructorLI != null) {
@@ -1683,6 +1731,7 @@ public class IMAPStore extends Store
      * Using the IMAP NAMESPACE command (RFC 2342), return a set
      * of folders representing the Personal namespaces.
      */
+    @Impure
     public Folder[] getPersonalNamespaces() throws MessagingException {
 	Namespaces ns = getNamespaces();
 	if (ns == null || ns.personal == null)
@@ -1694,6 +1743,7 @@ public class IMAPStore extends Store
      * Using the IMAP NAMESPACE command (RFC 2342), return a set
      * of folders representing the User's namespaces.
      */
+    @Impure
     public Folder[] getUserNamespaces(String user)
 				throws MessagingException {
 	Namespaces ns = getNamespaces();
@@ -1706,6 +1756,7 @@ public class IMAPStore extends Store
      * Using the IMAP NAMESPACE command (RFC 2342), return a set
      * of folders representing the Shared namespaces.
      */
+    @Impure
     public Folder[] getSharedNamespaces() throws MessagingException {
 	Namespaces ns = getNamespaces();
 	if (ns == null || ns.shared == null)
@@ -1713,6 +1764,7 @@ public class IMAPStore extends Store
 	return namespaceToFolders(ns.shared, null);
     }
 
+    @Impure
     private synchronized Namespaces getNamespaces() throws MessagingException {
 	checkConnected();
 
@@ -1735,6 +1787,7 @@ public class IMAPStore extends Store
 	return namespaces;
     }
 
+    @Impure
     private Folder[] namespaceToFolders(Namespaces.Namespace[] ns,
 					String user) {
 	Folder[] fa = new Folder[ns.length];
@@ -1771,6 +1824,7 @@ public class IMAPStore extends Store
      * @exception MessagingException	if the server doesn't support the
      *					QUOTA extension
      */
+    @Impure
     public synchronized Quota[] getQuota(String root)
 				throws MessagingException {
 	checkConnected();
@@ -1801,6 +1855,7 @@ public class IMAPStore extends Store
      * @exception MessagingException	if the server doesn't support the
      *					QUOTA extension
      */
+    @Impure
     public synchronized void setQuota(Quota quota) throws MessagingException {
 	checkConnected();
         IMAPProtocol p = null;
@@ -1818,6 +1873,7 @@ public class IMAPStore extends Store
 	}
     }
 
+    @Impure
     private void checkConnected() {
 	assert Thread.holdsLock(this);
 	if (!super.isConnected())
@@ -1827,6 +1883,7 @@ public class IMAPStore extends Store
     /**
      * Response handler method.
      */
+    @Impure
     public void handleResponse(Response r) {
 	// Any of these responses may have a response code.
 	if (r.isOK() || r.isNO() || r.isBAD() || r.isBYE())
@@ -1880,6 +1937,7 @@ public class IMAPStore extends Store
      *
      * @since	JavaMail 1.4.1
      */
+    @Impure
     public void idle() throws MessagingException {
 	IMAPProtocol p = null;
 	// ASSERT: Must NOT be called with the connection pool
@@ -1972,6 +2030,7 @@ public class IMAPStore extends Store
      * and wait until it completes.
      * ASSERT: Must be called with the pool's lock held.
      */
+    @Impure
     private void waitIfIdle() throws ProtocolException {
 	assert Thread.holdsLock(pool);
 	while (pool.idleState != ConnectionPool.RUNNING) {
@@ -1999,6 +2058,7 @@ public class IMAPStore extends Store
      *					ID extension
      * @since	JavaMail 1.5.1
      */
+    @Impure
     public synchronized Map<String, String> id(Map<String, String> clientParams)
 				throws MessagingException {
 	checkConnected();
@@ -2024,6 +2084,7 @@ public class IMAPStore extends Store
      * Handle notifications and alerts.
      * Response must be an OK, NO, BAD, or BYE response.
      */
+    @Impure
     void handleResponseCode(Response r) {
 	String s = r.getRest();	// get the text after the response
 	boolean isAlert = false;
@@ -2044,10 +2105,12 @@ public class IMAPStore extends Store
 	    notifyStoreListeners(StoreEvent.NOTICE, s);
     }
 
+    @Pure
     private String traceUser(String user) {
 	return debugusername ? user : "<user name suppressed>";
     }
 
+    @Pure
     private String tracePassword(String password) {
 	return debugpassword ? password :
 				(password == null ? "<null>" : "<non-null>");

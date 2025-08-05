@@ -40,6 +40,9 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import javax1.mail.*;
 
@@ -84,6 +87,7 @@ public class StoreEvent extends MailEvent {
      * Constructor.
      * @param store  The source Store
      */
+    @Impure
     public StoreEvent(Store store, int type, String message) {
 	super(store);
 	this.type = type;
@@ -97,6 +101,7 @@ public class StoreEvent extends MailEvent {
      * @see #ALERT
      * @see #NOTICE
      */
+    @Pure
     public int getMessageType() {
 	return type;
     }
@@ -106,6 +111,7 @@ public class StoreEvent extends MailEvent {
      *
      * @return message from the Store
      */
+    @Pure
     public String getMessage() {
 	return message;
     }
@@ -113,6 +119,8 @@ public class StoreEvent extends MailEvent {
     /**
      * Invokes the appropriate StoreListener method.
      */
+    @SideEffectFree
+    @Impure
     public void dispatch(Object listener) {
 	((StoreListener)listener).notification(this);
     }

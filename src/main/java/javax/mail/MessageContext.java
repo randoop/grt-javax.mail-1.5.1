@@ -39,6 +39,9 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * The context in which a piece of Message content is contained.  A
@@ -60,6 +63,7 @@ public class MessageContext {
     /**
      * Create a MessageContext object describing the context of the given Part.
      */
+    @SideEffectFree
     public MessageContext(Part part) {
 	this.part = part;
     }
@@ -69,6 +73,7 @@ public class MessageContext {
      *
      * @return	the containing Part, or null if not known
      */
+    @Pure
     public Part getPart() {
 	return part;
     }
@@ -80,6 +85,8 @@ public class MessageContext {
      *
      * @return	the containing Message, or null if not known
      */
+    @SideEffectFree
+    @Impure
     public Message getMessage() {
 	try {
 	    return getMessage(part);
@@ -97,6 +104,8 @@ public class MessageContext {
      * @see javax1.mail.BodyPart#getParent
      * @see javax1.mail.Multipart#getParent
      */
+    @Pure
+    @Impure
     private static Message getMessage(Part p) throws MessagingException {
 	while (p != null) {
 	    if (p instanceof Message)
@@ -115,6 +124,8 @@ public class MessageContext {
      *
      * @return	the Session, or null if not known
      */
+    @SideEffectFree
+    @Impure
     public Session getSession() {
 	Message msg = getMessage();
 	return msg != null ? msg.getSession() : null;

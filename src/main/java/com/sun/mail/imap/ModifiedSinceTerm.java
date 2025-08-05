@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.Message;
 import javax1.mail.search.SearchTerm;
 
@@ -62,6 +64,7 @@ public final class ModifiedSinceTerm extends SearchTerm {
      *
      * @param modseq	modification sequence number
      */
+    @Impure
     public ModifiedSinceTerm(long modseq) {
 	this.modseq = modseq;
     }
@@ -71,6 +74,7 @@ public final class ModifiedSinceTerm extends SearchTerm {
      *
      * @return	the modseq
      */
+    @Pure
     public long getModSeq() {
 	return modseq;
     }
@@ -82,6 +86,7 @@ public final class ModifiedSinceTerm extends SearchTerm {
      *			MODSEQ
      * @return		true if the comparison succeeds, otherwise false
      */
+    @Impure
     public boolean match(Message msg) {
 	long m;
 
@@ -100,6 +105,7 @@ public final class ModifiedSinceTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof ModifiedSinceTerm))
 	    return false;
@@ -109,6 +115,7 @@ public final class ModifiedSinceTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return (int)modseq + super.hashCode();
     }

@@ -40,6 +40,7 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.util.Enumeration;
 import javax.activation.DataHandler;
@@ -110,6 +111,7 @@ public interface Part {
      * @return		size of content in bytes
      * @exception	MessagingException
      */
+    @Impure
     public int getSize() throws MessagingException;
 
     /**
@@ -123,6 +125,7 @@ public interface Part {
      * @return		number of lines in the content.
      * @exception	MessagingException
      */
+    @Impure
     public int getLineCount() throws MessagingException;
 
     /**
@@ -135,6 +138,7 @@ public interface Part {
      * @exception	MessagingException
      * @see		javax.activation.DataHandler
      */
+    @Impure
     public String getContentType() throws MessagingException;
 
     /**
@@ -151,6 +155,7 @@ public interface Part {
      * special character '*', then the subtype is ignored during the
      * comparison.
      */
+    @Impure
     public boolean isMimeType(String mimeType) throws MessagingException;
 
     /**
@@ -184,6 +189,7 @@ public interface Part {
      * @see #INLINE
      * @see #getFileName
      */
+    @Impure
     public String getDisposition() throws MessagingException;
 
     /**
@@ -199,6 +205,7 @@ public interface Part {
      * @see #INLINE
      * @see #setFileName
      */
+    @Impure
     public void setDisposition(String disposition) throws MessagingException;
 
     /**
@@ -209,6 +216,7 @@ public interface Part {
      * @return		description of this part
      * @exception	MessagingException
      */
+    @Impure
     public String getDescription() throws MessagingException;
 
     /**
@@ -222,6 +230,7 @@ public interface Part {
      * @exception	IllegalStateException if this Part is obtained
      *			from a READ_ONLY folder
      */
+    @Impure
     public void setDescription(String description) throws MessagingException;
 
     /**
@@ -232,6 +241,7 @@ public interface Part {
      *
      * @return	Filename to associate with this part
      */
+    @Impure
     public String getFileName() throws MessagingException;
 
     /**
@@ -246,6 +256,7 @@ public interface Part {
      * @exception	IllegalStateException if this Part is obtained
      *			from a READ_ONLY folder
      */
+    @Impure
     public void setFileName(String filename) throws MessagingException;
 
     /**
@@ -264,6 +275,7 @@ public interface Part {
      * @see #getDataHandler
      * @see javax.activation.DataHandler#getInputStream
      */
+    @Impure
     public InputStream getInputStream() 
 		throws IOException, MessagingException;
     
@@ -275,6 +287,7 @@ public interface Part {
      * @return		DataHandler for the content
      * @exception 	MessagingException
      */
+    @Impure
     public DataHandler getDataHandler() throws MessagingException;
 
     /**
@@ -296,6 +309,7 @@ public interface Part {
      *
      * @see javax.activation.DataHandler#getContent
      */
+    @Impure
     public Object getContent() throws IOException, MessagingException;
 
     /**
@@ -309,6 +323,7 @@ public interface Part {
      * @exception	IllegalStateException if this Part is obtained
      *			from a READ_ONLY folder
      */
+    @Impure
     public void setDataHandler(DataHandler dh) throws MessagingException;
 
     /**
@@ -328,6 +343,7 @@ public interface Part {
      * @exception	IllegalStateException if this Part is obtained
      *			from a READ_ONLY folder
      */
+    @Impure
     public void setContent(Object obj, String type) 
 			throws MessagingException;
 
@@ -342,6 +358,7 @@ public interface Part {
      * @exception	IllegalStateException if this Part is obtained
      *			from a READ_ONLY folder
      */
+    @Impure
     public void setText(String text) throws MessagingException;
 
     /**
@@ -355,6 +372,7 @@ public interface Part {
      * @exception	IllegalStateException if this Part is obtained
      *			from a READ_ONLY folder
      */
+    @Impure
     public void setContent(Multipart mp) throws MessagingException;
 
     /**
@@ -375,6 +393,7 @@ public interface Part {
      *
      * @see javax.activation.DataHandler#writeTo
      */
+    @Impure
     public void writeTo(OutputStream os) throws IOException, MessagingException;
 
     /**
@@ -386,6 +405,7 @@ public interface Part {
      *				this name
      * @exception       	MessagingException
      */
+    @Impure
     public String[] getHeader(String header_name)
 				throws MessagingException;
     
@@ -402,6 +422,7 @@ public interface Part {
      * @exception		IllegalStateException if this Part is 
      *				obtained from a READ_ONLY folder
      */
+    @Impure
     public void setHeader(String header_name, String header_value)
 				throws MessagingException;
     /**
@@ -416,6 +437,7 @@ public interface Part {
      * @exception		IllegalStateException if this Part is 
      *				obtained from a READ_ONLY folder
      */
+    @Impure
     public void addHeader(String header_name, String header_value)
 				throws MessagingException;
     /**
@@ -429,6 +451,7 @@ public interface Part {
      * @exception		IllegalStateException if this Part is 
      *				obtained from a READ_ONLY folder
      */
+    @Impure
     public void removeHeader(String header_name)
 				throws MessagingException;
 
@@ -439,6 +462,7 @@ public interface Part {
      * @return  enumeration of Header objects
      * @exception       MessagingException
      */
+    @Impure
     public Enumeration getAllHeaders() throws MessagingException;
 
     /**
@@ -448,6 +472,7 @@ public interface Part {
      * @return  enumeration of Header objects
      * @exception       MessagingException
      */
+    @Impure
     public Enumeration getMatchingHeaders(String[] header_names)
 				throws MessagingException;
 
@@ -458,6 +483,7 @@ public interface Part {
      * @return  enumeration of Header objects
      * @exception       MessagingException
      */
+    @Impure
     public Enumeration getNonMatchingHeaders(String[] header_names) 
 				throws MessagingException;
 }

@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.security.*;
 import java.net.*;
 import java.io.*;
@@ -71,6 +73,7 @@ public class SocketFetcher {
 	System.out);
 
     // No one should instantiate this class.
+    @SideEffectFree
     private SocketFetcher() {
     }
 
@@ -133,6 +136,7 @@ public class SocketFetcher {
      * @param prefix Property name prefix, e.g., "mail.imap"
      * @param useSSL use the SSL socket factory as the default
      */
+    @Impure
     public static Socket getSocket(String host, int port, Properties props,
 				String prefix, boolean useSSL)
 				throws IOException {
@@ -237,6 +241,7 @@ public class SocketFetcher {
 	return socket;
     }
 
+    @Impure
     public static Socket getSocket(String host, int port, Properties props,
 				String prefix) throws IOException {
 	return getSocket(host, port, props, prefix, false);
@@ -249,6 +254,7 @@ public class SocketFetcher {
      * If a socket factory is specified, use it.  Otherwise, use the
      * SSLSocketFactory if useSSL is true.
      */
+    @Impure
     private static Socket createSocket(InetAddress localaddr, int localport,
 				String host, int port, int cto, int to,
 				Properties props, String prefix,
@@ -342,6 +348,7 @@ public class SocketFetcher {
     /**
      * Return a socket factory of the specified class.
      */
+    @Impure
     private static SocketFactory getSocketFactory(String sfClass)
 				throws ClassNotFoundException,
 				    NoSuchMethodException,
@@ -375,6 +382,7 @@ public class SocketFetcher {
      * This version for compatibility with possible third party code
      * that might've used this API even though it shouldn't.
      */
+    @Impure
     public static Socket startTLS(Socket socket) throws IOException {
 	return startTLS(socket, new Properties(), "socket");
     }
@@ -385,6 +393,7 @@ public class SocketFetcher {
      * This version for compatibility with possible third party code
      * that might've used this API even though it shouldn't.
      */
+    @Impure
     public static Socket startTLS(Socket socket, Properties props,
 				String prefix) throws IOException {
 	InetAddress a = socket.getInetAddress();
@@ -396,6 +405,7 @@ public class SocketFetcher {
      * Start TLS on an existing socket.
      * Supports the "STARTTLS" command in many protocols.
      */
+    @Impure
     public static Socket startTLS(Socket socket, String host, Properties props,
 				String prefix) throws IOException {
 	int port = socket.getPort();
@@ -495,6 +505,7 @@ public class SocketFetcher {
      * Check the identity of the server as specified by the
      * mail.<protocol>.ssl.checkserveridentity property.
      */
+    @Impure
     private static void configureSSLSocket(Socket socket, String host,
 			Properties props, String prefix, SocketFactory sf)
 			throws IOException {
@@ -558,6 +569,7 @@ public class SocketFetcher {
      * @param   sslSocket	SSLSocket connected to the server
      * @return  true if the RFC 2595 check passes
      */
+    @Impure
     private static void checkServerIdentity(String server, SSLSocket sslSocket)
 				throws IOException {
 
@@ -589,6 +601,7 @@ public class SocketFetcher {
      * @param   cert	X509Certificate to get the subject's name from
      * @return  true if it matches
      */
+    @Impure
     private static boolean matchCert(String server, X509Certificate cert) {
 	if (logger.isLoggable(Level.FINER))
 	    logger.finer("matchCert server " +
@@ -676,6 +689,7 @@ public class SocketFetcher {
      * @param	server		name of the server expected
      * @param	name		name from the server's certificate
      */
+    @Impure
     private static boolean matchServer(String server, String name) {
 	if (logger.isLoggable(Level.FINER))
 	    logger.finer("match server " + server + " with " + name);
@@ -698,6 +712,7 @@ public class SocketFetcher {
      * Parse a string into whitespace separated tokens
      * and return the tokens in an array.
      */
+    @Impure
     private static String[] stringArray(String s) {
 	StringTokenizer st = new StringTokenizer(s);
 	List tokens = new ArrayList();
@@ -711,9 +726,11 @@ public class SocketFetcher {
      * Assert any privileges we might have and then call the
      * Thread.getContextClassLoader method.
      */
+    @Impure
     private static ClassLoader getContextClassLoader() {
 	return (ClassLoader)
 		AccessController.doPrivileged(new PrivilegedAction() {
+	    @Impure
 	    public Object run() {
 		ClassLoader cl = null;
 		try {

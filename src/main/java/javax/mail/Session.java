@@ -40,6 +40,8 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.lang.reflect.*;
 import java.io.*;
 import java.net.*;
@@ -196,6 +198,7 @@ public final class Session {
     private static Session defaultSession = null;
 
     // Constructor is not public
+    @Impure
     private Session(Properties props, Authenticator authenticator) {
 	this.props = props;
 	this.authenticator = authenticator;
@@ -217,6 +220,7 @@ public final class Session {
 	loadAddressMap(cl);
     }
 
+    @Impure
     private final synchronized void initLogger() {
 	logger = new MailLogger(this.getClass(), "DEBUG", debug, getDebugOut());
     }
@@ -237,6 +241,7 @@ public final class Session {
      * @return		a new Session object
      * @see	javax1.mail.Authenticator
      */
+    @Impure
     public static Session getInstance(Properties props,
 					Authenticator authenticator) {
 	return new Session(props, authenticator);
@@ -255,6 +260,7 @@ public final class Session {
      * @return		a new Session object
      * @since		JavaMail 1.2
      */
+    @Impure
     public static Session getInstance(Properties props) {
 	return new Session(props, null);
     }
@@ -307,6 +313,7 @@ public final class Session {
      *			the Session.
      * @return		the default Session object
      */
+    @Impure
     public static synchronized Session getDefaultInstance(Properties props,
 					Authenticator authenticator) {
 	if (defaultSession == null) {
@@ -352,6 +359,7 @@ public final class Session {
      * @return		the default Session object
      * @since		JavaMail 1.2
      */
+    @Impure
     public static Session getDefaultInstance(Properties props) {
         return getDefaultInstance(props, null);
     }
@@ -371,6 +379,7 @@ public final class Session {
      *
      * @param debug	Debug setting
      */
+    @Impure
     public synchronized void setDebug(boolean debug) {
 	this.debug = debug;
 	initLogger();
@@ -383,6 +392,7 @@ public final class Session {
      *
      * @return current debug setting
      */
+    @Pure
     public synchronized boolean getDebug() {
 	return debug;
     }
@@ -397,6 +407,7 @@ public final class Session {
      * @param	out	the PrintStream to use for debugging output
      * @since		JavaMail 1.3
      */
+    @Impure
     public synchronized void setDebugOut(PrintStream out) {
 	this.out = out;
 	initLogger();
@@ -409,6 +420,7 @@ public final class Session {
      * @return		the PrintStream to use for debugging output
      * @since		JavaMail 1.3
      */
+    @Pure
     public synchronized PrintStream getDebugOut() {
 	if (out == null)
 	    return System.out;
@@ -423,6 +435,7 @@ public final class Session {
      *
      * @return Array of configured providers
      */
+    @Impure
     public synchronized Provider[] getProviders() {
 	Provider[] _providers = new Provider[providers.size()];
 	providers.copyInto(_providers);
@@ -443,6 +456,7 @@ public final class Session {
      * @exception	NoSuchProviderException If a provider for the given
      *			protocol is not found.
      */
+    @Impure
     public synchronized Provider getProvider(String protocol)
 	                                throws NoSuchProviderException {
 
@@ -489,6 +503,7 @@ public final class Session {
      * @exception	NoSuchProviderException If the provider passed in
      *			is invalid.
      */
+    @Impure
     public synchronized void setProvider(Provider provider)
 				throws NoSuchProviderException {
 	if (provider == null) {
@@ -510,6 +525,7 @@ public final class Session {
      * @exception	NoSuchProviderException If a provider for the given
      *			protocol is not found.
      */
+    @Impure
     public Store getStore() throws NoSuchProviderException {
 	return getStore(getProperty("mail.store.protocol"));
     }
@@ -524,6 +540,7 @@ public final class Session {
      * @exception	NoSuchProviderException If a provider for the given
      *			protocol is not found.
      */
+    @Impure
     public Store getStore(String protocol) throws NoSuchProviderException {
 	return getStore(new URLName(protocol, null, -1, null, null, null));
     }
@@ -543,6 +560,7 @@ public final class Session {
      * @exception	NoSuchProviderException If a provider for the given
      *			URLName is not found.
      */
+    @Impure
     public Store getStore(URLName url) throws NoSuchProviderException {
 	String protocol = url.getProtocol();
 	Provider p = getProvider(protocol);
@@ -558,6 +576,7 @@ public final class Session {
      * @exception	NoSuchProviderException If a provider for the given
      *			Provider is not found.
      */
+    @Impure
     public Store getStore(Provider provider) throws NoSuchProviderException {
 	return getStore(provider, null);
     }
@@ -575,6 +594,7 @@ public final class Session {
      * @exception	NoSuchProviderException If a provider for the given
      *			Provider/URLName is not found.
      */
+    @Impure
     private Store getStore(Provider provider, URLName url) 
 	throws NoSuchProviderException {
 
@@ -614,6 +634,7 @@ public final class Session {
      * @exception	MessagingException if the Folder could not be 
      *			located or created.
      */
+    @Impure
     public Folder getFolder(URLName url)
 		throws MessagingException {
 	// First get the Store
@@ -631,6 +652,7 @@ public final class Session {
      * @return 		a Transport object 
      * @exception	NoSuchProviderException If the provider is not found.
      */
+    @Impure
     public Transport getTransport() throws NoSuchProviderException {
 	String prot = getProperty("mail.transport.protocol");
 	if (prot != null)
@@ -651,6 +673,7 @@ public final class Session {
      * @exception	NoSuchProviderException If provider for the given
      *			protocol is not found.
      */
+    @Impure
     public Transport getTransport(String protocol)
 				throws NoSuchProviderException {
 	return getTransport(new URLName(protocol, null, -1, null, null, null));
@@ -670,6 +693,7 @@ public final class Session {
      * @exception	NoSuchProviderException If a provider for the given
      *			URLName is not found.
      */
+    @Impure
     public Transport getTransport(URLName url) throws NoSuchProviderException {
 	String protocol = url.getProtocol();
 	Provider p = getProvider(protocol);
@@ -685,6 +709,7 @@ public final class Session {
      * @exception	NoSuchProviderException If provider for the given
      *			provider is not found.
      */
+    @Impure
     public Transport getTransport(Provider provider) 
 	                                     throws NoSuchProviderException {
 	return getTransport(provider, null);
@@ -700,6 +725,7 @@ public final class Session {
      * @exception	NoSuchProviderException If provider for the 
      *			Address type is not found
      */
+    @Impure
     public Transport getTransport(Address address) 
 	                                     throws NoSuchProviderException {
 
@@ -725,6 +751,7 @@ public final class Session {
      *			was the wrong class.	
      */
 
+    @Impure
     private Transport getTransport(Provider provider, URLName url)
 					throws NoSuchProviderException {
 	// make sure we have the correct type of provider
@@ -751,6 +778,7 @@ public final class Session {
      *			(Session, URLName), or if it is not derived from
      *			Service.
      */
+    @Impure
     private Object getService(Provider provider, URLName url)
 					throws NoSuchProviderException {
 	// need a provider and url
@@ -825,6 +853,7 @@ public final class Session {
      * to allow authentication information to be shared among multiple
      * uses of a session.
      */
+    @Impure
     public void setPasswordAuthentication(URLName url,
 					  PasswordAuthentication pw) {
 	if (pw == null)
@@ -839,6 +868,7 @@ public final class Session {
      *
      * @return	the PasswordAuthentication corresponding to the URLName
      */
+    @Pure
     public PasswordAuthentication getPasswordAuthentication(URLName url) {
 	return (PasswordAuthentication)authTable.get(url);
     }
@@ -862,6 +892,7 @@ public final class Session {
      * @return	the authentication which was collected by the authenticator; 
      *          may be null.
      */
+    @Impure
     public PasswordAuthentication requestPasswordAuthentication(
 	InetAddress addr, int port,
 	String protocol, String prompt, String defaultUserName) {
@@ -879,6 +910,7 @@ public final class Session {
      *
      * @return		Properties object
      */
+    @Pure
     public Properties getProperties() { 
    	return props; 
     }
@@ -889,6 +921,7 @@ public final class Session {
      *
      * @return		String that is the property value
      */
+    @Pure
     public String getProperty(String name) { 
    	return props.getProperty(name); 
     }
@@ -896,8 +929,10 @@ public final class Session {
     /**
      * Load the protocol providers config files.
      */
+    @Impure
     private void loadProviders(Class cl) {
 	StreamLoader loader = new StreamLoader() {
+	    @Impure
 	    public void load(InputStream is) throws IOException {
 		loadProvidersFromStream(is);
 	    }
@@ -952,6 +987,7 @@ public final class Session {
 	}
     }
 
+    @Impure
     private void loadProvidersFromStream(InputStream is) 
 				throws IOException {
 	if (is != null) {
@@ -1015,6 +1051,7 @@ public final class Session {
      * @param	provider	the provider to add
      * @since	JavaMail 1.4
      */
+    @Impure
     public synchronized void addProvider(Provider provider) {
 	providers.addElement(provider);
 	providersByClassName.put(provider.getClassName(), provider);
@@ -1024,8 +1061,10 @@ public final class Session {
 
     // load maps in reverse order of preference so that the preferred
     // map is loaded last since its entries will override the previous ones
+    @Impure
     private void loadAddressMap(Class cl) {
 	StreamLoader loader = new StreamLoader() {
+	    @Impure
 	    public void load(InputStream is) throws IOException {
 		addressMap.load(is);
 	    }
@@ -1064,6 +1103,7 @@ public final class Session {
      * @see #getTransport(Address)
      * @since	JavaMail 1.4
      */
+    @Impure
     public synchronized void setProtocolForAddress(String addresstype,
 				String protocol) {
 	if (protocol == null)
@@ -1075,6 +1115,7 @@ public final class Session {
     /**
      * Load from the named file.
      */
+    @Impure
     private void loadFile(String name, StreamLoader loader) {
 	InputStream clis = null;
 	try {
@@ -1100,6 +1141,7 @@ public final class Session {
     /**
      * Load from the named resource.
      */
+    @Impure
     private void loadResource(String name, Class cl, StreamLoader loader) {
 	InputStream clis = null;
 	try {
@@ -1128,6 +1170,7 @@ public final class Session {
     /**
      * Load all of the named resource.
      */
+    @Impure
     private void loadAllResources(String name, Class cl, StreamLoader loader) {
 	boolean anyLoaded = false;
 	try {
@@ -1190,9 +1233,11 @@ public final class Session {
      * Following are security related methods that work on JDK 1.2 or newer.
      */
 
+    @Impure
     private static ClassLoader getContextClassLoader() {
 	return (ClassLoader)
 		AccessController.doPrivileged(new PrivilegedAction() {
+	    @Impure
 	    public Object run() {
 		ClassLoader cl = null;
 		try {
@@ -1203,11 +1248,13 @@ public final class Session {
 	});
     }
 
+    @Impure
     private static InputStream getResourceAsStream(final Class c,
 				final String name) throws IOException {
 	try {
 	    return (InputStream)
 		AccessController.doPrivileged(new PrivilegedExceptionAction() {
+		    @Impure
 		    public Object run() throws IOException {
 			return c.getResourceAsStream(name);
 		    }
@@ -1217,9 +1264,11 @@ public final class Session {
 	}
     }
 
+    @Impure
     private static URL[] getResources(final ClassLoader cl, final String name) {
 	return (URL[])
 		AccessController.doPrivileged(new PrivilegedAction() {
+	    @Impure
 	    public Object run() {
 		URL[] ret = null;
 		try {
@@ -1241,9 +1290,11 @@ public final class Session {
 	});
     }
 
+    @Impure
     private static URL[] getSystemResources(final String name) {
 	return (URL[])
 		AccessController.doPrivileged(new PrivilegedAction() {
+	    @Impure
 	    public Object run() {
 		URL[] ret = null;
 		try {
@@ -1265,10 +1316,12 @@ public final class Session {
 	});
     }
 
+    @Impure
     private static InputStream openStream(final URL url) throws IOException {
 	try {
 	    return (InputStream)
 		AccessController.doPrivileged(new PrivilegedExceptionAction() {
+		    @Impure
 		    public Object run() throws IOException {
 			return url.openStream();
 		    }
@@ -1284,5 +1337,6 @@ public final class Session {
  * code that loads resources from stream.
  */
 interface StreamLoader {
+    @Impure
     public void load(InputStream is) throws IOException;
 }

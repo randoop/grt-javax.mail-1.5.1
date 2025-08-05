@@ -40,6 +40,9 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 import java.lang.*;
 import java.util.Vector;
@@ -134,6 +137,7 @@ public abstract class Folder {
      *
      * @param store the Store that holds this folder
      */
+    @SideEffectFree
     protected Folder(Store store) {
 	this.store = store;
     }
@@ -145,6 +149,7 @@ public abstract class Folder {
      *
      * @return		name of the Folder
      */
+    @Impure
     public abstract String getName();
 
     /**
@@ -157,6 +162,7 @@ public abstract class Folder {
      *
      * @return		full name of the Folder
      */
+    @Pure
     public abstract String getFullName();
 
     /**
@@ -167,6 +173,7 @@ public abstract class Folder {
      * @see	URLName
      * @since	JavaMail 1.1
      */
+    @Impure
     public URLName getURLName() throws MessagingException {
 	URLName storeURL = getStore().getURLName();
 	String fullname = getFullName();
@@ -208,6 +215,7 @@ public abstract class Folder {
      * This method can be invoked on a closed Folder.
      * @return 		the Store
      */
+    @Pure
     public Store getStore() {
 	return store;
     }
@@ -222,6 +230,7 @@ public abstract class Folder {
      *
      * @return		Parent folder
      */
+    @Impure
     public abstract Folder getParent() throws MessagingException;
 
     /**
@@ -233,6 +242,7 @@ public abstract class Folder {
      * @exception	MessagingException typically if the connection 
      *			to the server is lost.
      */
+    @Impure
     public abstract boolean exists() throws MessagingException;
 
     /**
@@ -271,6 +281,7 @@ public abstract class Folder {
      *			not exist.
      * @exception 	MessagingException
      */
+    @Impure
     public abstract Folder[] list(String pattern) throws MessagingException;
 
     /**
@@ -304,6 +315,7 @@ public abstract class Folder {
      *			not exist.
      * @exception 	MessagingException
      */
+    @Impure
     public Folder[] listSubscribed(String pattern) throws MessagingException {
 	return list(pattern);
     }
@@ -322,6 +334,7 @@ public abstract class Folder {
      * @exception 	MessagingException
      */
 
+    @Impure
     public Folder[] list() throws MessagingException {
 	return list("%");
     }
@@ -340,6 +353,7 @@ public abstract class Folder {
      *			not exist.
      * @exception 	MessagingException
      */
+    @Impure
     public Folder[] listSubscribed() throws MessagingException {
 	return listSubscribed("%");
     }
@@ -353,6 +367,7 @@ public abstract class Folder {
      *			requires the folder to exist, but it does not
      * @return          Hierarchy separator character
      */
+    @Impure
     public abstract char getSeparator() throws MessagingException;
 
     /**
@@ -377,6 +392,7 @@ public abstract class Folder {
      * @see 		#HOLDS_FOLDERS 
      * @see		#HOLDS_MESSAGES
      */
+    @Impure
     public abstract int getType() throws MessagingException; 
 
     /**
@@ -394,6 +410,7 @@ public abstract class Folder {
      * @see		#HOLDS_MESSAGES
      * @see		javax1.mail.event.FolderEvent
      */
+    @Impure
     public abstract boolean create(int type) throws MessagingException;
 
     /**
@@ -405,6 +422,7 @@ public abstract class Folder {
      *
      * @return		true if this Folder is subscribed
      */
+    @Impure
     public boolean isSubscribed() {
 	return true;
     }
@@ -425,6 +443,7 @@ public abstract class Folder {
      *			does not support subscription
      * @exception 	MessagingException
      */
+    @Impure
     public void setSubscribed(boolean subscribe) 
 			throws MessagingException {
 	throw new MethodNotSupportedException();
@@ -453,6 +472,7 @@ public abstract class Folder {
      *			not exist.
      * @exception 	MessagingException
      */
+    @Impure
     public abstract boolean hasNewMessages() throws MessagingException;
 
     /**
@@ -475,6 +495,7 @@ public abstract class Folder {
      * @return		Folder object
      * @exception 	MessagingException
      */
+    @Impure
     public abstract Folder getFolder(String name)
 				throws MessagingException;
 
@@ -546,6 +567,7 @@ public abstract class Folder {
      * @exception       MessagingException
      * @see		javax1.mail.event.FolderEvent
      */
+    @Impure
     public abstract boolean delete(boolean recurse) 
 				throws MessagingException;
 
@@ -566,6 +588,7 @@ public abstract class Folder {
      * @exception       MessagingException
      * @see		javax1.mail.event.FolderEvent
      */
+    @Impure
     public abstract boolean renameTo(Folder f) throws MessagingException;
 
     /**
@@ -603,6 +626,7 @@ public abstract class Folder {
      * @see 		#getType()
      * @see 		javax1.mail.event.ConnectionEvent
      */
+    @Impure
     public abstract void open(int mode) throws MessagingException;
 
     /**
@@ -618,12 +642,14 @@ public abstract class Folder {
      * @exception       MessagingException
      * @see 		javax1.mail.event.ConnectionEvent
      */
+    @Impure
     public abstract void close(boolean expunge) throws MessagingException;
 
     /**
      * Indicates whether this Folder is in the 'open' state.
      * @return  true if this Folder is in the 'open' state.
      */
+    @Impure
     public abstract boolean isOpen();
 
     /**
@@ -637,6 +663,7 @@ public abstract class Folder {
      * @return	        the open mode of this folder
      * @since		JavaMail 1.1
      */
+    @Impure
     public synchronized int getMode() {
 	if (!isOpen())
 	    throw new IllegalStateException("Folder not open");
@@ -655,6 +682,8 @@ public abstract class Folder {
      * 
      * @return 		permanent flags, or null if not known
      */
+    @SideEffectFree
+    @Impure
     public abstract Flags getPermanentFlags();
 
     /**
@@ -678,6 +707,7 @@ public abstract class Folder {
      *			not exist.
      * @exception       MessagingException
      */
+    @Impure
     public abstract int getMessageCount() throws MessagingException;
 
     /**
@@ -707,6 +737,7 @@ public abstract class Folder {
      *			not exist.
      * @exception       MessagingException
      */
+    @Impure
     public synchronized int getNewMessageCount() 
 			throws MessagingException {
 	if (!isOpen())
@@ -753,6 +784,7 @@ public abstract class Folder {
      *			not exist.
      * @exception       MessagingException
      */
+    @Impure
     public synchronized int getUnreadMessageCount() 
 			throws MessagingException {
 	if (!isOpen())
@@ -800,6 +832,7 @@ public abstract class Folder {
      * @exception       MessagingException
      * @since		JavaMail 1.3
      */
+    @Impure
     public synchronized int getDeletedMessageCount() throws MessagingException {
 	if (!isOpen())
 	    return -1;
@@ -850,6 +883,7 @@ public abstract class Folder {
      *			is out of range.
      * @exception 	MessagingException
      */
+    @Impure
     public abstract Message getMessage(int msgnum)
 				throws MessagingException;
 
@@ -877,6 +911,7 @@ public abstract class Folder {
      *			message numbers are out of range.
      * @exception 	MessagingException
      */ 
+    @Impure
     public synchronized Message[] getMessages(int start, int end) 
 			throws MessagingException {
 	Message[] msgs = new Message[end - start +1];
@@ -907,6 +942,7 @@ public abstract class Folder {
      *			in the given array is out of range.
      * @exception 	MessagingException
      */ 
+    @Impure
     public synchronized Message[] getMessages(int[] msgnums)
 			throws MessagingException {
 	int len = msgnums.length;
@@ -938,6 +974,7 @@ public abstract class Folder {
      * @exception	IllegalStateException if this folder is not opened.
      * @exception 	MessagingException
      */ 
+    @Impure
     public synchronized Message[] getMessages() throws MessagingException {
 	if (!isOpen())	// otherwise getMessageCount might return -1
 	    throw new IllegalStateException("Folder not open");
@@ -963,6 +1000,7 @@ public abstract class Folder {
      *			not exist.
      * @exception 	MessagingException if the append failed.
      */
+    @Impure
     public abstract void appendMessages(Message[] msgs)
 				throws MessagingException;
 
@@ -1005,6 +1043,7 @@ public abstract class Folder {
      * @exception	IllegalStateException if this folder is not opened
      * @exception	MessagingException.
      */
+    @Impure
     public void fetch(Message[] msgs, FetchProfile fp)
 			throws MessagingException {
 	return;
@@ -1037,6 +1076,7 @@ public abstract class Folder {
      * @see		Message#setFlags
      * @see		javax1.mail.event.MessageChangedEvent
      */
+    @Impure
     public synchronized void setFlags(Message[] msgs,
 			Flags flag, boolean value) throws  MessagingException {
 	for (int i = 0; i < msgs.length; i++) {
@@ -1080,6 +1120,7 @@ public abstract class Folder {
      * @see		Message#setFlags
      * @see		javax1.mail.event.MessageChangedEvent
      */
+    @Impure
     public synchronized void setFlags(int start, int end,
 			Flags flag, boolean value) throws MessagingException {
 	for (int i = start; i <= end; i++) {
@@ -1122,6 +1163,7 @@ public abstract class Folder {
      * @see		Message#setFlags
      * @see		javax1.mail.event.MessageChangedEvent
      */
+    @Impure
     public synchronized void setFlags(int[] msgnums,
 			Flags flag, boolean value) throws MessagingException {
 	for (int i = 0; i < msgnums.length; i++) {
@@ -1162,6 +1204,7 @@ public abstract class Folder {
      * @exception	MessagingException
      * @see		#appendMessages
      */
+    @Impure
     public void copyMessages(Message[] msgs, Folder folder)
 				throws MessagingException {
 	if (!folder.exists())
@@ -1204,6 +1247,7 @@ public abstract class Folder {
      * @see		Message#isExpunged
      * @see		javax1.mail.event.MessageCountEvent
      */
+    @Impure
     public abstract Message[] expunge() throws MessagingException;
 
     /**
@@ -1227,6 +1271,7 @@ public abstract class Folder {
      * @exception       MessagingException
      * @see		javax1.mail.search.SearchTerm
      */
+    @Impure
     public Message[] search(SearchTerm term) throws MessagingException {
 	return search(term, getMessages());
     }
@@ -1260,6 +1305,7 @@ public abstract class Folder {
      * @exception       MessagingException
      * @see		javax1.mail.search.SearchTerm
      */
+    @Impure
     public Message[] search(SearchTerm term, Message[] msgs)
 				throws MessagingException {
 	Vector matchedMsgs = new Vector();
@@ -1310,6 +1356,7 @@ public abstract class Folder {
      * @param l 	the Listener for Connection events
      * @see		javax1.mail.event.ConnectionEvent
      */
+    @Impure
     public synchronized void
     addConnectionListener(ConnectionListener l) { 
    	if (connectionListeners == null) 
@@ -1326,6 +1373,7 @@ public abstract class Folder {
      * @param l 	the listener
      * @see		#addConnectionListener
      */
+    @Impure
     public synchronized void
     removeConnectionListener(ConnectionListener l) { 
    	if (connectionListeners != null) 
@@ -1345,6 +1393,7 @@ public abstract class Folder {
      * @param type	the ConnectionEvent type
      * @see		javax1.mail.event.ConnectionEvent
      */
+    @Impure
     protected void notifyConnectionListeners(int type) {
    	if (connectionListeners != null) {
 	    ConnectionEvent e = new ConnectionEvent(this, type);
@@ -1377,6 +1426,7 @@ public abstract class Folder {
      * @param l 	the Listener for Folder events
      * @see		javax1.mail.event.FolderEvent
      */
+    @Impure
     public synchronized void addFolderListener(FolderListener l) { 
    	if (folderListeners == null)
 	    folderListeners = new Vector();
@@ -1392,6 +1442,7 @@ public abstract class Folder {
      * @param l 	the listener
      * @see		#addFolderListener
      */
+    @Impure
     public synchronized void removeFolderListener(FolderListener l) {
 	if (folderListeners != null)
 	    folderListeners.removeElement(l);
@@ -1412,6 +1463,7 @@ public abstract class Folder {
      * @param type	type of FolderEvent
      * @see		#notifyFolderRenamedListeners
      */
+    @Impure
     protected void notifyFolderListeners(int type) { 
    	if (folderListeners != null) {
 	    FolderEvent e = new FolderEvent(this, this, type);
@@ -1437,6 +1489,7 @@ public abstract class Folder {
      * @see		#notifyFolderListeners
      * @since		JavaMail 1.1
      */
+    @Impure
     protected void notifyFolderRenamedListeners(Folder folder) {
    	if (folderListeners != null) {
 	    FolderEvent e = new FolderEvent(this, this, folder,
@@ -1458,6 +1511,7 @@ public abstract class Folder {
      * @param l 	the Listener for MessageCount events
      * @see		javax1.mail.event.MessageCountEvent
      */
+    @Impure
     public synchronized void addMessageCountListener(MessageCountListener l) { 
    	if (messageCountListeners == null)
 	    messageCountListeners = new Vector();
@@ -1473,6 +1527,7 @@ public abstract class Folder {
      * @param l 	the listener
      * @see		#addMessageCountListener
      */
+    @Impure
     public synchronized void
 			removeMessageCountListener(MessageCountListener l) { 
    	if (messageCountListeners != null) 
@@ -1491,6 +1546,7 @@ public abstract class Folder {
      * MessageCountListeners. Note that the event dispatching occurs
      * in a separate thread, thus avoiding potential deadlock problems.
      */
+    @Impure
     protected void notifyMessageAddedListeners(Message[] msgs) { 
    	if (messageCountListeners == null)
 	    return;
@@ -1516,6 +1572,7 @@ public abstract class Folder {
      * MessageCountListeners. Note that the event dispatching occurs
      * in a separate thread, thus avoiding potential deadlock problems.
      */
+    @Impure
     protected void notifyMessageRemovedListeners(boolean removed, 
 						 Message[] msgs) { 
    	if (messageCountListeners == null)
@@ -1541,6 +1598,7 @@ public abstract class Folder {
      * @param l 	the Listener for MessageChanged events
      * @see		javax1.mail.event.MessageChangedEvent
      */
+    @Impure
     public synchronized void
 			addMessageChangedListener(MessageChangedListener l) { 
    	if (messageChangedListeners == null)
@@ -1557,6 +1615,7 @@ public abstract class Folder {
      * @param l 	the listener
      * @see		#addMessageChangedListener
      */
+    @Impure
     public synchronized void
 		removeMessageChangedListener(MessageChangedListener l) { 
    	if (messageChangedListeners != null) 
@@ -1573,6 +1632,7 @@ public abstract class Folder {
      * MessageChangedListeners. Note that the event dispatching occurs
      * in a separate thread, thus avoiding potential deadlock problems.
      */
+    @Impure
     protected void notifyMessageChangedListeners(int type, Message msg) {
 	if (messageChangedListeners == null)
 	    return;
@@ -1597,6 +1657,7 @@ public abstract class Folder {
     /*
      * Add the event and vector of listeners to the queue to be delivered.
      */
+    @Impure
     private void queueEvent(MailEvent event, Vector vector) {
 	// synchronize creation of the event queue
 	synchronized (qLock) {
@@ -1619,10 +1680,12 @@ public abstract class Folder {
     static class TerminatorEvent extends MailEvent {
 	private static final long serialVersionUID = 3765761925441296565L;
 
+	@Impure
 	TerminatorEvent() {
 	    super(new Object());
 	}
 
+	@Impure
 	public void dispatch(Object listener) {
 	    // Kill the event dispatching thread.
 	    Thread.currentThread().interrupt();
@@ -1630,6 +1693,7 @@ public abstract class Folder {
     }
 
     // Dispatch the terminator
+    @Impure
     private void terminateQueue() {
 	synchronized (qLock) {
 	    if (q != null) {
@@ -1641,6 +1705,7 @@ public abstract class Folder {
 	}
     }
 
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	terminateQueue();
@@ -1652,6 +1717,8 @@ public abstract class Folder {
      * the default toString() behavior.
      */
 
+    @SideEffectFree
+    @Impure
     public String toString() {
 	String s = getFullName();
 	if (s != null)

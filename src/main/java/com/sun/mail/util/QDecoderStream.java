@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -55,6 +56,7 @@ public class QDecoderStream extends QPDecoderStream {
      * Create a Q-decoder that decodes the specified input stream.
      * @param in        the input stream
      */
+    @Impure
     public QDecoderStream(InputStream in) {
 	super(in);
     }
@@ -71,6 +73,7 @@ public class QDecoderStream extends QPDecoderStream {
      *             stream is reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public int read() throws IOException {
 	int c = in.read();
 

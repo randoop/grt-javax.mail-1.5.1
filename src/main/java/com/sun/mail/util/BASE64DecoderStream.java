@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 
 /**
@@ -74,6 +76,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      *
      * @param in	the input stream
      */
+    @Impure
     public BASE64DecoderStream(InputStream in) {
 	super(in);
 	// default to false
@@ -87,6 +90,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      * @param in	the input stream
      * @param ignoreErrors	ignore errors in encoded data?
      */
+    @Impure
     public BASE64DecoderStream(InputStream in, boolean ignoreErrors) {
 	super(in);
 	this.ignoreErrors = ignoreErrors;
@@ -105,6 +109,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterInputStream#in
      */
+    @Impure
     public int read() throws IOException {
 	if (index >= bufsize) {
 	    bufsize = decode(buffer, 0, buffer.length);
@@ -129,6 +134,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      *             the stream has been reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Impure
     public int read(byte[] buf, int off, int len) throws IOException {
 	// empty out single byte read buffer
 	int off0 = off;
@@ -170,6 +176,7 @@ public class BASE64DecoderStream extends FilterInputStream {
     /**
      * Skips over and discards n bytes of data from this stream.
      */
+    @Impure
     public long skip(long n) throws IOException {
 	long skipped = 0;
 	while (n-- > 0 && read() >= 0)
@@ -181,6 +188,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      * Tests if this input stream supports marks. Currently this class
      * does not support marks
      */
+    @Pure
     public boolean markSupported() {
 	return false; // Maybe later ..
     }
@@ -191,6 +199,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      * a close approximation in case the original encoded stream
      * contains embedded CRLFs; since the CRLFs are discarded, not decoded
      */ 
+    @Impure
     public int available() throws IOException {
 	 // This is only an estimate, since in.available()
 	 // might include CRLFs too ..
@@ -235,6 +244,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      *			of three, and may be zero
      * @exception	IOException	if the data is incorrectly formatted
      */
+    @Impure
     private int decode(byte[] outbuf, int pos, int len) throws IOException {
 	int pos0 = pos;
 	while (len >= 3) {
@@ -350,6 +360,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      * @return	the next byte, -1 on EOF, or -2 if next byte is '='
      *		(padding at end of encoded data)
      */
+    @Impure
     private int getByte() throws IOException {
 	int c;
 	do {
@@ -378,6 +389,7 @@ public class BASE64DecoderStream extends FilterInputStream {
     /**
      * Return the most recent characters, for use in an error message.
      */
+    @Pure
     private String recentChars() {
 	// reach into the input buffer and extract up to 10
 	// recent characters, to help in debugging.
@@ -413,6 +425,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      * NOTE: inbuf may only contain valid base64 characters.
      *       Whitespace is not ignored.
      */
+    @Impure
     public static byte[] decode(byte[] inbuf) {
 	int size = (inbuf.length / 4) * 3;
 	if (size == 0)

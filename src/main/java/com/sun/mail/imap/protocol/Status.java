@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import com.sun1.mail.iap.*;
 
 /**
@@ -60,6 +61,7 @@ public class Status {
     static final String[] standardItems =
 	{ "MESSAGES", "RECENT", "UNSEEN", "UIDNEXT", "UIDVALIDITY" };
 
+    @Impure
     public Status(Response r) throws ParsingException {
 	mbox = r.readAtomString(); // mailbox := astring
 
@@ -102,6 +104,7 @@ public class Status {
 	} while (r.readByte() != ')');
     }
 
+    @Impure
     public static void add(Status s1, Status s2) {
 	if (s2.total != -1)
 	    s1.total = s2.total;

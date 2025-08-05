@@ -39,6 +39,7 @@
  */
 
 package javax1.mail.search;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * This class models the comparison operator. This is an abstract
@@ -67,6 +68,7 @@ public abstract class ComparisonTerm extends SearchTerm {
     /**
      * Equality comparison.
      */
+    @Pure
     public boolean equals(Object obj) {
 	if (!(obj instanceof ComparisonTerm))
 	    return false;
@@ -77,6 +79,7 @@ public abstract class ComparisonTerm extends SearchTerm {
     /**
      * Compute a hashCode for this object.
      */
+    @Pure
     public int hashCode() {
 	return comparison;
     }

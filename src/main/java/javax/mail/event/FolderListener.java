@@ -40,6 +40,7 @@
 
 package javax1.mail.event;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.*;
 
 /**
@@ -52,15 +53,18 @@ public interface FolderListener extends java.util.EventListener {
     /**
      * Invoked when a Folder is created.
      */
+    @SideEffectFree
     public void folderCreated(FolderEvent e);
 
     /**
      * Invoked when a folder is deleted.
      */
+    @SideEffectFree
     public void folderDeleted(FolderEvent e);
 
     /**
      * Invoked when a folder is renamed.
      */
+    @SideEffectFree
     public void folderRenamed(FolderEvent e);
 }

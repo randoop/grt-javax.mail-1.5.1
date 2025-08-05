@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.*;
 import com.sun1.mail.iap.*;
 
@@ -59,6 +61,7 @@ public class ID {
     /**
      * Parse the server parameter list out of the response.
      */
+    @Impure
     public ID(Response r) throws ProtocolException {
 	// id_response ::= "ID" SPACE id_params_list
 	// id_params_list ::= "(" #(string SPACE nstring) ")" / nil
@@ -93,6 +96,7 @@ public class ID {
     /**
      * Return the parsed server params.
      */
+    @Pure
     Map<String, String> getServerParams() {
 	return serverParams;
     }
@@ -100,6 +104,7 @@ public class ID {
     /**
      * Convert the client parameters into an argument list for the ID command.
      */
+    @Impure
     static Argument getArgumentList(Map<String,String> clientParams) {
 	Argument arg = new Argument();
 	if (clientParams == null) {

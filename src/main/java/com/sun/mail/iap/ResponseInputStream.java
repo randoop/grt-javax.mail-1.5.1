@@ -40,6 +40,7 @@
 
 package com.sun1.mail.iap;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import com.sun1.mail.iap.ByteArray;
 import com.sun1.mail.util.ASCIIUtility;
@@ -64,6 +65,7 @@ public class ResponseInputStream {
     /**
      * Constructor.
      */
+    @Impure
     public ResponseInputStream(InputStream in) {
 	bin = new BufferedInputStream(in, 2 * 1024);
     }
@@ -72,6 +74,7 @@ public class ResponseInputStream {
      * Read a Response from the InputStream.
      * @return ByteArray that contains the Response
      */
+    @Impure
     public ByteArray readResponse() throws IOException {
 	return readResponse(null);
     }
@@ -80,6 +83,7 @@ public class ResponseInputStream {
      * Read a Response from the InputStream.
      * @return ByteArray that contains the Response
      */
+    @Impure
     public ByteArray readResponse(ByteArray ba) throws IOException {
 	if (ba == null)
 	    ba = new ByteArray(new byte[128], 0, 128);

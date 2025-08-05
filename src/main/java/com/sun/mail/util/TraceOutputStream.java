@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.util.logging.Level;
 
@@ -64,6 +65,7 @@ public class TraceOutputStream extends FilterOutputStream {
      * @param   out   the underlying output stream.
      * @param	logger	log trace here
      */
+    @Impure
     public TraceOutputStream(OutputStream out, MailLogger logger) {
 	super(out);
 	this.trace = logger.isLoggable(Level.FINEST);
@@ -77,6 +79,7 @@ public class TraceOutputStream extends FilterOutputStream {
      * @param   out   the underlying output stream.
      * @param	traceOut	the trace stream.
      */
+    @Impure
     public TraceOutputStream(OutputStream out, OutputStream traceOut) {
 	super(out);
 	this.traceOut = traceOut;
@@ -85,6 +88,7 @@ public class TraceOutputStream extends FilterOutputStream {
     /**
      * Set the trace mode.
      */
+    @Impure
     public void setTrace(boolean trace) {
 	this.trace = trace;
     }
@@ -93,6 +97,7 @@ public class TraceOutputStream extends FilterOutputStream {
      * Set quote mode.
      * @param	quote	the quote mode
      */
+    @Impure
     public void setQuote(boolean quote) {
 	this.quote = quote;
     }
@@ -102,6 +107,7 @@ public class TraceOutputStream extends FilterOutputStream {
      * Writes out the byte into the trace stream if the trace mode
      * is <code>true</code>
      */
+    @Impure
     public void write(int b) throws IOException {
 	if (trace) {
 	    if (quote)
@@ -117,6 +123,7 @@ public class TraceOutputStream extends FilterOutputStream {
      * Writes out the bytes into the trace stream if the trace
      * mode is <code>true</code>
      */
+    @Impure
     public void write(byte b[], int off, int len) throws IOException {
 	if (trace) {
 	    if (quote) {
@@ -131,6 +138,7 @@ public class TraceOutputStream extends FilterOutputStream {
     /**
      * Write a byte in a way that every byte value is printable ASCII.
      */
+    @Impure
     private final void writeByte(int b) throws IOException {
 	b &= 0xff;
 	if (b > 0x7f) {

@@ -40,6 +40,7 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -93,6 +94,7 @@ public abstract class Service {
      * @param	session Session object for this service
      * @param	urlname	URLName object to be used for this service
      */
+    @Impure
     protected Service(Session session, URLName urlname) {
 	this.session = session;
 	debug = session.getDebug();
@@ -171,6 +173,7 @@ public abstract class Service {
      *
      * @see javax1.mail.event.ConnectionEvent
      */
+    @Impure
     public void connect() throws MessagingException {
 	connect(null, null, null);
     }
@@ -221,6 +224,7 @@ public abstract class Service {
      * @see javax1.mail.event.ConnectionEvent
      * @see javax1.mail.Session#setPasswordAuthentication
      */
+    @Impure
     public void connect(String host, String user, String password)
 			throws MessagingException {
 	connect(host, -1, user, password);
@@ -242,6 +246,7 @@ public abstract class Service {
      * @see #connect(java.lang.String, java.lang.String, java.lang.String)
      * @since           JavaMail 1.4
      */
+    @Impure
     public void connect(String user, String password) throws MessagingException {
         connect(null, user, password);
     }
@@ -260,6 +265,7 @@ public abstract class Service {
      * @see #connect(java.lang.String, java.lang.String, java.lang.String)
      * @see javax1.mail.event.ConnectionEvent
      */
+    @Impure
     public synchronized void connect(String host, int port,
 		String user, String password) throws MessagingException {
 
@@ -427,6 +433,7 @@ public abstract class Service {
      * @exception AuthenticationFailedException	for authentication failures
      * @exception MessagingException	for non-authentication failures
      */
+    @Impure
     protected boolean protocolConnect(String host, int port, String user,
 				String password) throws MessagingException {
 	return false;
@@ -444,6 +451,7 @@ public abstract class Service {
      *
      * @return	true if the service is connected, false if it is not connected
      */
+    @Impure
     public synchronized boolean isConnected() {
 	return connected;
     }
@@ -461,6 +469,7 @@ public abstract class Service {
      * @param connected true if the service is connected,
      *                  false if it is not connected
      */
+    @Impure
     protected synchronized void setConnected(boolean connected) {
 	this.connected = connected;
     }
@@ -484,6 +493,7 @@ public abstract class Service {
      * @see javax1.mail.event.ConnectionEvent
      * @throws	MessagingException	for errors while closing
      */
+    @Impure
     public synchronized void close() throws MessagingException {
 	setConnected(false);
 	notifyConnectionListeners(ConnectionEvent.CLOSED);
@@ -503,6 +513,7 @@ public abstract class Service {
      * @return	the URLName representing this service
      * @see	URLName
      */
+    @Impure
     public synchronized URLName getURLName() {
 	if (url != null && (url.getPassword() != null || url.getFile() != null))
 	    return new URLName(url.getProtocol(), url.getHost(),
@@ -529,6 +540,7 @@ public abstract class Service {
      *
      * @see URLName
      */
+    @Impure
     protected synchronized void setURLName(URLName url) {
 	this.url = url;
     }
@@ -542,6 +554,7 @@ public abstract class Service {
      * @param l         the Listener for Connection events
      * @see             javax1.mail.event.ConnectionEvent
      */
+    @Impure
     public void addConnectionListener(ConnectionListener l) {
 	connectionListeners.addElement(l);
     }
@@ -555,6 +568,7 @@ public abstract class Service {
      * @param l         the listener
      * @see             #addConnectionListener
      */
+    @Impure
     public void removeConnectionListener(ConnectionListener l) {
 	connectionListeners.removeElement(l);
     }
@@ -569,6 +583,7 @@ public abstract class Service {
      * ConnectionListeners. Note that the event dispatching occurs
      * in a separate thread, thus avoiding potential deadlock problems.
      */
+    @Impure
     protected void notifyConnectionListeners(int type) {
 	/*
 	 * Don't bother queuing an event if there's no listeners.
@@ -598,6 +613,7 @@ public abstract class Service {
      * Return <code>getURLName.toString()</code> if this service has a URLName,
      * otherwise it will return the default <code>toString</code>.
      */
+    @Impure
     public String toString() {
 	URLName url = getURLName();
 	if (url != null)
@@ -622,6 +638,7 @@ public abstract class Service {
     /**
      * Add the event and vector of listeners to the queue to be delivered.
      */
+    @Impure
     protected void queueEvent(MailEvent event, Vector vector) {
 	// synchronize creation of the event queue
 	synchronized (qLock) {
@@ -644,10 +661,12 @@ public abstract class Service {
     static class TerminatorEvent extends MailEvent {
 	private static final long serialVersionUID = 5542172141759168416L;
 
+	@Impure
 	TerminatorEvent() {
 	    super(new Object());
 	}
 
+	@Impure
 	public void dispatch(Object listener) {
 	    // Kill the event dispatching thread.
 	    Thread.currentThread().interrupt();
@@ -655,6 +674,7 @@ public abstract class Service {
     }
 
     // Dispatch the terminator
+    @Impure
     private void terminateQueue() {
 	synchronized (qLock) {
 	    if (q != null) {
@@ -669,6 +689,7 @@ public abstract class Service {
     /**
      * Stop the event dispatcher thread so the queue can be garbage collected.
      */
+    @Impure
     protected void finalize() throws Throwable {
 	super.finalize();
 	terminateQueue();

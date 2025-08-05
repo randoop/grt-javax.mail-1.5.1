@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -48,6 +50,7 @@ import java.io.IOException;
 public class ASCIIUtility {
 
     // Private constructor so that this class is not instantiated
+    @SideEffectFree
     private ASCIIUtility() { }
 	
     /**
@@ -57,6 +60,7 @@ public class ASCIIUtility {
      *
      * Based on java.lang.Integer.parseInt()
      */
+    @Impure
     public static int parseInt(byte[] b, int start, int end, int radix)
 		throws NumberFormatException {
 	if (b == null)
@@ -122,6 +126,7 @@ public class ASCIIUtility {
      * array into a signed integer . The range extends from 
      * <code>start</code> till, but not including <code>end</code>. <p>
      */
+    @Impure
     public static int parseInt(byte[] b, int start, int end)
 		throws NumberFormatException {
 	return parseInt(b, start, end, 10);
@@ -134,6 +139,7 @@ public class ASCIIUtility {
      *
      * Based on java.lang.Long.parseLong()
      */
+    @Impure
     public static long parseLong(byte[] b, int start, int end, int radix)
 		throws NumberFormatException {
 	if (b == null)
@@ -199,6 +205,7 @@ public class ASCIIUtility {
      * array into a signed long . The range extends from 
      * <code>start</code> till, but not including <code>end</code>. <p>
      */
+    @Impure
     public static long parseLong(byte[] b, int start, int end)
 		throws NumberFormatException {
 	return parseLong(b, start, end, 10);
@@ -209,6 +216,7 @@ public class ASCIIUtility {
      * array into a String. The range extends from <code>start</code>
      * till, but not including <code>end</code>. <p>
      */
+    @Impure
     public static String toString(byte[] b, int start, int end) {
 	int size = end - start;
 	char[] theChars = new char[size];
@@ -224,10 +232,12 @@ public class ASCIIUtility {
      *
      * @since	JavaMail 1.4.4
      */
+    @Impure
     public static String toString(byte[] b) {
 	return toString(b, 0, b.length);
     }
 
+    @Impure
     public static String toString(ByteArrayInputStream is) {
 	int size = is.available();
 	char[] theChars = new char[size];
@@ -241,6 +251,7 @@ public class ASCIIUtility {
     }
 
 
+    @Impure
     public static byte[] getBytes(String s) {
 	char [] chars= s.toCharArray();
 	int size = chars.length;
@@ -251,6 +262,7 @@ public class ASCIIUtility {
 	return bytes;
     }
 
+    @Impure
     public static byte[] getBytes(InputStream is) throws IOException {
 
 	int len;

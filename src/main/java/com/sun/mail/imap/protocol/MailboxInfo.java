@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -66,6 +67,7 @@ public class MailboxInfo {
     public int mode;
     public List<IMAPResponse> responses;
 
+    @Impure
     public MailboxInfo(Response[] r) throws ParsingException {
 	for (int i = 0; i < r.length; i++) {
 	    if (r[i] == null || !(r[i] instanceof IMAPResponse))

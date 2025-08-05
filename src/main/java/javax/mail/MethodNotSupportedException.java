@@ -39,6 +39,7 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Impure;
 
 
 /**
@@ -55,6 +56,7 @@ public class MethodNotSupportedException extends MessagingException {
     /**
      * Constructs a MethodNotSupportedException with no detail message.
      */
+    @Impure
     public MethodNotSupportedException() {
 	super();
     }
@@ -65,6 +67,7 @@ public class MethodNotSupportedException extends MessagingException {
      *
      * @param s		The detailed error message
      */
+    @Impure
     public MethodNotSupportedException(String s) {
 	super(s);
     }
@@ -78,6 +81,7 @@ public class MethodNotSupportedException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public MethodNotSupportedException(String s, Exception e) {
 	super(s, e);
     }

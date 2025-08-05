@@ -40,6 +40,7 @@
 
 package javax1.mail.search;
 
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.MessagingException;
 
 
@@ -56,6 +57,7 @@ public class SearchException extends MessagingException {
     /**
      * Constructs a SearchException with no detail message.
      */
+    @Impure
     public SearchException() {
 	super();
     }
@@ -64,6 +66,7 @@ public class SearchException extends MessagingException {
      * Constructs a SearchException with the specified detail message.
      * @param s		the detail message
      */
+    @Impure
     public SearchException(String s) {
 	super(s);
     }

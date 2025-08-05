@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -63,6 +64,7 @@ public class UUEncoderStream extends FilterOutputStream {
      * Create a UUencoder that encodes the specified input stream
      * @param out        the output stream
      */
+    @Impure
     public UUEncoderStream(OutputStream out) {
 	this(out, "encoder.buf", 644);
     }
@@ -72,6 +74,7 @@ public class UUEncoderStream extends FilterOutputStream {
      * @param out        the output stream
      * @param name	 Specifies a name for the encoded buffer
      */
+    @Impure
     public UUEncoderStream(OutputStream out, String name) {
 	this(out, name, 644);	
     }
@@ -82,6 +85,7 @@ public class UUEncoderStream extends FilterOutputStream {
      * @param name       Specifies a name for the encoded buffer
      * @param mode	 Specifies permission mode for the encoded buffer
      */
+    @Impure
     public UUEncoderStream(OutputStream out, String name, int mode) {
 	super(out);
 	this.name = name;
@@ -94,20 +98,24 @@ public class UUEncoderStream extends FilterOutputStream {
      * This method has any effect only if it is invoked before
      * you start writing into the output stream
      */
+    @Impure
     public void setNameMode(String name, int mode) {
 	this.name = name;
 	this.mode = mode;
     }
 
+    @Impure
     public void write(byte[] b, int off, int len) throws IOException {
 	for (int i = 0; i < len; i++)
 	    write(b[off + i]);
     }
 
+    @Impure
     public void write(byte[] data) throws IOException {
 	write(data, 0, data.length);
     }
 
+    @Impure
     public void write(int c) throws IOException {
 	/* buffer up characters till we get a line's worth, then encode
 	 * and write them out. Max number of characters allowed per 
@@ -121,6 +129,7 @@ public class UUEncoderStream extends FilterOutputStream {
 	}
     }
 
+    @Impure
     public void flush() throws IOException {
 	if (bufsize > 0) { // If there's unencoded characters in the buffer
 	    writePrefix();
@@ -130,6 +139,7 @@ public class UUEncoderStream extends FilterOutputStream {
 	out.flush();
     }
 
+    @Impure
     public void close() throws IOException {
 	flush();
 	out.close();
@@ -138,6 +148,7 @@ public class UUEncoderStream extends FilterOutputStream {
     /**
      * Write out the prefix: "begin <mode> <name>"
      */
+    @Impure
     private void writePrefix() throws IOException {
 	if (!wrotePrefix) {
 	    // name should be ASCII, but who knows...
@@ -152,6 +163,7 @@ public class UUEncoderStream extends FilterOutputStream {
      * Write a single line containing space and the suffix line
      * containing the single word "end" (terminated by a newline)
      */
+    @Impure
     private void writeSuffix() throws IOException {
 	PrintStream ps = new PrintStream(out, false, "us-ascii");
 	ps.println(" \nend");
@@ -167,6 +179,7 @@ public class UUEncoderStream extends FilterOutputStream {
      * with '1'. This insures that the last line won't end in spaces 
      * and potentiallly be truncated.
      */
+    @Impure
     private void encode() throws IOException {
 	byte a, b, c;
 	int c1, c2, c3, c4;

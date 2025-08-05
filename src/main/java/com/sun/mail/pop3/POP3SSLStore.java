@@ -40,6 +40,7 @@
 
 package com.sun1.mail.pop3;
 
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.*;
 
 /**
@@ -49,6 +50,7 @@ import javax1.mail.*;
  */
 public class POP3SSLStore extends POP3Store {
 
+    @Impure
     public POP3SSLStore(Session session, URLName url) {
 	super(session, url, "pop3s", true);
     }

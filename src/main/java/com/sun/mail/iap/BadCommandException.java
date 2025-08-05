@@ -39,6 +39,8 @@
  */
 
 package com.sun1.mail.iap;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * @author John Mani
@@ -51,6 +53,8 @@ public class BadCommandException extends ProtocolException {
     /**
      * Constructs an BadCommandException with no detail message.
      */
+    @SideEffectFree
+    @Impure
     public BadCommandException() {
 	super();
     }
@@ -59,6 +63,8 @@ public class BadCommandException extends ProtocolException {
      * Constructs an BadCommandException with the specified detail message.
      * @param s		the detail message
      */
+    @SideEffectFree
+    @Impure
     public BadCommandException(String s) {
 	super(s);
     }
@@ -67,6 +73,8 @@ public class BadCommandException extends ProtocolException {
      * Constructs an BadCommandException with the specified Response.
      * @param r		the Response
      */
+    @SideEffectFree
+    @Impure
     public BadCommandException(Response r) {
 	super(r);
     }

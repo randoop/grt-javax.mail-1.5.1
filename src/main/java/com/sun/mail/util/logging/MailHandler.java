@@ -41,6 +41,9 @@
 
 package com.sun1.mail.util.logging;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.sun1.mail.smtp.SMTPTransport;
 import java.io.*;
 import java.lang.reflect.Array;
@@ -487,6 +490,7 @@ public class MailHandler extends Handler {
      * @throws SecurityException  if a security manager exists and the
      * caller does not have <tt>LoggingPermission("control")</tt>.
      */
+    @Impure
     public MailHandler() {
         init((Properties) null);
         sealed = true;
@@ -501,6 +505,7 @@ public class MailHandler extends Handler {
      * @throws SecurityException  if a security manager exists and the
      * caller does not have <tt>LoggingPermission("control")</tt>.
      */
+    @Impure
     public MailHandler(final int capacity) {
         init((Properties) null);
         sealed = true;
@@ -517,6 +522,7 @@ public class MailHandler extends Handler {
      * @throws SecurityException  if a security manager exists and the
      * caller does not have <tt>LoggingPermission("control")</tt>.
      */
+    @Impure
     public MailHandler(final Properties props) {
         if (props == null) {
             throw new NullPointerException();
@@ -538,6 +544,7 @@ public class MailHandler extends Handler {
      * @param record  a <tt>LogRecord</tt>
      * @return true if the <tt>LogRecord</tt> would be logged.
      */
+    @Impure
     @Override
     public boolean isLoggable(final LogRecord record) {
         int levelValue = getLevel().intValue();
@@ -567,6 +574,7 @@ public class MailHandler extends Handler {
      *
      * @param  record  description of the log event.
      */
+    @Impure
     public void publish(final LogRecord record) {
         /**
          * It is possible for the handler to be closed after the
@@ -593,6 +601,7 @@ public class MailHandler extends Handler {
      * @param record the record.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void publish0(final LogRecord record) {
         Message msg;
         boolean priority;
@@ -629,6 +638,7 @@ public class MailHandler extends Handler {
      * @param record the record or null.
      * @since JavaMail 1.4.6
      */
+    @Impure
     private void reportUnPublishedError(LogRecord record) {
         if (MUTEX_PUBLISH.equals(MUTEX.get())) {
             MUTEX.set(MUTEX_REPORT);
@@ -659,6 +669,7 @@ public class MailHandler extends Handler {
      * @return true if the mutex was acquired.
      * @since JavaMail 1.4.6
      */
+    @Impure
     private boolean tryMutex() {
         if (MUTEX.get() == null) {
             MUTEX.set(MUTEX_PUBLISH);
@@ -673,6 +684,7 @@ public class MailHandler extends Handler {
      * This mutex is thread local scope and will not block other threads.
      * @since JavaMail 1.4.6
      */
+    @Impure
     private void releaseMutex() {
         MUTEX.remove();
     }
@@ -683,6 +695,7 @@ public class MailHandler extends Handler {
      * called from inside a push.
      * @see #flush()
      */
+    @Impure
     public void push() {
         push(true, ErrorManager.FLUSH_FAILURE);
     }
@@ -693,6 +706,7 @@ public class MailHandler extends Handler {
      * a push.
      * @see #push()
      */
+    @Impure
     public void flush() {
         push(false, ErrorManager.FLUSH_FAILURE);
     }
@@ -710,6 +724,7 @@ public class MailHandler extends Handler {
      * caller does not have <tt>LoggingPermission("control")</tt>.
      * @see #flush()
      */
+    @Impure
     public void close() {
         checkAccess(); //Security check first.
         //The LogManager$Cleaner has a context class loader set to null.
@@ -755,6 +770,7 @@ public class MailHandler extends Handler {
      * @throws SecurityException  if a security manager exists and
      *          the caller does not have <tt>LoggingPermission("control")</tt>.
      */
+    @Impure
     @Override
     public synchronized void setLevel(final Level newLevel) {
         if (this.capacity > 0) {
@@ -772,6 +788,7 @@ public class MailHandler extends Handler {
      * this <tt>Handler</tt> will only push when the internal buffer is full.
      * @return the push level.
      */
+    @Pure
     public final synchronized Level getPushLevel() {
         return this.pushLevel;
     }
@@ -787,6 +804,7 @@ public class MailHandler extends Handler {
      * caller does not have <tt>LoggingPermission("control")</tt>.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     public final synchronized void setPushLevel(final Level level) {
         checkAccess();
         if (level == null) {
@@ -803,6 +821,7 @@ public class MailHandler extends Handler {
      * Gets the push filter.  The default is <tt>null</tt>.
      * @return the push filter or <tt>null</tt>.
      */
+    @Pure
     public final synchronized Filter getPushFilter() {
         return this.pushFilter;
     }
@@ -818,6 +837,7 @@ public class MailHandler extends Handler {
      * caller does not have <tt>LoggingPermission("control")</tt>.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     public final synchronized void setPushFilter(final Filter filter) {
         checkAccess();
         if (isWriting) {
@@ -831,6 +851,7 @@ public class MailHandler extends Handler {
      * to formatting.  If <tt>null</tt> then the order is unspecified.
      * @return the <tt>LogRecord</tt> comparator.
      */
+    @Pure
     public final synchronized Comparator<? super LogRecord> getComparator() {
         return this.comparator;
     }
@@ -843,6 +864,7 @@ public class MailHandler extends Handler {
      * caller does not have <tt>LoggingPermission("control")</tt>.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     public final synchronized void setComparator(Comparator<? super LogRecord> c) {
         checkAccess();
         if (isWriting) {
@@ -857,6 +879,7 @@ public class MailHandler extends Handler {
      * objects into one email message.
      * @return the capacity.
      */
+    @Pure
     public final synchronized int getCapacity()  {
         assert capacity != Integer.MIN_VALUE && capacity != 0 : capacity;
         return Math.abs(capacity);
@@ -868,6 +891,7 @@ public class MailHandler extends Handler {
      * @throws SecurityException  if a security manager exists and the
      * caller does not have <tt>LoggingPermission("control")</tt>.
      */
+    @Impure
     public final synchronized Authenticator getAuthenticator() {
         checkAccess();
         return this.auth;
@@ -880,6 +904,7 @@ public class MailHandler extends Handler {
      * caller does not have <tt>LoggingPermission("control")</tt>.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     public final void setAuthenticator(final Authenticator auth) {
         this.setAuthenticator0(auth);
     }
@@ -893,6 +918,7 @@ public class MailHandler extends Handler {
      * @see String#toCharArray()
      * @since JavaMail 1.4.6
      */
+    @Impure
     public final void setAuthenticator(final char... password) {
         if (password == null) {
             setAuthenticator0((Authenticator) null);
@@ -901,6 +927,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void setAuthenticator0(final Authenticator auth) {
         checkAccess();
 
@@ -926,10 +953,12 @@ public class MailHandler extends Handler {
      * @throws NullPointerException if <tt>props</tt> is <tt>null</tt>.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     public final void setMailProperties(Properties props) {
         this.setMailProperties0(props);
     }
 
+    @Impure
     private void setMailProperties0(Properties props) {
         checkAccess();
         props = (Properties) props.clone(); //Allow subclass.
@@ -950,6 +979,7 @@ public class MailHandler extends Handler {
      * @throws SecurityException  if a security manager exists and the
      * caller does not have <tt>LoggingPermission("control")</tt>.
      */
+    @Impure
     public final Properties getMailProperties() {
         checkAccess();
         final Properties props;
@@ -965,6 +995,8 @@ public class MailHandler extends Handler {
      * be omitted from the email.
      * @return a non null array of attachment filters.
      */
+    @SideEffectFree
+    @Impure
     public final Filter[] getAttachmentFilters() {
         return readOnlyAttachmentFilters().clone();
     }
@@ -981,6 +1013,7 @@ public class MailHandler extends Handler {
      * name formatters do not match the number of attachment formatters.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     public final void setAttachmentFilters(Filter... filters) {
         checkAccess();
         filters = copyOf(filters, filters.length, Filter[].class);
@@ -1001,6 +1034,7 @@ public class MailHandler extends Handler {
      * attachments only if the returned array length is non zero.
      * @return a non <tt>null</tt> array of formatters.
      */
+    @SideEffectFree
     public final Formatter[] getAttachmentFormatters() {
         Formatter[] formatters;
         synchronized (this) {
@@ -1021,6 +1055,7 @@ public class MailHandler extends Handler {
      * <tt>null</tt>.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     public final void setAttachmentFormatters(Formatter... formatters) {
         checkAccess();
         if (formatters.length == 0) { //Null check and length check.
@@ -1053,6 +1088,7 @@ public class MailHandler extends Handler {
      * attachment name formatter.
      * @return non <tt>null</tt> array of attachment name formatters.
      */
+    @SideEffectFree
     public final Formatter[] getAttachmentNames() {
         final Formatter[] formatters;
         synchronized (this) {
@@ -1076,6 +1112,7 @@ public class MailHandler extends Handler {
      * @see Character#isISOControl(char)
      * @see Character#isISOControl(int)
      */
+    @Impure
     public final void setAttachmentNames(final String... names) {
         checkAccess();
 
@@ -1132,6 +1169,7 @@ public class MailHandler extends Handler {
      * @see Character#isISOControl(char)
      * @see Character#isISOControl(int)
      */
+    @Impure
     public final void setAttachmentNames(Formatter... formatters) {
         checkAccess();
 
@@ -1161,6 +1199,7 @@ public class MailHandler extends Handler {
      * the <tt>toString</tt> method can be used to get the subject line.
      * @return the formatter.
      */
+    @Pure
     public final synchronized Formatter getSubject() {
         return this.subjectFormatter;
     }
@@ -1176,6 +1215,7 @@ public class MailHandler extends Handler {
      * @see Character#isISOControl(char)
      * @see Character#isISOControl(int)
      */
+    @Impure
     public final void setSubject(final String subject) {
         if (subject != null) {
             this.setSubject(new TailNameFormatter(subject));
@@ -1204,6 +1244,7 @@ public class MailHandler extends Handler {
      * @see Character#isISOControl(char)
      * @see Character#isISOControl(int)
      */
+    @Impure
     public final void setSubject(final Formatter format) {
         checkAccess();
         if (format == null) {
@@ -1228,6 +1269,7 @@ public class MailHandler extends Handler {
      * @param ex     an exception (may be null)
      * @param code   an error code defined in ErrorManager
      */
+    @Impure
     @Override
     protected void reportError(String msg, Exception ex, int code) {
         if (msg != null) {
@@ -1240,6 +1282,7 @@ public class MailHandler extends Handler {
     /**
      * Calls log manager checkAccess if this is sealed.
      */
+    @Impure
     final void checkAccess() {
         if (sealed) {
             LogManagerProperties.getLogManager().checkAccess();
@@ -1255,6 +1298,7 @@ public class MailHandler extends Handler {
      * @param head any head string.
      * @return return the mime type or null for text/plain.
      */
+    @Impure
     final String contentTypeOf(String head) {
         if (!isEmpty(head)) {
             final int MAX_CHARS = 25;
@@ -1284,6 +1328,7 @@ public class MailHandler extends Handler {
      * @throws NullPointerException if any of the arguments are null.
      * @since JavaMail 1.4.5
      */
+    @Impure
     final boolean isMissingContent(Message msg, Throwable t) {
         for (Throwable cause = t.getCause(); cause != null;) {
             t = cause;
@@ -1311,6 +1356,7 @@ public class MailHandler extends Handler {
      * @param code the ErrorManager code.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void reportError(Message msg, Exception ex, int code) {
         try { //Use super call so we do not prefix raw email.
             super.reportError(toRawString(msg), ex, code);
@@ -1327,6 +1373,7 @@ public class MailHandler extends Handler {
      * @param name the file name or class name.
      * @return the mime type or null for text/plain.
      */
+    @Impure
     private String getContentType(final String name) {
         assert Thread.holdsLock(this);
         final String type = contentTypes.getContentType(name);
@@ -1341,6 +1388,7 @@ public class MailHandler extends Handler {
      * @return the java charset name, never null.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private String getEncodingName() {
         String encoding = getEncoding();
         if (encoding == null) {
@@ -1356,6 +1404,7 @@ public class MailHandler extends Handler {
      * @param type the mime type.
      * @throws MessagingException if there is a problem.
      */
+    @Impure
     private void setContent(MimeBodyPart part, CharSequence buf, String type) throws MessagingException {
         final String encoding = getEncodingName();
         if (type != null && !"text/plain".equalsIgnoreCase(type)) {
@@ -1378,6 +1427,7 @@ public class MailHandler extends Handler {
      * @param encoding the java charset name.
      * @return the type with a specified encoding.
      */
+    @Impure
     private String contentWithEncoding(String type, String encoding) {
         assert encoding != null;
         try {
@@ -1401,6 +1451,7 @@ public class MailHandler extends Handler {
      * @param newCapacity the max number of records.
      * @throws IllegalStateException if called from inside a push.
      */
+    @Impure
     private synchronized void setCapacity0(final int newCapacity) {
         if (newCapacity <= 0) {
             throw new IllegalArgumentException("Capacity must be greater than zero.");
@@ -1424,6 +1475,7 @@ public class MailHandler extends Handler {
      * published outside this class.
      * @return a read only array of filters.
      */
+    @Pure
     private Filter[] readOnlyAttachmentFilters() {
         return this.attachmentFilters;
     }
@@ -1432,6 +1484,7 @@ public class MailHandler extends Handler {
      * Factory for empty formatter arrays.
      * @return an empty array.
      */
+    @Pure
     private static Formatter[] emptyFormatterArray() {
         return EMPTY_FORMATTERS;
     }
@@ -1440,6 +1493,7 @@ public class MailHandler extends Handler {
      * Factory for empty filter arrays.
      * @return an empty array.
      */
+    @Pure
     private static Filter[] emptyFilterArray() {
         return EMPTY_FILTERS;
     }
@@ -1448,6 +1502,7 @@ public class MailHandler extends Handler {
      * Expand or shrink the attachment name formatters.
      * @return true if fixed.
      */
+    @Impure
     private boolean fixUpAttachmentNames() {
         assert Thread.holdsLock(this);
         boolean fixed = false;
@@ -1477,6 +1532,7 @@ public class MailHandler extends Handler {
      * Expand or shrink the attachment filters.
      * @return true if fixed.
      */
+    @Impure
     private boolean fixUpAttachmentFilters() {
         assert Thread.holdsLock(this);
 
@@ -1511,6 +1567,8 @@ public class MailHandler extends Handler {
      * @param len the new size.
      * @return new copy
      */
+    @SideEffectFree
+    @Impure
     @SuppressWarnings("unchecked")
     private static <T> T[] copyOf(final T[] a, final int len) {
         return (T[]) copyOf(a, len, a.getClass());
@@ -1524,6 +1582,7 @@ public class MailHandler extends Handler {
      * @param type the array type.
      * @return new copy
      */
+    @SideEffectFree
     @SuppressWarnings("unchecked")
     private static <T,U> T[] copyOf(U[] a, int len, Class<? extends T[]> type) {
         final T[] copy = (T[]) Array.newInstance(type.getComponentType(), len);
@@ -1534,6 +1593,7 @@ public class MailHandler extends Handler {
     /**
      * Sets the size to zero and clears the current buffer.
      */
+    @Impure
     private void reset() {
         assert Thread.holdsLock(this);
         if (size < data.length) {
@@ -1547,6 +1607,7 @@ public class MailHandler extends Handler {
     /**
      * Expands the internal buffer up to the capacity.
      */
+    @Impure
     private void grow() {
         assert Thread.holdsLock(this);
         final int len = data.length;
@@ -1565,6 +1626,7 @@ public class MailHandler extends Handler {
      * @throws SecurityException  if a security manager exists and the
      * caller does not have <tt>LoggingPermission("control")</tt>.
      */
+    @Impure
     private synchronized void init(final Properties props) {
         final LogManager manager = LogManagerProperties.getLogManager();
         final String p = getClass().getName();
@@ -1604,6 +1666,7 @@ public class MailHandler extends Handler {
      * and in a consistent state.
      * @since JavaMail 1.5.0
      */
+    @Impure
     private void intern() {
         assert Thread.holdsLock(this);
         try {
@@ -1679,6 +1742,7 @@ public class MailHandler extends Handler {
      * @throws Exception if there is an unexpected problem.
      * @since JavaMail 1.5.0
      */
+    @Impure
     private Object intern(Map<Object, Object> m, Object o) throws Exception {
         if (o == null) {
             return null;
@@ -1753,6 +1817,7 @@ public class MailHandler extends Handler {
      * @param s the string.
      * @return true if the given string is null or zero length.
      */
+    @Pure
     private static boolean isEmpty(final String s) {
         return s == null || s.length() == 0;
     }
@@ -1762,10 +1827,13 @@ public class MailHandler extends Handler {
      * @param name the string to check for a value.
      * @return true if the string has a valid value.
      */
+    @Pure
+    @Impure
     private static boolean hasValue(final String name) {
         return !isEmpty(name) && !"null".equalsIgnoreCase(name);
     }
 
+    @Impure
     private void initAttachmentFilters(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         assert this.attachmentFormatters != null;
@@ -1797,6 +1865,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initAttachmentFormaters(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         final String list = manager.getProperty(p.concat(".attachment.formatters"));
@@ -1838,6 +1907,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initAttachmentNames(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         assert this.attachmentFormatters != null;
@@ -1879,6 +1949,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initAuthenticator(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         String name = manager.getProperty(p.concat(".authenticator"));
@@ -1897,6 +1968,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initLevel(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         try {
@@ -1918,6 +1990,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initFilter(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         try {
@@ -1932,6 +2005,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initCapacity(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         final int DEFAULT_CAPACITY = 1000;
@@ -1953,6 +2027,7 @@ public class MailHandler extends Handler {
         this.data = new LogRecord[1];
     }
 
+    @Impure
     private void initEncoding(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         try {
@@ -1966,6 +2041,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initErrorManager(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         String name = manager.getProperty(p.concat(".errorManager"));
@@ -1981,6 +2057,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initFormatter(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         String name = manager.getProperty(p.concat(".formatter"));
@@ -2008,6 +2085,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initComparator(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         String name = manager.getProperty(p.concat(".comparator"));
@@ -2032,6 +2110,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initPushLevel(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         try {
@@ -2048,6 +2127,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initPushFilter(LogManager manager, String p) {
         assert Thread.holdsLock(this);
         String name = manager.getProperty(p.concat(".pushFilter"));
@@ -2062,6 +2142,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void initSubject(LogManager manager, final String p) {
         assert Thread.holdsLock(this);
         String name = manager.getProperty(p.concat(".subject"));
@@ -2096,6 +2177,7 @@ public class MailHandler extends Handler {
      * @param record  a <tt>LogRecord</tt>
      * @return true if the <tt>LogRecord</tt> would be formatted.
      */
+    @Impure
     private boolean isAttachmentLoggable(final LogRecord record) {
         final Filter[] filters = readOnlyAttachmentFilters();
         for (int i = 0; i < filters.length; ++i) {
@@ -2113,6 +2195,7 @@ public class MailHandler extends Handler {
      * @param record  a <tt>LogRecord</tt>
      * @return true if the <tt>LogRecord</tt> triggers an email push.
      */
+    @Impure
     private boolean isPushable(final LogRecord record) {
         assert Thread.holdsLock(this);
         final int value = getPushLevel().intValue();
@@ -2129,6 +2212,7 @@ public class MailHandler extends Handler {
      * @param priority true for high priority otherwise false for normal.
      * @param code the error manager code.
      */
+    @Impure
     private void push(final boolean priority, final int code) {
         if (tryMutex()) {
             try {
@@ -2154,6 +2238,7 @@ public class MailHandler extends Handler {
      * @param code the ErrorManager code.
      * @throws NullPointerException if message is null.
      */
+    @Impure
     private void send(Message msg, boolean priority, int code) {
         try {
             envelopeFor(msg, priority);
@@ -2167,6 +2252,7 @@ public class MailHandler extends Handler {
      * Performs a sort on the records if needed.
      * Any exception thrown during a sort is considered a formatting error.
      */
+    @Impure
     private void sort() {
         assert Thread.holdsLock(this);
         if (comparator != null) {
@@ -2190,6 +2276,7 @@ public class MailHandler extends Handler {
      * Otherwise a new message is created with a formatted message and
      * attached session.
      */
+    @Impure
     private synchronized Message writeLogRecords(final int code) {
         if (size == 0 || isWriting) {
             return null;
@@ -2342,6 +2429,7 @@ public class MailHandler extends Handler {
      * @param session the current session or null.
      * @since JavaMail 1.4.4
      */
+    @Impure
     private void verifySettings(final Session session) {
         if (session != null) {
             final Properties props = session.getProperties();
@@ -2370,6 +2458,7 @@ public class MailHandler extends Handler {
      * @param session the current session.
      * @since JavaMail 1.4.4
      */
+    @Impure
     private void verifySettings0(Session session, String verify) {
         assert verify != null : (String) null;
         if (!"local".equals(verify) && !"remote".equals(verify)
@@ -2601,6 +2690,7 @@ public class MailHandler extends Handler {
      * @throws IOException if the host name is not valid.
      * @since JavaMail 1.5.0
      */
+    @Impure
     private static InetAddress verifyHost(String host) throws IOException {
         InetAddress a;
         if (isEmpty(host)) {
@@ -2622,6 +2712,7 @@ public class MailHandler extends Handler {
      * @throws AddressException if there is a problem.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private static void verifyAddresses(Address[] all) throws AddressException {
         if (all != null) {
             for (int i = 0; i < all.length; ++i) {
@@ -2640,6 +2731,7 @@ public class MailHandler extends Handler {
      * @param cause the exception that caused the problem or null.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void reportUnexpectedSend(MimeMessage msg, String verify, Exception cause) {
         final MessagingException write = new MessagingException(
                 "An empty message was sent.", cause);
@@ -2656,6 +2748,7 @@ public class MailHandler extends Handler {
      * @param t the throwable or null.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void fixUpContent(MimeMessage msg, String verify, Throwable t) {
         try { //Add content so toRawString doesn't fail.
             final MimeBodyPart body;
@@ -2691,6 +2784,7 @@ public class MailHandler extends Handler {
      * mail properties or authenticator.
      * @return the current session or null if no verify is required.
      */
+    @Impure
     private Session fixUpSession() {
         assert Thread.holdsLock(this);
         final Session settings;
@@ -2704,6 +2798,7 @@ public class MailHandler extends Handler {
         return settings;
     }
 
+    @Impure
     private Session initSession() {
         assert Thread.holdsLock(this);
         final String p = getClass().getName();
@@ -2719,6 +2814,7 @@ public class MailHandler extends Handler {
      * @param msg the Message to write the envelope information.
      * @param priority true for high priority.
      */
+    @Impure
     private void envelopeFor(Message msg, boolean priority) {
         setAcceptLang(msg);
         setFrom(msg);
@@ -2742,6 +2838,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private MimeBodyPart createBodyPart() throws MessagingException {
         assert Thread.holdsLock(this);
         final MimeBodyPart part = new MimeBodyPart();
@@ -2752,6 +2849,7 @@ public class MailHandler extends Handler {
         return part;
     }
 
+    @Impure
     private MimeBodyPart createBodyPart(int index) throws MessagingException {
         assert Thread.holdsLock(this);
         final MimeBodyPart part = new MimeBodyPart();
@@ -2775,6 +2873,7 @@ public class MailHandler extends Handler {
      * @throws NullPointerException if level is null.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private String descriptionFrom(Comparator<?> c, Level l, Filter f) {
         return "Sorted using "+ (c == null ? "no comparator"
                 : c.getClass().getName()) + ", pushed when "+ l.getName()
@@ -2782,6 +2881,8 @@ public class MailHandler extends Handler {
                 : f.getClass().getName()) + '.';
     }
 
+    @Pure
+    @Impure
     private String descriptionFrom(Formatter f, Filter filter, Formatter name) {
         return "Formatted using " + getClassId(f)
                 + ", filtered with " + (filter == null ? "no filter"
@@ -2797,6 +2898,7 @@ public class MailHandler extends Handler {
      * @throws NullPointerException if the parameter is null.
      * @since JavaMail 1.4.5
      */
+    @Pure
     private String getClassId(final Formatter f) {
         if (f instanceof TailNameFormatter) {
             return String.class.getName(); //Literal string.
@@ -2810,6 +2912,8 @@ public class MailHandler extends Handler {
      * @param f the formatter.
      * @return the to string value or the class name.
      */
+    @SideEffectFree
+    @Impure
     private String toString(final Formatter f) {
         //Should never be null but, guard against formatter bugs.
         final String name = f.toString();
@@ -2826,6 +2930,7 @@ public class MailHandler extends Handler {
      * @param part to append to.
      * @param chunk non null string to append.
      */
+    @Impure
     private void appendFileName(final Part part, final String chunk) {
         if (chunk != null) {
             if (chunk.length() > 0) {
@@ -2842,6 +2947,7 @@ public class MailHandler extends Handler {
      * @param part to append to.
      * @param chunk non null string to append.
      */
+    @Impure
     private void appendFileName0(final Part part, final String chunk) {
         try {
             final String old = part.getFileName();
@@ -2856,6 +2962,7 @@ public class MailHandler extends Handler {
      * @param msg to append to.
      * @param chunk non null string to append.
      */
+    @Impure
     private void appendSubject(final Message msg, final String chunk) {
         if (chunk != null) {
             if (chunk.length() > 0) {
@@ -2872,6 +2979,7 @@ public class MailHandler extends Handler {
      * @param msg to append to.
      * @param chunk non null string to append.
      */
+    @Impure
     private void appendSubject0(final Message msg, final String chunk) {
         try {
             final String encoding = getEncodingName();
@@ -2892,6 +3000,7 @@ public class MailHandler extends Handler {
      * @return null if not localized otherwise, the locale of the record.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private Locale localeFor(final LogRecord r) {
         Locale l;
         final ResourceBundle rb = r.getResourceBundle();
@@ -2921,6 +3030,7 @@ public class MailHandler extends Handler {
      * @throws NullPointerException if any argument is null.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void appendContentLang(final MimePart p, final Locale l) {
         try {
             String lang = LogManagerProperties.toLanguageTag(l);
@@ -2968,6 +3078,7 @@ public class MailHandler extends Handler {
      * @param p the part to set.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void setAcceptLang(final Part p) {
         try {
             final String lang = LogManagerProperties
@@ -2988,6 +3099,7 @@ public class MailHandler extends Handler {
      * @param record that was not formatted.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void reportFilterError(final LogRecord record) {
         assert Thread.holdsLock(this);
         final SimpleFormatter f = new SimpleFormatter();
@@ -3007,6 +3119,7 @@ public class MailHandler extends Handler {
      * @throws NullPointerException if any argument is null.
      * @since JavaMail 1.5.0
      */
+    @Impure
     private void reportNonSymmetric(final Object o, final Object found) {
         reportError("Non symmetric equals implementation."
                 , new IllegalArgumentException(o.getClass().getName()
@@ -3022,6 +3135,7 @@ public class MailHandler extends Handler {
      * @throws NullPointerException if any argument is null.
      * @since JavaMail 1.5.0
      */
+    @Impure
     private void reportNonDiscriminating(final Object o, final Object found) {
         reportError("Non discriminating equals implementation."
                 , new IllegalArgumentException(o.getClass().getName()
@@ -3029,10 +3143,12 @@ public class MailHandler extends Handler {
                 , ErrorManager.OPEN_FAILURE);
     }
 
+    @Impure
     private void reportNullError(final int code) {
         reportError("null", new NullPointerException(), code);
     }
 
+    @Impure
     private String head(final Formatter f) {
         try {
             return f.getHead(this);
@@ -3042,6 +3158,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private String format(final Formatter f, final LogRecord r) {
         try {
             return f.format(r);
@@ -3051,6 +3168,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private String tail(final Formatter f, final String def) {
         try {
             return f.getTail(this);
@@ -3060,6 +3178,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void setMailer(final Message msg) {
         try {
             final Class<?> mail = MailHandler.class;
@@ -3083,6 +3202,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void setPriority(final Message msg) {
         try {
             msg.setHeader("Importance", "High");
@@ -3103,6 +3223,7 @@ public class MailHandler extends Handler {
      * @param msg the message.
      * @since JavaMail 1.4.5
      */
+    @Impure
     private void setIncompleteCopy(final Message msg) {
         try {
             msg.setHeader("Incomplete-Copy", "");
@@ -3117,6 +3238,7 @@ public class MailHandler extends Handler {
      * @param msg the message.
      * @since JavaMail 1.4.6
      */
+    @Impure
     private void setAutoSubmitted(final Message msg) {
         try {
             msg.setHeader("auto-submitted", "auto-generated"); //RFC 3834 (5.2)
@@ -3125,6 +3247,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void setFrom(final Message msg) {
         final String from = msg.getSession().getProperty("mail.from");
         if (from != null) {
@@ -3150,6 +3273,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void setDefaultFrom(final Message msg) {
         try {
             msg.setFrom();
@@ -3165,6 +3289,7 @@ public class MailHandler extends Handler {
      * @param type the recipient type.
      * @since JavaMail 1.5.0
      */
+    @Impure
     private void setDefaultRecipient(final Message msg,
             final Message.RecipientType type) {
         try {
@@ -3190,6 +3315,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void setReplyTo(final Message msg) {
         final String reply = msg.getSession().getProperty("mail.reply.to");
         if (!isEmpty(reply)) {
@@ -3204,6 +3330,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private void setSender(final Message msg) {
         assert msg instanceof MimeMessage : msg;
         final String sender = msg.getSession().getProperty("mail.sender");
@@ -3225,6 +3352,7 @@ public class MailHandler extends Handler {
         }
     }
 
+    @Impure
     private AddressException tooManyAddresses(Address[] address, int offset) {
         Object l = Arrays.asList(address).subList(offset, address.length);
         return new AddressException(l.toString());
@@ -3237,6 +3365,7 @@ public class MailHandler extends Handler {
      * @param type the recipient type.
      * @return true if the key was contained in the session.
      */
+    @Impure
     private boolean setRecipient(final Message msg,
             final String key, final Message.RecipientType type) {
         boolean containsKey;
@@ -3264,6 +3393,7 @@ public class MailHandler extends Handler {
      * @throws MessagingException if there was a problem with the message.
      * @throws IOException if there was a problem.
      */
+    @Impure
     private String toRawString(final Message msg) throws MessagingException, IOException {
         if (msg != null) {
             final int nbytes = Math.max(msg.getSize() + MIN_HEADER_SIZE, MIN_HEADER_SIZE);
@@ -3280,6 +3410,7 @@ public class MailHandler extends Handler {
      * @param t any throwable or null.
      * @return the throwable with a stack trace or the literal null.
      */
+    @Impure
     private String toMsgString(final Throwable t) {
         if (t == null) {
            return "null";
@@ -3309,6 +3440,7 @@ public class MailHandler extends Handler {
      * object to signal that no modification was required.
      * @since JavaMail 1.4.6
      */
+    @Impure
     private Object getAndSetContextClassLoader() {
         try {
             return AccessController.doPrivileged(GET_AND_SET_CCL);
@@ -3323,6 +3455,7 @@ public class MailHandler extends Handler {
      * marker object to signal that no modification is required.
      * @since JavaMail 1.4.6
      */
+    @Impure
     private void setContextClassLoader(final Object ccl) {
         //Boot class loader or a new context class loader.
         if (ccl == null || ccl instanceof ClassLoader) {
@@ -3330,15 +3463,19 @@ public class MailHandler extends Handler {
         }
     }
 
+    @SideEffectFree
     private static RuntimeException attachmentMismatch(final String msg) {
         return new IndexOutOfBoundsException(msg);
     }
 
+    @SideEffectFree
+    @Impure
     private static RuntimeException attachmentMismatch(int expected, int found) {
         return attachmentMismatch("Attachments mismatched, expected "
                 + expected + " but given " + found + '.');
     }
 
+    @Impure
     private static MessagingException attach(
             MessagingException required, Exception optional) {
         if (optional != null && !required.setNextException(optional)) {
@@ -3352,6 +3489,7 @@ public class MailHandler extends Handler {
         return required;
     }
 
+    @Pure
     private static String atIndexMsg(final int i) {
         return "At index: " + i + '.';
     }
@@ -3364,11 +3502,14 @@ public class MailHandler extends Handler {
 
         private final String pass;
 
+        @Impure
         DefaultAuthenticator(final String pass) {
             assert pass != null;
             this.pass = pass;
         }
 
+        @SideEffectFree
+        @Impure
         @Override
         protected final PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(getDefaultUserName(), pass);
@@ -3391,6 +3532,7 @@ public class MailHandler extends Handler {
          * used to get the class loader, or a source object to get the class
          * loader.
          */
+        @SideEffectFree
         GetAndSetContext(final Object source) {
             this.source = source;
         }
@@ -3401,6 +3543,7 @@ public class MailHandler extends Handler {
          * @return the replaced context class loader which can be null or this
          * to indicate that nothing was modified.
          */
+        @Impure
         public final Object run() {
             final Thread current = Thread.currentThread();
             final ClassLoader ccl = current.getContextClassLoader();
@@ -3437,15 +3580,18 @@ public class MailHandler extends Handler {
          * Default access to avoid extra generated class files.
          * @param name any not null string.
          */
+        @Impure
         TailNameFormatter(final String name) {
             assert name != null;
             this.name = name;
         }
 
+        @Pure
         public final String format(LogRecord record) {
             return "";
         }
 
+        @Pure
         @Override
         public final String getTail(Handler h) {
             return name;
@@ -3457,6 +3603,7 @@ public class MailHandler extends Handler {
          * @return true if equal
          * @since JavaMail 1.4.4
          */
+        @Pure
         @Override
         public final boolean equals(Object o) {
             if (o instanceof TailNameFormatter) {
@@ -3470,11 +3617,13 @@ public class MailHandler extends Handler {
          * @return the hash code.
          * @since JavaMail 1.4.4
          */
+        @Pure
         @Override
         public final int hashCode() {
             return getClass().hashCode() + name.hashCode();
         }
 
+        @Pure
         @Override
         public final String toString() {
             return name;

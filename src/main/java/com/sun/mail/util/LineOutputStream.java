@@ -40,6 +40,7 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.*;
 
 /**
@@ -62,16 +63,19 @@ public class LineOutputStream extends FilterOutputStream {
 	newline[1] = (byte)'\n';
     }
 
+    @Impure
     public LineOutputStream(OutputStream out) {
 	super(out);
     }
 
+    @Impure
     public void writeln(String s) throws IOException {
 	byte[] bytes = ASCIIUtility.getBytes(s);
 	out.write(bytes);
 	out.write(newline);
     }
 
+    @Impure
     public void writeln() throws IOException {
 	out.write(newline);
     }

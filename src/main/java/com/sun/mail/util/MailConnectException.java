@@ -40,6 +40,8 @@
 
 package com.sun1.mail.util;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import javax1.mail.MessagingException;
 
 /**
@@ -65,6 +67,7 @@ public class MailConnectException extends MessagingException {
      *
      * @param	cex	the SocketConnectException with the details
      */
+    @Impure
     public MailConnectException(SocketConnectException cex) {
 	super(
 	    "Couldn't connect to host, port: " +
@@ -83,6 +86,7 @@ public class MailConnectException extends MessagingException {
      *
      * @return	the host
      */
+    @Pure
     public String getHost() {
 	return host;
     }
@@ -92,6 +96,7 @@ public class MailConnectException extends MessagingException {
      *
      * @return	the port
      */
+    @Pure
     public int getPort() {
 	return port;
     }
@@ -101,6 +106,7 @@ public class MailConnectException extends MessagingException {
      *
      * @return	the connection timeout
      */
+    @Pure
     public int getConnectionTimeout() {
 	return cto;
     }

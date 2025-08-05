@@ -40,6 +40,8 @@
 
 package javax1.mail.util;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import javax1.mail.internet.SharedInputStream;
 
@@ -64,6 +66,7 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream
      *
      * @param	buf	the byte array
      */
+    @Impure
     public SharedByteArrayInputStream(byte[] buf) {
 	super(buf);
     }
@@ -77,6 +80,7 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream
      * @param	offset	offset in byte array to first byte to include
      * @param	length	number of bytes to include
      */
+    @Impure
     public SharedByteArrayInputStream(byte[] buf, int offset, int length) {
 	super(buf, offset, length);
 	start = offset;
@@ -88,6 +92,7 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream
      *
      * @return  the current position
      */
+    @Pure
     public long getPosition() {
 	return pos - start;
     }
@@ -104,6 +109,7 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream
      * @param	end	the ending position + 1
      * @return		the new stream
      */
+    @Impure
     public InputStream newStream(long start, long end) {
 	if (start < 0)
 	    throw new IllegalArgumentException("start < 0");

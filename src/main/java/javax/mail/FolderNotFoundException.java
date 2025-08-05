@@ -40,6 +40,8 @@
 
 package javax1.mail;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.lang.*;
 
 /**
@@ -57,6 +59,7 @@ public class FolderNotFoundException extends MessagingException {
     /**
      * Constructs a FolderNotFoundException with no detail message.
      */
+    @Impure
     public FolderNotFoundException() {
 	super();
     }
@@ -67,6 +70,7 @@ public class FolderNotFoundException extends MessagingException {
      * @param folder	The Folder
      * @since		JavaMail 1.2 
      */
+    @Impure
     public FolderNotFoundException(Folder folder) {
 	super();
         this.folder = folder;
@@ -80,6 +84,7 @@ public class FolderNotFoundException extends MessagingException {
      * @param s		The detailed error message
      * @since		JavaMail 1.2
      */
+    @Impure
     public FolderNotFoundException(Folder folder, String s) {
 	super(s);
 	this.folder = folder;
@@ -95,6 +100,7 @@ public class FolderNotFoundException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public FolderNotFoundException(Folder folder, String s, Exception e) {
 	super(s, e);
 	this.folder = folder;
@@ -107,6 +113,7 @@ public class FolderNotFoundException extends MessagingException {
      * @param s		The detail message
      * @param folder	The Folder
      */
+    @Impure
     public FolderNotFoundException(String s, Folder folder) {
 	super(s);
 	this.folder = folder;
@@ -118,6 +125,7 @@ public class FolderNotFoundException extends MessagingException {
      * @return	the Folder object. Note that the returned value can be
      * 		<code>null</code>.
      */
+    @Pure
     public Folder getFolder() {
 	return folder;
     }

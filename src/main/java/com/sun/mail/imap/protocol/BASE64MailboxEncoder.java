@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.*;
 
 
@@ -113,6 +115,7 @@ public class BASE64MailboxEncoder {
     protected Writer out = null;
     
 
+    @Impure
     public static String encode(String original) {
 	BASE64MailboxEncoder base64stream = null;
 	char origchars[] = original.toCharArray();
@@ -170,10 +173,12 @@ public class BASE64MailboxEncoder {
     /**
      * Create a BASE64 encoder
      */
+    @SideEffectFree
     public BASE64MailboxEncoder(Writer what) {
 	out = what;
     }
 
+    @Impure
     public void write(int c) {
 	try {
 	    // write out the initial character if this is the first time
@@ -196,6 +201,7 @@ public class BASE64MailboxEncoder {
     }
     
 
+    @Impure
     public void flush() {
 	try {
 	    // flush any bytes we have
@@ -215,6 +221,7 @@ public class BASE64MailboxEncoder {
     }
 
 
+    @Impure
     protected void encode() throws IOException {
 	byte a, b, c;
 	if (bufsize == 1) {

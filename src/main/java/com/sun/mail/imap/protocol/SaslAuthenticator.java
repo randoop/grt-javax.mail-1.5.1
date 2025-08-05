@@ -40,6 +40,7 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
 import com.sun1.mail.iap.ProtocolException;
 
 /**
@@ -47,6 +48,7 @@ import com.sun1.mail.iap.ProtocolException;
  */
 
 public interface SaslAuthenticator {
+    @Impure
     public boolean authenticate(String[] mechs, String realm, String authzid,
 				String u, String p) throws ProtocolException;
 

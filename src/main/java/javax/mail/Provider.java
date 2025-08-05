@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * The Provider is a class that describes a protocol 
@@ -65,10 +67,12 @@ public class Provider {
 
 	private String type;
 
+	@SideEffectFree
 	private Type(String type) {
 	    this.type = type;
 	}
 
+	@Pure
 	public String toString() {
 	    return type;
 	}
@@ -88,6 +92,7 @@ public class Provider {
      * @param version   optional implementation version string (may be null)
      * @since JavaMail 1.4
      */
+    @SideEffectFree
     public Provider(Type type, String protocol, String classname, 
 	     String vendor, String version) {
 	this.type = type;
@@ -98,31 +103,37 @@ public class Provider {
     }
 
     /** Returns the type of this Provider */
+    @Pure
     public Type getType() {
 	return type;
     }
 
     /** Returns the protocol supported by this Provider */
+    @Pure
     public String getProtocol() {
 	return protocol;
     }
 
     /** Returns name of the class that implements the protocol */
+    @Pure
     public String getClassName() {
 	return className;
     }
 
     /** Returns name of vendor associated with this implementation or null */
+    @Pure
     public String getVendor() {
 	return vendor;
     }
 
     /** Returns version of this implementation or null if no version */
+    @Pure
     public String getVersion() {
 	return version;
     }
 
     /** Overrides Object.toString() */
+    @Pure
     public String toString() {
 	String s = "javax1.mail.Provider[" + type + "," +
 		    protocol + "," + className;

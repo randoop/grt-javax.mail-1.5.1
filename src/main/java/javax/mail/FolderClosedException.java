@@ -39,6 +39,8 @@
  */
 
 package javax1.mail;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * This exception is thrown when a method is invoked on a Messaging object
@@ -65,6 +67,7 @@ public class FolderClosedException extends MessagingException {
      *
      * @param folder	The Folder
      */
+    @Impure
     public FolderClosedException(Folder folder) {
 	this(folder, null);
     }
@@ -76,6 +79,7 @@ public class FolderClosedException extends MessagingException {
      * @param folder 	The Folder
      * @param message	The detailed error message
      */
+    @Impure
     public FolderClosedException(Folder folder, String message) {
 	super(message);
 	this.folder = folder;
@@ -91,6 +95,7 @@ public class FolderClosedException extends MessagingException {
      * @param e		The embedded exception
      * @since		JavaMail 1.5
      */
+    @Impure
     public FolderClosedException(Folder folder, String message, Exception e) {
 	super(message, e);
 	this.folder = folder;
@@ -99,6 +104,7 @@ public class FolderClosedException extends MessagingException {
     /**
      * Returns the dead Folder object
      */
+    @Pure
     public Folder getFolder() {
 	return folder;
     }

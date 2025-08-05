@@ -40,6 +40,8 @@
 
 package com.sun1.mail.imap.protocol;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.*;
 import java.util.*;
 import com.sun1.mail.util.*;
@@ -68,6 +70,7 @@ public class FetchResponse extends IMAPResponse {
     private Map extensionItems;
     private final FetchItem[] fitems;
 
+    @Impure
     public FetchResponse(Protocol p) 
 		throws IOException, ProtocolException {
 	super(p);
@@ -75,6 +78,7 @@ public class FetchResponse extends IMAPResponse {
 	parse();
     }
 
+    @Impure
     public FetchResponse(IMAPResponse r)
 		throws IOException, ProtocolException {
 	this(r, null);
@@ -85,6 +89,7 @@ public class FetchResponse extends IMAPResponse {
      *
      * @since JavaMail 1.4.6
      */
+    @Impure
     public FetchResponse(IMAPResponse r, FetchItem[] fitems)
 		throws IOException, ProtocolException {
 	super(r);
@@ -92,14 +97,17 @@ public class FetchResponse extends IMAPResponse {
 	parse();
     }
 
+    @Pure
     public int getItemCount() {
 	return items.length;
     }
 
+    @Pure
     public Item getItem(int index) {
 	return items[index];
     }
 
+    @Impure
     public <T extends Item> T getItem(Class<T> c) {
 	for (int i = 0; i < items.length; i++) {
 	    if (c.isInstance(items[i]))
@@ -109,6 +117,7 @@ public class FetchResponse extends IMAPResponse {
 	return null;
     }
 
+    @Impure
     public static <T extends Item> T getItem(Response[] r, int msgno,
 				Class<T> c) {
 	if (r == null)
@@ -138,6 +147,7 @@ public class FetchResponse extends IMAPResponse {
      *
      * @since JavaMail 1.4.6
      */
+    @Impure
     public Map getExtensionItems() {
 	if (extensionItems == null)
 	    extensionItems = new HashMap();
@@ -147,6 +157,7 @@ public class FetchResponse extends IMAPResponse {
     private final static char[] HEADER = {'.','H','E','A','D','E','R'};
     private final static char[] TEXT = {'.','T','E','X','T'};
 
+    @Impure
     private void parse() throws ParsingException {
 	skipSpaces();
 	if (buffer[index] != '(')
@@ -179,6 +190,7 @@ public class FetchResponse extends IMAPResponse {
      * skipping over the item if successful.  Otherwise, return null
      * and leave the buffer position unmodified.
      */
+    @Impure
     private Item parseItem() throws ParsingException {
 	switch (buffer[index]) {
 	case 'E': case 'e':
@@ -231,6 +243,7 @@ public class FetchResponse extends IMAPResponse {
     /**
      * If this item is a known extension item, parse it.
      */
+    @Impure
     private boolean parseExtensionItem() throws ParsingException {
 	if (fitems == null)
 	    return false;
@@ -251,6 +264,7 @@ public class FetchResponse extends IMAPResponse {
      * If the match is successful, the buffer pointer (index)
      * is incremented past the matched item.
      */
+    @Impure
     private boolean match(char[] itemName) {
 	int len = itemName.length;
 	for (int i = 0, j = index; i < len;)
@@ -269,6 +283,7 @@ public class FetchResponse extends IMAPResponse {
      * If the match is successful, the buffer pointer (index)
      * is incremented past the matched item.
      */
+    @Impure
     private boolean match(String itemName) {
 	int len = itemName.length();
 	for (int i = 0, j = index; i < len;)
